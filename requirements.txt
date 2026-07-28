@@ -1,3 +1,7 @@
 requests
 google-generativeai
 playwright
+playwright-stealth
+curl_cffi
+beautifulsoup4
+lxml
