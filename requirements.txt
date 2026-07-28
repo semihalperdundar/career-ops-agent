@@ -1,5 +1,5 @@
 requests
-google-generativeai
+google-genai
 playwright
 playwright-stealth
 curl_cffi

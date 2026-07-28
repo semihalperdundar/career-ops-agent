@@ -58,7 +58,9 @@ except ImportError:
     CF_AVAILABLE = False
 
 try:
-    import google.generativeai as genai
+    # Modern SDK — eski google-generativeai paketi deprecate edildi
+    from google import genai
+    from google.genai import types as genai_types
     GENAI_AVAILABLE = True
 except ImportError:
     GENAI_AVAILABLE = False
@@ -85,15 +87,21 @@ ENABLE_KARIYER          = True   # portal_scrapers (requests tabanlı)
 ENABLE_INDEED_TR        = True   # portal_scrapers (requests tabanlı)
 ENABLE_ACADEMICTRANSFER = True   # portal_scrapers (requests tabanlı), çalışıyor
 
+# Premium (Bright Data ISP) proxy — varsa ücretsiz havuz devre dışı kalır
+HAS_PREMIUM_PROXY = bool(os.environ.get("PREMIUM_PROXY_URL", "").strip())
+
 # CF Scraper — CF korumalı sitelerde curl_cffi kullan (requests yerine)
-# True yapınca portal_scrapers isteklerinde TLS impersonation devreye girer
-USE_CF_FETCH = False   # True = curl_cffi (CF bypass), False = standart requests
+# Premium proxy varsa otomatik açılır: TLS impersonation + ISP exit IP
+USE_CF_FETCH = HAS_PREMIUM_PROXY or os.environ.get("USE_CF_FETCH", "").lower() in ("1", "true")
 
 # LLM Enrichment — Gemini ile zenginleştirilmiş değerlendirme
 GEMINI_API_KEY        = os.environ.get("GEMINI_API_KEY", "")
-GEMINI_MODEL          = "gemini-2.0-flash"
+GEMINI_MODEL          = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 ENABLE_LLM_ENRICHMENT = bool(GEMINI_API_KEY)  # env'de key varsa otomatik aktif
-USE_CAVEMAN_PROMPTS   = True                   # caveman_compress → ~%40 token tasarrufu
+USE_CAVEMAN_PROMPTS   = True   # caveman_compress → ~%40 token tasarrufu
+LLM_MAX_JOBS          = 10     # run başına LLM çağrı tavanı (free tier koruması)
+LLM_MAX_DESC_CHARS    = 3500   # JD payload bütçesi (~875 token)
+LLM_MAX_OUTPUT_TOKENS = 900    # yapılandırılmış JSON yanıt için yeterli
 
 # RLHF Feedback
 RLHF_LOG     = BASE_DIR / "data" / "rlhf_feedback.json"
@@ -105,8 +113,8 @@ ENABLE_LINKEDIN             = True   # requests tabanlı, hızlı, çalışıyor
 ENABLE_INDEED_NL            = True   # nl.indeed.com, Playwright, çalışıyor
 ENABLE_GLASSDOOR            = True   # slug URL ile, Playwright, çalışıyor
 ENABLE_ACADEMIC_POSITIONS   = True   # Playwright, JS render, çalışıyor
-ENABLE_KARIYER_PW           = False  # PerimeterX + Türk IP gerektirir
-ENABLE_INDEED_PW            = False  # 403 Forbidden (geo-blocked)
+ENABLE_KARIYER_PW           = HAS_PREMIUM_PROXY  # PerimeterX + TR IP gerektirir
+ENABLE_INDEED_PW            = HAS_PREMIUM_PROXY  # geo-blocked; TR exit ile açılır
 
 TURKISH_MONTHS = {
     1:"Ocak", 2:"Şubat", 3:"Mart", 4:"Nisan", 5:"Mayıs", 6:"Haziran",
@@ -413,20 +421,55 @@ def score_job(title: str, location: str, profile: str) -> float:
 
 # ─── LLM ENRICHMENT ──────────────────────────────────────────────────────────
 
+_genai_client = None
+
+
+def _get_genai_client():
+    """Tek client örneği — her çağrıda yeniden kurmak bağlantı israfı."""
+    global _genai_client
+    if _genai_client is None and GENAI_AVAILABLE and GEMINI_API_KEY:
+        _genai_client = genai.Client(api_key=GEMINI_API_KEY)
+    return _genai_client
+
+
 def evaluate_job_llm(job: dict) -> dict | None:
     """
     Qualifying bir ilan için Gemini ile zenginleştirilmiş değerlendirme yapar.
     ENABLE_LLM_ENRICHMENT=True ve GEMINI_API_KEY gerektirir.
+
+    Token tasarrufu: JD payload text_clean ile arındırılıp LLM_MAX_DESC_CHARS'a
+    kırpılır, thinking kapatılır, yanıt doğrudan JSON mime olarak istenir
+    (markdown fence + açıklama metni üretilmez).
     """
-    if not ENABLE_LLM_ENRICHMENT or not GEMINI_API_KEY or not GENAI_AVAILABLE:
+    client = _get_genai_client()
+    if not ENABLE_LLM_ENRICHMENT or client is None:
         return None
     try:
         from evaluator import build_prompt, parse_score
-        genai.configure(api_key=GEMINI_API_KEY)
-        model  = genai.GenerativeModel(GEMINI_MODEL)
-        prompt = build_prompt(job, compress=USE_CAVEMAN_PROMPTS)
-        resp   = model.generate_content(prompt)
-        return parse_score(resp.text)
+        prompt = build_prompt(
+            job,
+            compress=USE_CAVEMAN_PROMPTS,
+            max_desc_chars=LLM_MAX_DESC_CHARS,
+        )
+        resp = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(
+                temperature=0.2,
+                max_output_tokens=LLM_MAX_OUTPUT_TOKENS,
+                response_mime_type="application/json",
+                # Puanlama rubrik tabanlı — reasoning token'ı yakmaya gerek yok
+                thinking_config=genai_types.ThinkingConfig(thinking_budget=0),
+            ),
+        )
+        result = parse_score(resp.text or "")
+        usage = getattr(resp, "usage_metadata", None)
+        if usage:
+            result["_tokens"] = {
+                "in":  getattr(usage, "prompt_token_count", 0),
+                "out": getattr(usage, "candidates_token_count", 0),
+            }
+        return result
     except Exception as e:
         print(f"⚠️  LLM zenginleştirme hatası ({job.get('title','?')}): {e}", flush=True)
         return None
@@ -806,7 +849,11 @@ def main():
 
     # ── 1. Proxy havuzu başlat ────────────────────────────────────────────────
     pool = None
-    if PROXY_AVAILABLE:
+    if HAS_PREMIUM_PROXY:
+        # ISP gateway kendi rotasyonunu yapar — ücretsiz havuz taraması
+        # hem zaman hem bant genişliği israfı olur
+        print("🔐 Premium ISP proxy aktif (ücretsiz havuz atlandı)", flush=True)
+    elif PROXY_AVAILABLE:
         print("🔐 Proxy havuzu başlatılıyor...", flush=True)
         try:
             pool = ProxyPool(auto_refresh=True, verbose=True)
@@ -919,11 +966,22 @@ def main():
 
     # ── 6b. LLM zenginleştirme (opsiyonel) ───────────────────────────────────
     if ENABLE_LLM_ENRICHMENT and GEMINI_API_KEY:
-        print(f"🤖 LLM zenginleştirme: {len(ready)} ilan işleniyor...", flush=True)
-        for job in ready:
+        # Yalnızca en yüksek skorlu ilk N ilan LLM'e gider (free tier koruması)
+        batch = ready[:LLM_MAX_JOBS]
+        print(f"🤖 LLM zenginleştirme: {len(batch)}/{len(ready)} ilan "
+              f"({GEMINI_MODEL})...", flush=True)
+        tok_in = tok_out = 0
+        for job in batch:
             llm_result = evaluate_job_llm(job)
             if llm_result:
+                usage = llm_result.pop("_tokens", None)
+                if usage:
+                    tok_in  += usage["in"]
+                    tok_out += usage["out"]
                 job["llm"] = llm_result
+        if tok_in or tok_out:
+            print(f"   Token: {tok_in} in / {tok_out} out "
+                  f"(~{tok_in // max(len(batch), 1)} in/ilan)", flush=True)
 
     # Kaynak dağılımını göster
     src_dist = Counter(j.get("source", "?").split("/")[0] for j in ready)

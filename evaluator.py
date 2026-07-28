@@ -44,6 +44,13 @@ try:
 except ImportError:
     _CAVEMAN_AVAILABLE = False
 
+try:
+    from text_clean import DEFAULT_MAX_CHARS, clean_jd
+    _CLEAN_AVAILABLE = True
+except ImportError:
+    _CLEAN_AVAILABLE = False
+    DEFAULT_MAX_CHARS = 3500
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Aday profili — LLM bağlamı (dosya okumadan hızlı erişim)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -206,6 +213,7 @@ def build_prompt(
     include_academic_table: bool = True,
     language: str = "tr",  # "tr" veya "en"
     compress: bool = False,  # True → caveman_compress ile token tasarrufu
+    max_desc_chars: int = DEFAULT_MAX_CHARS,  # JD payload karakter bütçesi
 ) -> str:
     """
     Ağırlıklı puanlama rubriği içeren LLM değerlendirme prompt'u oluşturur.
@@ -250,11 +258,15 @@ def build_prompt(
     url         = job.get("url", "")
 
     if description:
-        jd_payload = description
+        # 1) HTML/boilerplate temizliği + karakter bütçesine kırpma (token tasarrufu)
+        if _CLEAN_AVAILABLE:
+            jd_payload = clean_jd(description, max_chars=max_desc_chars)
+        else:
+            jd_payload = description[:max_desc_chars]
+        # 2) Kalan prose'da caveman sıkıştırma — static context dokunulmaz
         if compress and _CAVEMAN_AVAILABLE:
-            # Yalnızca JD payload'ı sıkıştır — static context dokunulmaz
             jd_payload, _ = _caveman_compress(jd_payload, level="lite")
-        desc_section = f"\n### İş Tanımı:\n```\n{jd_payload[:2000]}\n```\n"
+        desc_section = f"\n### İş Tanımı:\n```\n{jd_payload}\n```\n"
     else:
         desc_section = "\n### İş Tanımı: (sağlanmadı — başlık ve konuma göre değerlendir)\n"
 

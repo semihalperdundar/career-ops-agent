@@ -202,6 +202,41 @@ def _proxy_cfg(country: str | None = None) -> dict | None:
     }
 
 
+# ── Bant genişliği koruması ───────────────────────────────────────────────────
+# Proxy trafiği GB başına ücretlendirilir; görsel/font/CSS ilan metnine sıfır
+# katkı yapar. Script/XHR/fetch ASLA bloklanmaz — WAF challenge'ları ve SPA
+# veri çağrıları onlara bağlı.
+_BLOCKED_RESOURCES = {"image", "media", "font", "stylesheet"}
+
+# Analitik/reklam host'ları: hem bant genişliği hem fingerprint gürültüsü
+_BLOCKED_HOSTS = (
+    "google-analytics.com", "googletagmanager.com", "doubleclick.net",
+    "facebook.net", "facebook.com/tr", "hotjar.com", "segment.io",
+    "segment.com", "mixpanel.com", "amplitude.com", "sentry.io",
+    "newrelic.com", "optimizely.com", "adservice.google", "adsystem.com",
+    "criteo.", "taboola.", "outbrain.", "bat.bing.com", "clarity.ms",
+)
+
+# Ortam değişkeniyle kapatılabilir (bir site CSS'siz render edemezse)
+_BLOCK_ASSETS = os.environ.get("PW_BLOCK_ASSETS", "1") not in ("0", "false", "False")
+
+
+def _route_filter(route, request):
+    """Ağır asset'leri ve tracker'ları iptal eder; kalanını geçirir."""
+    try:
+        if request.resource_type in _BLOCKED_RESOURCES:
+            return route.abort()
+        url = request.url
+        if any(h in url for h in _BLOCKED_HOSTS):
+            return route.abort()
+        return route.continue_()
+    except Exception:
+        try:
+            route.continue_()
+        except Exception:
+            pass
+
+
 # Geo başına locale/timezone — WAF fingerprint'i IP ile tutarlı olmalı
 _GEO = {
     "tr": ("tr-TR", "Europe/Istanbul", "tr-TR,tr;q=0.9,en;q=0.8"),
@@ -250,6 +285,11 @@ def _new_browser(playwright, headless: bool = True, country: str | None = None):
             "Object.defineProperty(navigator,'webdriver',{get:()=>undefined});"
             "Object.defineProperty(navigator,'plugins',{get:()=>[1,2,3,4,5]});"
         )
+
+    # Context seviyesinde route — bu ctx'ten açılan her sayfa için geçerli
+    if _BLOCK_ASSETS:
+        ctx.route("**/*", _route_filter)
+
     return browser, ctx
 
 

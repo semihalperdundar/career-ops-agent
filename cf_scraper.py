@@ -38,12 +38,14 @@ CLI:
 from __future__ import annotations
 
 import io
+import os
 import random
 import sys
 import threading
 import time
 from pathlib import Path
 from typing import Callable
+from urllib.parse import urlparse, urlunparse
 
 # ── Windows UTF-8 düzeltmesi ──────────────────────────────────────────────────
 if sys.stdout.encoding != "utf-8":
@@ -66,6 +68,66 @@ try:
 except ImportError:
     _POOL_AVAILABLE = False
     ProxyPool = None  # type: ignore[assignment,misc]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Premium (Bright Data ISP) proxy — PREMIUM_PROXY_URL
+# ─────────────────────────────────────────────────────────────────────────────
+# Format: http://kullanici:parola@brd.superproxy.io:22225
+# Ayarlıysa ücretsiz proxy havuzu ATLANIR: gateway zaten IP rotasyonu yapar,
+# rotasyon denemeleri boşuna bant genişliği yakar.
+
+def premium_proxy(country: str | None = None) -> str | None:
+    """PREMIUM_PROXY_URL'i (opsiyonel geo eki ile) tam proxy URL'i olarak döner."""
+    raw = os.environ.get("PREMIUM_PROXY_URL", "").strip()
+    if not raw:
+        return None
+    u = urlparse(raw)
+    if not u.hostname:
+        return None
+    user = u.username or ""
+    # Bright Data geo hedefleme: kullanıcı adı sonuna -country-tr eklenir
+    if country and user and "-country-" not in user:
+        user = f"{user}-country-{country.lower()}"
+    netloc = u.hostname if not user else f"{user}:{u.password or ''}@{u.hostname}"
+    if u.port:
+        netloc += f":{u.port}"
+    return urlunparse((u.scheme or "http", netloc, "", "", "", ""))
+
+
+PREMIUM_AVAILABLE = bool(os.environ.get("PREMIUM_PROXY_URL", "").strip())
+
+
+# Host → gerekli exit ülkesi. Kariyer.net TR IP olmadan PerimeterX'e takılır,
+# Indeed TR datacenter IP'lerine 403 döner.
+_GEO_HOSTS: tuple[tuple[str, str], ...] = (
+    ("kariyer.net", "tr"),
+    ("tr.indeed.com", "tr"),
+    ("yenibiris.com", "tr"),
+    ("secretcv.com", "tr"),
+    ("nl.indeed.com", "nl"),
+    ("glassdoor.nl", "nl"),
+    ("uk.indeed.com", "gb"),
+)
+
+
+def geo_for_url(url: str) -> str | None:
+    """URL host'una göre gereken exit ülkesini döner (yoksa None)."""
+    low = (url or "").lower()
+    for host, cc in _GEO_HOSTS:
+        if host in low:
+            return cc
+    return None
+
+
+def _mask_proxy(proxy: str | None) -> str:
+    """Log'a parola yazmamak için kimlik bilgisini maskeler."""
+    if not proxy:
+        return "direct"
+    if "://" not in proxy:
+        return proxy
+    u = urlparse(proxy)
+    return f"{u.scheme}://***@{u.hostname}:{u.port}" if u.username else proxy
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tarayıcı profilleri
@@ -245,7 +307,8 @@ class CFSession:
             sess = _cf_req.Session()
 
         if self.proxy:
-            purl = f"http://{self.proxy}"
+            # Premium gateway tam URL gelir (şema + auth); havuz proxy'si "ip:port"
+            purl = self.proxy if "://" in self.proxy else f"http://{self.proxy}"
             sess.proxies = {"http": purl, "https": purl}
 
         return sess
@@ -356,6 +419,8 @@ def safe_cf_get(
     referer: str | None   = None,
     headers: dict | None  = None,
     verbose: bool = False,
+    country: str | None   = None,   # "tr" / "nl" — premium gateway geo hedefi
+    **kwargs,                       # params= vb. doğrudan curl_cffi'ye aktarılır
 ):
     """
     curl_cffi tabanlı GET isteği. proxy_manager.safe_get() ile aynı
@@ -375,23 +440,32 @@ def safe_cf_get(
     if referer is None:
         referer = random.choice(_REFERERS)
 
+    premium = premium_proxy(country)
+
     for attempt in range(retries):
         # Son denemede proxysiz dene (fallback — kendi IP'imizle CF dene)
         is_last   = (attempt == retries - 1)
         proxy_str = None
 
-        if pool and not is_last:
+        if premium:
+            # ISP gateway'i her yeni oturumda farklı exit IP verir; ücretsiz
+            # havuzu hiç denemeyiz — başarısız denemeler bant genişliği yakar
+            proxy_str = premium
+        elif pool and not is_last:
             proxy_str = pool.get() if hasattr(pool, "get") else None
 
         profile = random.choice(BROWSER_PROFILES[:4])  # tercihan en güncel profiller
 
         try:
             sess = _session_cache.get_or_create(proxy_str, profile=profile)
-            resp = sess.get(url, referer=referer, extra_headers=headers, timeout=timeout)
+            resp = sess.get(
+                url, referer=referer, extra_headers=headers,
+                timeout=timeout, **kwargs,
+            )
             code = resp.status_code
 
             if verbose:
-                tag = f"proxy={proxy_str or 'direct'} profile={profile}"
+                tag = f"proxy={_mask_proxy(proxy_str)} profile={profile}"
                 print(f"   [CF] {code} {url[:65]}  ({tag})")
 
             # ── Başarılı ────────────────────────────────────────────────────
@@ -404,8 +478,10 @@ def safe_cf_get(
             elif code == 403:
                 if verbose:
                     print(f"   [CF] 403 — oturum kapatılıyor, proxy değiştiriliyor ({attempt+1}/{retries})")
+                # Premium'da evict yeterli: yeni oturum = yeni exit IP.
+                # mark_bad yalnızca ücretsiz havuz proxy'leri için anlamlı.
                 _session_cache.evict(proxy_str)
-                if proxy_str and pool:
+                if proxy_str and pool and proxy_str != premium:
                     pool.mark_bad(proxy_str)
                 if delay:
                     time.sleep(random.uniform(*_DELAY_403))
@@ -432,7 +508,7 @@ def safe_cf_get(
             if verbose:
                 print(f"   [CF] Hata (deneme {attempt+1}): {type(exc).__name__}: {exc}")
             _session_cache.evict(proxy_str)
-            if proxy_str and pool:
+            if proxy_str and pool and proxy_str != premium:
                 pool.mark_bad(proxy_str)
             if delay and not is_last:
                 time.sleep(random.uniform(*_DELAY_ERROR))
@@ -447,7 +523,11 @@ def safe_cf_get(
 FetchFn = Callable[..., object | None]
 
 
-def make_cf_fetch(pool=None, verbose: bool = False) -> FetchFn:
+def make_cf_fetch(
+    pool=None,
+    verbose: bool = False,
+    country: str | None = None,
+) -> FetchFn:
     """
     curl_cffi tabanlı fetch fonksiyonu döner.
 
@@ -457,10 +537,15 @@ def make_cf_fetch(pool=None, verbose: bool = False) -> FetchFn:
     telegram-daily.py'de _make_fetch() yerine kullanılabilir:
         fetch_fn = make_cf_fetch(pool)
         extra_raw = fetch_all_extra(fetch_fn=fetch_fn, ...)
+
+    `country` verilirse (ya da çağrıda kwargs olarak geçilirse) premium
+    gateway o ülkeden exit IP verir — Kariyer.net için "tr" gerekir.
     """
     def _fetch(url: str, **kwargs) -> object | None:
         timeout = kwargs.pop("timeout", 20)
         headers = kwargs.pop("headers", None)
+        # Geo: açık kwarg > fabrika varsayılanı > URL host'undan çıkarım
+        cc = kwargs.pop("country", None) or country or geo_for_url(url)
         return safe_cf_get(
             url,
             pool=pool,
@@ -468,6 +553,8 @@ def make_cf_fetch(pool=None, verbose: bool = False) -> FetchFn:
             delay=True,
             headers=headers,
             verbose=verbose,
+            country=cc,
+            **kwargs,          # params= gibi kalan argümanlar aktarılır
         )
     return _fetch
 
