@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>İş-Kur · Job Listings</title>
+    <style>
+      :root {
+        --bg: #0e1015; --panel: #14171f; --card: #181c26; --card-hi: #1e2330;
+        --border: rgba(255,255,255,.07); --border-hi: rgba(255,255,255,.13);
+        --text: #e8ebf2; --sub: #9aa3b5; --muted: #646c7e;
+        --green: #5fd38a; --amber: #f5c25b; --red: #f07a8f; --blue: #6ea8fe;
+        --mauve: #b794f6; --teal: #5fd3c4;
+        --ring-track: rgba(255,255,255,.08);
+        --shadow: 0 6px 24px rgba(0,0,0,.35);
+        --r: 14px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0; background: var(--bg); color: var(--text);
+        font: 15px/1.55 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-thumb { background: #2a3040; border-radius: 8px; border: 2px solid var(--bg); }
+      ::-webkit-scrollbar-thumb:hover { background: #353d50; }
+      a { color: var(--blue); }
+
+      /* ---- header ---- */
+      header {
+        position: sticky; top: 0; z-index: 20; background: rgba(14,16,21,.82);
+        backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+      }
+      .h-inner { max-width: 1180px; margin: 0 auto; padding: 14px 24px 0; }
+      .h-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      h1 { font-size: 16px; margin: 0; font-weight: 650; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; }
+      h1 .logo { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+      h1 .logo svg { width: 26px; height: 26px; display: block; }
+      h1 .sub { color: var(--muted); font-weight: 500; }
+      .h-actions { display: flex; gap: 8px; }
+      .metrics { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+      .metric {
+        background: var(--card); border: 1px solid var(--border); border-radius: 11px;
+        padding: 7px 13px; text-align: center; min-width: 64px; transition: border-color .15s;
+      }
+      .metric:hover { border-color: var(--border-hi); }
+      .metric b { display: block; font-size: 18px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+      .metric span { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+      .metric.accent b { color: var(--green); }
+      .metric.warn b { color: var(--amber); }
+
+      .tabs { display: flex; gap: 6px; margin: 14px 0 0; flex-wrap: wrap; }
+      .tab {
+        background: transparent; color: var(--sub); border: none; border-bottom: 2px solid transparent;
+        padding: 9px 14px 11px; cursor: pointer; font-size: 13.5px; font-weight: 500;
+        border-radius: 8px 8px 0 0; transition: color .15s, background .15s; font-family: inherit;
+      }
+      .tab:hover { color: var(--text); background: var(--card); }
+      .tab.active { color: var(--text); border-bottom-color: var(--blue); }
+      .tab .count {
+        margin-left: 6px; font-size: 11px; background: var(--card-hi); color: var(--sub);
+        padding: 1px 7px; border-radius: 999px; font-variant-numeric: tabular-nums;
+      }
+      .tab.active .count { background: var(--blue); color: #0b1020; font-weight: 600; }
+
+      main { max-width: 1180px; margin: 0 auto; padding: 20px 24px 80px; }
+
+      /* ---- toolbar ---- */
+      .controls {
+        display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
+        background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
+        padding: 12px 14px; margin-bottom: 18px;
+      }
+      .field { display: flex; flex-direction: column; gap: 4px; }
+      .field label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding-left: 2px; }
+      .controls input[type="text"], .controls select {
+        background: var(--card); border: 1px solid var(--border); color: var(--text);
+        padding: 8px 11px; border-radius: 9px; font: inherit; font-size: 13.5px; transition: border-color .15s;
+      }
+      .controls input[type="text"]:focus, .controls select:focus { outline: none; border-color: var(--blue); }
+      .controls input[type="text"] { min-width: 230px; }
+      .search-wrap { position: relative; }
+      .search-wrap .kbd {
+        position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+        font-size: 10px; color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 1px 5px; pointer-events: none;
+      }
+      .controls input[type="range"] { accent-color: var(--blue); width: 130px; }
+      .result-count { font-size: 12.5px; color: var(--muted); margin-left: auto; align-self: center; font-variant-numeric: tabular-nums; }
+      .reset { align-self: center; }
+
+      /* ---- grid + cards ---- */
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+      .card {
+        background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+        padding: 16px; display: flex; flex-direction: column; gap: 11px; position: relative;
+        transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; cursor: pointer;
+      }
+      .card[data-report]:hover, .card[data-url]:hover {
+        transform: translateY(-3px); border-color: var(--border-hi); box-shadow: var(--shadow);
+      }
+      .card.rec { border-color: rgba(95,211,138,.35); }
+      .card.rec::before {
+        content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px;
+        background: var(--green); border-radius: 0 3px 3px 0;
+      }
+      .card-top { display: flex; align-items: flex-start; gap: 12px; }
+      .ring { position: relative; width: 50px; height: 50px; flex: 0 0 auto; display: grid; place-items: center; --rc: var(--muted); }
+      .ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--rc) calc(var(--p)*1%), var(--ring-track) 0); }
+      .ring::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--card); }
+      .ring .val { position: relative; z-index: 1; font-weight: 700; font-size: 15px; line-height: 1; font-variant-numeric: tabular-nums; }
+      .ring .val small { font-size: 8px; font-weight: 600; opacity: .6; display: block; text-align: center; }
+      .s-hi { --rc: var(--green); } .s-mid { --rc: var(--amber); } .s-lo { --rc: var(--muted); }
+      .head { min-width: 0; flex: 1; }
+      .role { font-weight: 600; font-size: 14.5px; line-height: 1.35; }
+      .company { color: var(--sub); font-size: 12.5px; display: flex; align-items: center; gap: 7px; margin-top: 4px; flex-wrap: wrap; }
+      .avatar { width: 26px; height: 26px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; flex: 0 0 auto; }
+      .company .sep { color: var(--muted); }
+      .stale-tag { font-size: 10px; color: var(--muted); border: 1px dashed var(--border-hi); padding: 1px 6px; border-radius: 6px; }
+
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .chip {
+        font-size: 11px; padding: 3px 9px; border-radius: 8px; background: var(--card-hi);
+        color: var(--sub); border: 1px solid var(--border); white-space: nowrap;
+        max-width: 220px; overflow: hidden; text-overflow: ellipsis;
+      }
+      .chip.rec { background: rgba(95,211,138,.14); color: var(--green); border-color: rgba(95,211,138,.3); font-weight: 600; }
+      .chip.sector { color: var(--teal); border-color: rgba(95,211,196,.25); }
+      .chip.lang { background: rgba(245,194,91,.13); color: var(--amber); border-color: rgba(245,194,91,.3); }
+      .notes { font-size: 13px; color: var(--sub); line-height: 1.5; }
+      .status-badge { font-size: 11px; padding: 2px 9px; border-radius: 7px; font-weight: 600; }
+      .st-applied { background: rgba(110,168,254,.16); color: var(--blue); }
+      .st-responded, .st-interview, .st-offer { background: rgba(95,211,138,.16); color: var(--green); }
+      .st-discarded, .st-rejected, .st-skip { background: rgba(240,122,143,.14); color: var(--red); }
+      .st-archived { background: var(--card-hi); color: var(--muted); }
+
+      .dl { font-size: 11px; padding: 3px 9px; border-radius: 999px; font-weight: 600; flex: 0 0 auto; }
+      .dl.urgent { background: var(--red); color: #1a0b10; }
+      .dl.soon { background: rgba(245,194,91,.15); color: var(--amber); border: 1px solid rgba(245,194,91,.35); }
+      .dl.passed { background: var(--card-hi); color: var(--muted); }
+
+      .fitgap { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 11px; border-top: 1px solid var(--border); }
+      .fg { font-size: 11px; padding: 3px 9px; border-radius: 8px; }
+      .fg.strong { background: rgba(95,211,138,.13); color: var(--green); }
+      .fg.gap-high { background: rgba(240,122,143,.14); color: var(--red); }
+      .fg.gap-medium { background: rgba(245,194,91,.12); color: var(--amber); }
+      .fg.gap-low { background: var(--card-hi); color: var(--muted); }
+
+      .actions { display: flex; gap: 7px; margin-top: 3px; flex-wrap: wrap; align-items: center; }
+      .btn {
+        font: inherit; font-size: 13px; cursor: pointer; border: 1px solid var(--border);
+        background: var(--card-hi); color: var(--text); padding: 8px 13px; border-radius: 9px;
+        text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .14s;
+      }
+      .btn:hover { border-color: var(--border-hi); background: #242a38; }
+      .btn.primary { background: var(--blue); border-color: var(--blue); color: #0b1020; font-weight: 600; }
+      .btn.primary:hover { filter: brightness(1.08); }
+      .btn:disabled { opacity: .7; cursor: default; }
+      .spin { width: 12px; height: 12px; border: 2px solid rgba(11,16,32,.3); border-top-color: #0b1020; border-radius: 50%; display: inline-block; animation: spin .7s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .btn.icon { padding: 8px 10px; }
+      .btn.ok:hover { border-color: var(--green); color: var(--green); background: rgba(95,211,138,.08); }
+      .btn.no:hover { border-color: var(--red); color: var(--red); background: rgba(240,122,143,.08); }
+      .btn.undo:hover { border-color: var(--mauve); color: var(--mauve); }
+      .btn.cl:hover { border-color: var(--mauve); color: var(--mauve); background: rgba(183,148,246,.08); }
+      .btn.iv:hover { border-color: var(--teal); color: var(--teal); background: rgba(95,211,196,.08); }
+      .iv-personas { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 16px; }
+      .iv-pchip { font: inherit; font-size: 13px; cursor: pointer; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--sub); transition: all .14s; }
+      .iv-pchip:hover { border-color: var(--border-hi); color: var(--text); }
+      .iv-pchip.active { background: var(--teal); color: #07221e; border-color: var(--teal); font-weight: 600; }
+      .iv-body { max-height: 56vh; overflow: auto; }
+      .iv-item { padding: 14px 0; border-top: 1px solid var(--border); }
+      .iv-item:first-child { border-top: none; }
+      .iv-q { font-weight: 600; color: var(--text); font-size: 14px; display: flex; gap: 8px; }
+      .iv-q .num { color: var(--teal); font-variant-numeric: tabular-nums; }
+      .iv-a { color: var(--sub); font-size: 13.5px; line-height: 1.6; margin-top: 7px; padding-left: 22px; border-left: 2px solid var(--border); }
+      .btn.pc:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,194,91,.08); }
+      .pc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 4px 0 14px; }
+      @media (max-width: 560px) { .pc-cols { grid-template-columns: 1fr; } }
+      .pc-col h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 10px; }
+      .pc-col.pros h3 { color: var(--green); }
+      .pc-col.cons h3 { color: var(--red); }
+      .pc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+      .pc-list li { font-size: 13px; line-height: 1.5; color: var(--sub); padding: 9px 11px; border-radius: 9px; background: var(--card); border: 1px solid var(--border); }
+      .pc-col.pros li { border-left: 3px solid var(--green); }
+      .pc-col.cons li { border-left: 3px solid var(--red); }
+      .pc-bottom { background: var(--card); border: 1px solid var(--border-hi); border-radius: 11px; padding: 13px 15px; font-size: 13.5px; line-height: 1.55; }
+      .pc-bottom .verdict { font-weight: 600; color: var(--text); }
+      .pc-score { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+      .ref-list { display: flex; flex-direction: column; gap: 10px; margin: 4px 0 12px; }
+      .ref-item { display: block; text-decoration: none; padding: 11px 13px; border-radius: 11px; background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--blue); transition: border-color .15s, transform .05s; }
+      .ref-item:hover { border-color: var(--border-hi); transform: translateX(1px); }
+      .ref-item .ra { display: flex; align-items: center; gap: 9px; }
+      .ref-num { width: 22px; height: 22px; border-radius: 50%; background: var(--blue); color: #0b1020; font-size: 12px; font-weight: 700; display: grid; place-items: center; flex: none; }
+      .ref-arch { font-size: 13.5px; font-weight: 600; color: var(--text); }
+      .ref-open { margin-left: auto; font-size: 12px; color: var(--blue); white-space: nowrap; }
+      .ref-target { font-size: 12.5px; color: var(--sub); margin: 5px 0 0 31px; }
+      .ref-why { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 4px 0 0 31px; }
+      .ref-tip { font-size: 12px; color: var(--sub); background: var(--card); border: 1px solid var(--border-hi); border-radius: 10px; padding: 10px 12px; line-height: 1.5; }
+      .ref-item .ra { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+      .ref-people { display: flex; align-items: center; gap: 8px; padding: 10px 13px; border-radius: 11px; background: rgba(110,168,254,.1); border: 1px solid rgba(110,168,254,.3); text-decoration: none; color: var(--blue); font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+      .ref-people:hover { background: rgba(110,168,254,.16); }
+      .ref-sec { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 14px 0 8px; }
+      .ref-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 9px 0 0 31px; }
+      .ref-link { font-size: 12px; font-weight: 600; text-decoration: none; padding: 5px 11px; border-radius: 8px; background: var(--card-hi); border: 1px solid var(--border-hi); color: var(--sub); white-space: nowrap; }
+      .ref-link:hover { border-color: var(--blue); color: var(--blue); }
+      .ref-link.precise { background: rgba(95,211,138,.1); border-color: rgba(95,211,138,.35); color: var(--green); }
+      .ref-link.precise:hover { border-color: var(--green); }
+      .ref-msg { margin: 9px 0 0 31px; }
+      .ref-msg textarea { width: 100%; box-sizing: border-box; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--sub); font: inherit; font-size: 12px; line-height: 1.5; padding: 8px 10px; resize: vertical; }
+      .ref-msg textarea:focus { outline: none; border-color: var(--blue); }
+      .ref-msgbar { display: flex; align-items: center; gap: 9px; margin-top: 6px; }
+      .ref-copy { font-size: 11.5px; padding: 4px 10px; }
+      .ref-hint { font-size: 11px; color: var(--muted); }
+      .ref-fix { margin-top: 14px; padding: 12px 13px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); }
+      .ref-fix label { display: block; font-size: 12.5px; color: var(--sub); margin-bottom: 8px; }
+      .ref-fixrow { display: flex; gap: 8px; }
+      .ref-fixrow input { flex: 1; min-width: 0; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font: inherit; font-size: 12.5px; padding: 7px 10px; }
+      .ref-fixrow input:focus { outline: none; border-color: var(--blue); }
+      .ref-warn { font-size: 12px; line-height: 1.5; color: var(--amber); background: rgba(245,194,91,.1); border: 1px solid rgba(245,194,91,.3); border-radius: 9px; padding: 9px 11px; margin-bottom: 10px; }
+      .ref-warm { border-left-color: var(--amber); }
+      .ref-warm .ref-num { background: var(--amber); }
+      .ref-warm .ref-open { color: var(--amber); }
+      .cl-text {
+        width: 100%; min-height: 360px; background: var(--card); border: 1px solid var(--border);
+        color: var(--text); border-radius: 11px; padding: 16px 18px; resize: vertical;
+        font: 14px/1.65 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      .cl-text:focus { outline: none; border-color: var(--blue); }
+      .actions .right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+      select.btn { padding: 7px 9px; }
+
+      .hint-row { grid-column: 1/-1; font-size: 13px; color: var(--sub); margin: -4px 0 6px; }
+      .empty { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 70px 0; }
+      .empty .big { font-size: 38px; margin-bottom: 10px; opacity: .5; }
+
+      /* ---- skeleton ---- */
+      .sk { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; height: 190px; }
+      .sk-bar { background: linear-gradient(90deg, var(--card-hi), #232938, var(--card-hi)); background-size: 200% 100%; animation: sh 1.3s infinite; border-radius: 7px; }
+      @keyframes sh { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
+
+      /* ---- toast ---- */
+      .toast {
+        position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px);
+        background: var(--card-hi); color: var(--text); padding: 11px 20px; border-radius: 11px;
+        border: 1px solid var(--border-hi); box-shadow: var(--shadow); opacity: 0; transition: all .22s; pointer-events: none; z-index: 90;
+        font-size: 13.5px;
+      }
+      .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+      /* ---- overlays / modals ---- */
+      .overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center;
+        z-index: 70; padding: 20px; opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s;
+      }
+      .overlay.show { opacity: 1; visibility: visible; }
+      .modal {
+        background: var(--panel); border: 1px solid var(--border-hi); border-radius: 18px;
+        width: 100%; max-width: 580px; max-height: 88vh; overflow: auto; padding: 24px;
+        transform: scale(.97); transition: transform .2s; box-shadow: var(--shadow);
+      }
+      .overlay.show .modal { transform: scale(1); }
+      .modal h2 { margin: 0 0 4px; font-size: 18px; }
+      .modal p.hint { margin: 0 0 16px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .loc-row, .src-row {
+        display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+        background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px;
+      }
+      .loc-row.off, .src-row.off { opacity: .5; }
+      .loc-row .info, .src-row .info { min-width: 0; flex: 1; }
+      .loc-row .info b, .src-row .info b { display: block; font-size: 14px; }
+      .loc-row .info small, .src-row .info small { color: var(--muted); font-size: 12px; }
+      .src-row .info a { color: var(--blue); font-size: 12px; text-decoration: none; word-break: break-all; }
+      .src-row .info a:hover { text-decoration: underline; }
+      .switch { cursor: pointer; font-size: 12px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--card-hi); color: var(--sub); transition: all .14s; font-family: inherit; }
+      .switch.on { background: rgba(95,211,138,.16); color: var(--green); border-color: rgba(95,211,138,.4); font-weight: 600; }
+      .icon-x { cursor: pointer; color: var(--muted); border: none; background: none; font-size: 16px; padding: 4px; transition: color .14s; }
+      .icon-x:hover { color: var(--red); }
+      .add-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+      .add-form input { grid-column: span 1; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 9px 11px; border-radius: 9px; font: inherit; }
+      .add-form input:focus { outline: none; border-color: var(--blue); }
+      .add-form input.full, .add-form .btn { grid-column: span 2; }
+      .modal-foot { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+      .modal-foot label { font-size: 13px; color: var(--sub); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+      .modal-foot .grow { margin-left: auto; }
+      .src-h { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--mauve); margin: 20px 0 8px; font-weight: 600; }
+      .src-count { color: var(--muted); font-size: 12px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+      .src-tag { font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+      .src-tag.auto { background: rgba(95,211,138,.16); color: var(--green); }
+      .src-tag.manual { background: rgba(245,194,91,.14); color: var(--amber); }
+      .src-tag.ats, .src-tag.linkedin { background: rgba(110,168,254,.16); color: var(--blue); }
+      .src-tag.careers { background: rgba(183,148,246,.16); color: var(--mauve); }
+      .src-companies { max-height: 220px; overflow: auto; display: flex; flex-wrap: wrap; gap: 6px; }
+      .src-chip { font-size: 12px; padding: 5px 10px; border-radius: 999px; text-decoration: none; background: var(--card); color: var(--sub); border: 1px solid var(--border); transition: all .14s; }
+      .src-chip.off { opacity: .45; }
+      .src-chip:hover { border-color: var(--blue); color: var(--blue); }
+
+      /* ---- report drawer ---- */
+      .drawer-ov { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 80; opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+      .drawer-ov.show { opacity: 1; visibility: visible; }
+      .drawer {
+        position: fixed; top: 0; right: 0; height: 100%; width: min(640px, 100%); background: var(--panel);
+        border-left: 1px solid var(--border-hi); z-index: 81; display: flex; flex-direction: column;
+        transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); box-shadow: var(--shadow);
+      }
+      .drawer.show { transform: none; }
+      .drawer-head { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; gap: 13px; align-items: flex-start; }
+      .drawer-head .head { flex: 1; }
+      .drawer-head .role { font-size: 17px; }
+      .drawer-close { background: var(--card); border: 1px solid var(--border); color: var(--sub); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 16px; flex: 0 0 auto; transition: all .14s; }
+      .drawer-close:hover { color: var(--text); border-color: var(--border-hi); }
+      .drawer-body { padding: 20px 22px; overflow: auto; flex: 1; }
+      .drawer-foot { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      /* markdown */
+      .md { font-size: 13.5px; color: var(--sub); line-height: 1.6; }
+      .md h2 { font-size: 15px; color: var(--text); margin: 22px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+      .md h2:first-child { margin-top: 0; }
+      .md h3, .md h4 { font-size: 13.5px; color: var(--text); margin: 16px 0 8px; }
+      .md p { margin: 8px 0; }
+      .md strong { color: var(--text); }
+      .md code { background: var(--card-hi); padding: 1px 5px; border-radius: 5px; font-size: 12px; }
+      .md hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+      .md ul { margin: 8px 0; padding-left: 20px; }
+      .md li { margin: 3px 0; }
+      .md table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12.5px; }
+      .md th, .md td { border: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: top; }
+      .md th { background: var(--card); color: var(--text); font-weight: 600; }
+      .md tr:nth-child(even) td { background: rgba(255,255,255,.015); }
+
+      @media (max-width: 600px) {
+        .metrics { width: 100%; }
+        .controls input[type="text"] { min-width: 0; width: 100%; }
+        .search-wrap, .field:first-of-type { flex: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="h-inner">
+        <div class="h-row">
+          <h1><span class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="loaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0c87f"/><stop offset="1" stop-color="#bd7a30"/></linearGradient></defs><ellipse cx="16" cy="18.5" rx="13" ry="9" fill="url(#loaf)" stroke="#945a26" stroke-width="1.2"/><path d="M5.5 16 C10 12, 22 12, 26.5 16" fill="none" stroke="#f7dcab" stroke-width="1.5" stroke-linecap="round" opacity=".8"/><g stroke="#7a4719" stroke-width="1.3" stroke-linecap="round" opacity=".62"><line x1="11.3" y1="15" x2="13.9" y2="20.6"/><line x1="15.5" y1="14.4" x2="18.1" y2="20.6"/><line x1="19.7" y1="15" x2="22.3" y2="20.6"/></g></svg></span> İş-Kur <span class="sub">· Job Listings</span></h1>
+          <div class="h-actions">
+            <button class="btn primary" id="scanBtn">🔍 Scan now</button>
+            <button class="btn" id="evalBtn" title="Score discovered jobs against your CV → fills the To Apply tab">🧠 Evaluate</button>
+            <button class="btn icon" id="locBtn">⚲ Locations</button>
+            <button class="btn icon" id="srcBtn">🔗 Sources</button>
+          </div>
+          <div class="metrics" id="metrics"></div>
+        </div>
+        <div class="tabs" id="tabs"></div>
+      </div>
+    </header>
+
+    <main>
+      <div class="controls" id="controls">
+        <div class="field search-wrap">
+          <label>Search</label>
+          <input type="text" id="fSearch" placeholder="company, role, city, notes…" />
+          <span class="kbd">/</span>
+        </div>
+        <div class="field">
+          <label>Sector</label>
+          <select id="fSector"><option value="">All</option></select>
+        </div>
+        <div class="field">
+          <label>Min score: <span id="fScoreVal">0.0</span></label>
+          <input type="range" id="fScore" min="0" max="5" step="0.1" value="0" />
+        </div>
+        <div class="field">
+          <label>Sort</label>
+          <select id="fSort">
+            <option value="score">Score (high→low)</option>
+            <option value="date">Date (new→old)</option>
+            <option value="deadline">Deadline (soon→later)</option>
+            <option value="company">Company (A→Z)</option>
+          </select>
+        </div>
+        <span class="result-count" id="resultCount"></span>
+        <button class="btn reset" id="fReset">Reset</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Locations modal -->
+    <div class="overlay" id="locOverlay">
+      <div class="modal">
+        <h2>⚲ Location Scope</h2>
+        <p class="hint">The search engine only pulls jobs from <b>enabled</b> regions (and remote, if enabled). Saving feeds the next scan.</p>
+        <div id="locList"></div>
+        <div class="add-form">
+          <input id="locLabel" class="full" placeholder="Label (e.g. Berlin / Germany)" />
+          <input id="locCountry" placeholder="Country (e.g. Germany)" />
+          <input id="locCities" placeholder="Cities, comma-separated" />
+          <button class="btn" id="locAdd">+ Add region</button>
+        </div>
+        <div class="modal-foot">
+          <label><input type="checkbox" id="remoteOk" /> Also show remote jobs</label>
+          <span class="grow"></span>
+          <button class="btn" id="locClose">Close</button>
+          <button class="btn primary" id="locSave">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sources modal -->
+    <div class="overlay" id="srcOverlay">
+      <div class="modal" style="max-width: 680px;">
+        <h2>🔗 Job Search Sources</h2>
+        <p class="hint">The sites the system scans. Add a site to <b>your own sources</b> below and it's automatically included in the next scan.</p>
+        <h3 class="src-h">Auto-scanned engines</h3>
+        <div id="srcEngines"></div>
+        <h3 class="src-h">Tracked companies <span id="srcCompCount" class="src-count"></span></h3>
+        <div id="srcCompanies" class="src-companies"></div>
+        <h3 class="src-h">Your custom sources <span id="srcCustomCount" class="src-count"></span></h3>
+        <p class="hint" style="margin:-4px 0 10px">
+          A <b>Greenhouse / Lever / Ashby / SmartRecruiters / Recruitee / Personio</b> board or a <b>LinkedIn job-search link</b> → scanned automatically.
+          A regular <b>careers page</b> → the scanner tries to find the company's embedded/by-name ATS board.
+        </p>
+        <div id="srcCustom"></div>
+        <div class="add-form">
+          <input id="srcName" placeholder="Name (e.g. Spotify Careers)" />
+          <input id="srcUrl" placeholder="Link (e.g. https://job-boards.greenhouse.io/spotify)" />
+          <button class="btn primary" id="srcAdd">+ Add source</button>
+        </div>
+        <div class="modal-foot"><span class="grow"></span><button class="btn" id="srcClose">Close</button></div>
+      </div>
+    </div>
+
+    <!-- Cover letter modal -->
+    <div class="overlay" id="clOverlay">
+      <div class="modal" style="max-width: 660px;">
+        <h2 id="clTitle">Cover Letter</h2>
+        <p class="hint" id="clSub">Generated from your CV + this job's evaluation. Edit freely before using.</p>
+        <textarea id="clText" class="cl-text" spellcheck="false"></textarea>
+        <div class="modal-foot">
+          <button class="btn" id="clRegen">↻ Regenerate</button>
+          <span class="grow"></span>
+          <button class="btn" id="clClose">Close</button>
+          <button class="btn" id="clDownload">⬇ Download .txt</button>
+          <button class="btn primary" id="clCopy">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interview prep modal -->
+    <div class="overlay" id="ivOverlay">
+      <div class="modal" style="max-width: 720px;">
+        <h2 id="ivTitle">Interview Prep</h2>
+        <p class="hint">Pick who you're interviewing with — the questions and sample answers adapt. Answers are drawn from your CV; edit and make them yours.</p>
+        <div class="iv-personas" id="ivPersonas">
+          <button class="iv-pchip active" data-persona="hr">HR / Recruiter</button>
+          <button class="iv-pchip" data-persona="manager">Hiring Manager</button>
+          <button class="iv-pchip" data-persona="technical">Technical</button>
+          <button class="iv-pchip" data-persona="director">Director</button>
+        </div>
+        <div id="ivBody" class="iv-body"></div>
+        <div class="modal-foot">
+          <span class="grow"></span>
+          <button class="btn" id="ivClose">Close</button>
+          <button class="btn" id="ivDownload">⬇ Download .txt</button>
+          <button class="btn primary" id="ivCopy">Copy all</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pros & Cons modal -->
+    <div class="overlay" id="pcOverlay">
+      <div class="modal" style="max-width: 720px;">
+        <h2 id="pcTitle">Pros &amp; Cons</h2>
+        <p class="hint">A rational, critical read of this job against your CV — strengths, real risks, and a bottom-line call. Built live from the evaluation + your CV.</p>
+        <div id="pcBody"></div>
+        <div class="modal-foot">
+          <span class="grow"></span>
+          <button class="btn" id="pcClose">Close</button>
+          <button class="btn" id="pcDownload">⬇ Download .txt</button>
+          <button class="btn primary" id="pcCopy">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reference finder modal -->
+    <div class="overlay" id="refOverlay">
+      <div class="modal" style="max-width: 640px;">
+        <h2 id="refTitle">🤝 Reference finder</h2>
+        <p class="hint">High-value people to reach for a referral, ranked by relevance. Each card gives two LinkedIn searches: <b>🔎 All at company</b> (everyone matching, any degree) and <b>🤝 2nd-degree</b> (people you can be introduced through). Opens in your own session — real people, no guessed names. <span style="color:var(--muted)">Tip: add a company's numeric LinkedIn id to <code>config/li-companies.json</code> to turn the first link into a strict “current employees only” filter.</span></p>
+        <div id="refBody"></div>
+        <div class="modal-foot">
+          <span class="grow"></span>
+          <button class="btn" id="refClose">Close</button>
+          <button class="btn primary" id="refCopy">Copy links</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report drawer -->
+    <div class="drawer-ov" id="drawerOv"></div>
+    <aside class="drawer" id="drawer">
+      <div class="drawer-head" id="drawerHead"></div>
+      <div class="drawer-body"><div class="md" id="drawerBody"></div></div>
+      <div class="drawer-foot" id="drawerFoot"></div>
+    </aside>
+
+    <script>
+      const STATES = ["Evaluated", "Applied", "Responded", "Interview", "Offer", "Rejected", "Discarded", "SKIP", "Archived"];
+      const TABS = [
+        { id: "todo", label: "To Apply", match: (j) => j.status === "evaluated" && !j.stale },
+        { id: "discovered", label: "Discovered", discovered: true },
+        { id: "applied", label: "Applied / In Process", match: (j) => ["applied", "responded", "interview", "offer"].includes(j.status) },
+        { id: "archive", label: "Archive", match: (j) => j.status === "archived" || (j.status === "evaluated" && j.stale) },
+        { id: "out", label: "Discarded", match: (j) => ["discarded", "rejected", "skip"].includes(j.status) },
+        { id: "all", label: "All", match: () => true },
+      ];
+      let JOBS = [], PIPELINE = [], activeTab = "todo", CURRENT = null;
+      const filters = { search: "", sector: "", minScore: 0, sort: "score" };
+
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => (s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+      // ---- persistence ----
+      function saveState() {
+        try { localStorage.setItem("co_state", JSON.stringify({ filters, activeTab })); } catch {}
+      }
+      function loadState() {
+        try {
+          const s = JSON.parse(localStorage.getItem("co_state") || "{}");
+          if (s.filters) Object.assign(filters, s.filters);
+          if (s.activeTab) activeTab = s.activeTab;
+        } catch {}
+      }
+
+      // ---- visuals ----
+      function hashHue(s) { let h = 0; for (let i = 0; i < (s || "").length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
+      function initials(s) {
+        const w = (s || "?").replace(/[^A-Za-z0-9 ]/g, "").trim().split(/\s+/);
+        return ((w[0] && w[0][0] || "") + (w[1] && w[1][0] || "")).toUpperCase() || "?";
+      }
+      function avatar(company) {
+        const hue = hashHue(company || "");
+        return `<span class="avatar" style="background:hsl(${hue} 42% 24%);color:hsl(${hue} 70% 75%)">${esc(initials(company))}</span>`;
+      }
+      function scoreClass(s) { return s >= 4.0 ? "s-hi" : s >= 3.5 ? "s-mid" : "s-lo"; }
+      function ringHtml(score) {
+        const p = Math.max(0, Math.min(100, (score / 5) * 100));
+        return `<div class="ring ${scoreClass(score)}" style="--p:${p}"><span class="val">${score || "—"}<small>/5</small></span></div>`;
+      }
+      function statusLabel(s) {
+        return { evaluated: "Evaluated", applied: "Applied", responded: "Responded", interview: "Interview",
+          offer: "Offer", rejected: "Rejected", discarded: "Discarded", skip: "Skipped", archived: "Archive" }[s] || s;
+      }
+      function toast(msg) {
+        const t = $("toast"); t.textContent = msg; t.classList.add("show");
+        clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 1900);
+      }
+
+      // ---- data ----
+      async function load() {
+        $("grid").innerHTML = Array.from({ length: 6 }).map(() =>
+          `<div class="sk"><div class="sk-bar" style="height:50px;width:50px;border-radius:50%"></div></div>`).join("");
+        const [jr, pr] = await Promise.all([fetch("/api/jobs"), fetch("/api/pipeline")]);
+        JOBS = (await jr.json()).jobs || [];
+        PIPELINE = (await pr.json()).items || [];
+        render();
+      }
+      async function setStatus(reportNumber, status) {
+        const r = await fetch("/api/jobs/" + reportNumber, {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }),
+        });
+        if (!r.ok) { toast("Error: update failed"); return; }
+        const job = JOBS.find((j) => j.reportNumber === reportNumber);
+        if (job) { job.statusRaw = status; job.status = status.toLowerCase(); }
+        toast(`${job ? job.company : "Job"} → ${statusLabel(status.toLowerCase())}`);
+        if (CURRENT === reportNumber && job) renderDrawerFoot(job);
+        render();
+      }
+
+      // ---- metrics + tabs ----
+      function renderMetrics() {
+        const total = JOBS.length;
+        const todo = JOBS.filter((j) => j.status === "evaluated" && !j.stale).length;
+        const rec = JOBS.filter((j) => j.score >= 4.0 && j.status === "evaluated" && !j.stale).length;
+        const urgent = JOBS.filter((j) => j.urgent).length;
+        const applied = JOBS.filter((j) => ["applied", "responded", "interview", "offer"].includes(j.status)).length;
+        const avg = total ? (JOBS.reduce((a, j) => a + j.score, 0) / total).toFixed(1) : "0";
+        $("metrics").innerHTML = [
+          ["", todo, "To Apply"], ["accent", rec, "Recommended 4.0+"], ["warn", urgent, "Urgent ⏳"],
+          ["", applied, "Applied"], ["", total, "Total"], ["", avg, "Avg. score"],
+        ].map(([cls, v, l]) => `<div class="metric ${cls}"><b>${v}</b><span>${esc(l)}</span></div>`).join("");
+      }
+      function renderTabs() {
+        $("tabs").innerHTML = TABS.map((t) => {
+          const n = t.discovered ? PIPELINE.length : JOBS.filter((j) => t.match(j)).length;
+          return `<button class="tab ${t.id === activeTab ? "active" : ""}" data-tab="${t.id}">${esc(t.label)}<span class="count">${n}</span></button>`;
+        }).join("");
+      }
+
+      // ---- card pieces ----
+      function deadlineBadge(j) {
+        if (!j.deadline) return "";
+        const txt = esc(j.deadlineRaw || j.deadline);
+        if (j.daysToDeadline !== null && j.daysToDeadline < 0) return `<span class="dl passed">⏳ ${txt} (passed)</span>`;
+        if (j.urgent) return `<span class="dl urgent">⏳ ${j.daysToDeadline}d left</span>`;
+        return `<span class="dl soon">⏳ ${txt}</span>`;
+      }
+      function fitgapRow(j) {
+        const parts = [];
+        if (j.strengths) parts.push(`<span class="fg strong">✓ ${j.strengths} strong matches</span>`);
+        (j.gaps || []).forEach((g) => {
+          const sev = (g.severity || "").toLowerCase();
+          const cls = sev.includes("high") || sev.includes("alta") ? "gap-high" : sev.includes("low") || sev.includes("baja") ? "gap-low" : "gap-medium";
+          parts.push(`<span class="fg ${cls}">⚠ ${esc(g.name)}${g.severity ? " · " + esc(g.severity) : ""}</span>`);
+        });
+        return parts.length ? `<div class="fitgap">${parts.join("")}</div>` : "";
+      }
+      function chipsHtml(j, rec) {
+        const chips = [];
+        if (rec) chips.push(`<span class="chip rec">★ Recommended</span>`);
+        if (j.sector) chips.push(`<span class="chip sector" title="${esc(j.sector)}">${esc(j.sector)}</span>`);
+        if (j.language) chips.push(`<span class="chip lang">🗣 ${esc(j.language)} required</span>`);
+        if (j.seniority) chips.push(`<span class="chip" title="${esc(j.seniority)}">${esc(j.seniority)}</span>`);
+        if (j.remote) chips.push(`<span class="chip" title="${esc(j.remote)}">${esc(j.remote)}</span>`);
+        return chips.length ? `<div class="chips">${chips.join("")}</div>` : "";
+      }
+      function actionsHtml(j) {
+        const isEval = j.status === "evaluated";
+        const link = j.url
+          ? `<a class="btn primary" href="${esc(j.url)}" target="_blank" rel="noopener">View job ↗</a>`
+          : `<span class="btn" style="opacity:.5">No link</span>`;
+        const cover = `<button class="btn cl" title="Generate a cover letter" data-cl="${j.reportNumber}" data-company="${esc(j.company)}" data-role="${esc(j.role)}">✍ Cover letter</button>`;
+        const prep = `<button class="btn iv" title="Interview prep" data-iv="${j.reportNumber}" data-company="${esc(j.company)}" data-role="${esc(j.role)}">🎤 Interview prep</button>`;
+        const pc = `<button class="btn pc" title="Pros & cons assessment" data-pc="${j.reportNumber}" data-company="${esc(j.company)}" data-role="${esc(j.role)}">⚖ Pros &amp; cons</button>`;
+        const ref = `<button class="btn rf" title="Find referral contacts on LinkedIn" data-ref="${j.reportNumber}" data-company="${esc(j.company)}" data-role="${esc(j.role)}">🤝 Reference</button>`;
+        const apply = `<button class="btn ok icon" title="I applied" data-act="Applied" data-id="${j.reportNumber}">✅ Applied</button>
+          <button class="btn no icon" title="Not interested" data-act="Discarded" data-id="${j.reportNumber}">✕</button>`;
+        if (isEval && !j.stale)
+          return `${link}${cover}${prep}${pc}${ref}${apply}<div class="right"><button class="btn undo icon" title="Archive" data-act="Archived" data-id="${j.reportNumber}">⌷</button></div>`;
+        if (j.status === "archived" || (isEval && j.stale))
+          return `${link}${cover}${prep}${pc}${ref}${apply}<div class="right"><button class="btn undo" data-act="Evaluated" data-id="${j.reportNumber}">↺ Undo</button></div>`;
+        const opts = STATES.map((s) => `<option ${j.statusRaw === s ? "selected" : ""}>${s}</option>`).join("");
+        return `${link}${cover}${prep}${pc}${ref}<div class="right"><button class="btn undo" data-act="Evaluated" data-id="${j.reportNumber}">↺ Undo</button>
+          <select class="btn" data-id="${j.reportNumber}" data-role="status">${opts}</select></div>`;
+      }
+      function card(j) {
+        const isEval = j.status === "evaluated";
+        const rec = j.score >= 4.0 && isEval && !j.stale;
+        const badge = isEval && !j.stale ? "" :
+          `<span class="status-badge st-${j.status}">${esc(j.stale && isEval ? "Archive (old)" : statusLabel(j.status))}</span>`;
+        const staleTag = isEval && j.stale ? `<span class="stale-tag">${j.ageDays}d ago</span>` : "";
+        return `
+          <div class="card ${rec ? "rec" : ""}" data-report="${j.reportNumber}" title="Open evaluation report">
+            <div class="card-top">
+              ${ringHtml(j.score)}
+              <div class="head">
+                <div class="role">${esc(j.role)} ${badge}</div>
+                <div class="company">${avatar(j.company)} ${esc(j.company)}${j.date ? `<span class="sep">·</span>${esc(j.date)}` : ""} ${staleTag}</div>
+              </div>
+              ${deadlineBadge(j)}
+            </div>
+            ${chipsHtml(j, rec)}
+            ${j.notes ? `<div class="notes">${esc(j.notes)}</div>` : ""}
+            ${fitgapRow(j)}
+            <div class="actions">${actionsHtml(j)}</div>
+          </div>`;
+      }
+      function pipelineCard(p) {
+        const link = p.url
+          ? `<a class="btn primary" href="${esc(p.url)}" target="_blank" rel="noopener">View job ↗</a>`
+          : `<span class="btn" style="opacity:.5">No link</span>`;
+        return `
+          <div class="card" ${p.url ? `data-url="${esc(p.url)}"` : ""} title="Open job">
+            <div class="card-top">
+              <div class="ring s-lo" style="--p:0"><span class="val" style="font-size:18px">•</span></div>
+              <div class="head">
+                <div class="role">${esc(p.title)}</div>
+                <div class="company">${avatar(p.company)} ${esc(p.company)}</div>
+              </div>
+            </div>
+            ${p.location ? `<div class="chips"><span class="chip sector">${esc(p.location)}</span></div>` : ""}
+            <div class="actions">${link}</div>
+          </div>`;
+      }
+
+      // ---- filters ----
+      function applyFilters(list) {
+        const q = filters.search.toLowerCase();
+        let out = list.filter((j) => {
+          if (j.score < filters.minScore) return false;
+          if (filters.sector && j.sector !== filters.sector) return false;
+          if (q && ![j.company, j.role, j.sector, j.notes, j.remote, j.seniority].join(" ").toLowerCase().includes(q)) return false;
+          return true;
+        });
+        const dl = (j) => (j.deadline ? Date.parse(j.deadline) : Infinity);
+        if (filters.sort === "date") out.sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0));
+        else if (filters.sort === "deadline") out.sort((a, b) => dl(a) - dl(b));
+        else if (filters.sort === "company") out.sort((a, b) => (a.company || "").localeCompare(b.company || ""));
+        else out.sort((a, b) => b.score - a.score);
+        return out;
+      }
+      function populateSectors() {
+        const sectors = [...new Set(JOBS.map((j) => j.sector).filter(Boolean))].sort();
+        $("fSector").innerHTML = `<option value="">All</option>` +
+          sectors.map((s) => `<option ${s === filters.sector ? "selected" : ""}>${esc(s)}</option>`).join("");
+      }
+      function syncControls() {
+        $("fSearch").value = filters.search;
+        $("fScore").value = filters.minScore; $("fScoreVal").textContent = filters.minScore.toFixed(1);
+        $("fSort").value = filters.sort;
+      }
+
+      function render() {
+        renderMetrics(); renderTabs(); populateSectors();
+        const tab = TABS.find((t) => t.id === activeTab);
+        if (tab.discovered) {
+          const q = filters.search.toLowerCase();
+          const list = PIPELINE.filter((p) => !q || [p.company, p.title, p.location].join(" ").toLowerCase().includes(q));
+          $("resultCount").textContent = `${list.length} jobs`;
+          $("grid").innerHTML =
+            `<div class="hint-row">${PIPELINE.length} jobs found by the scanner, <b>not yet evaluated</b>. Click a card to open the job, or ask me to evaluate them.</div>` +
+            (list.length ? list.map(pipelineCard).join("") : emptyHtml());
+          return;
+        }
+        const list = applyFilters(JOBS.filter((j) => tab.match(j)));
+        $("resultCount").textContent = `${list.length} jobs`;
+        $("grid").innerHTML = list.length ? list.map(card).join("") : emptyHtml();
+      }
+      function emptyHtml() {
+        return `<div class="empty"><div class="big">🔍</div>No jobs in this filter/tab.${activeTab === "todo" ? "<br>Run a new scan or check the <b>Discovered</b> / <b>Archive</b> tab." : ""}</div>`;
+      }
+
+      // ---- report drawer ----
+      function inlineMd(t) {
+        return esc(t)
+          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+          .replace(/`(.+?)`/g, "<code>$1</code>")
+          .replace(/\[(.+?)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      }
+      function mdToHtml(md) {
+        const lines = (md || "").replace(/\r/g, "").split("\n");
+        const out = []; let i = 0;
+        while (i < lines.length) {
+          const t = lines[i].trim();
+          if (t === "") { i++; continue; }
+          if (/^#{1,6}\s/.test(t)) { const lvl = Math.min(t.match(/^#+/)[0].length + 1, 6); out.push(`<h${lvl}>${inlineMd(t.replace(/^#+\s/, ""))}</h${lvl}>`); i++; continue; }
+          if (/^---+$/.test(t)) { out.push("<hr>"); i++; continue; }
+          if (t.startsWith("|")) {
+            const rows = []; while (i < lines.length && lines[i].trim().startsWith("|")) { rows.push(lines[i].trim()); i++; }
+            const cells = (r) => r.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+            let html = "<table>";
+            rows.forEach((r, ri) => {
+              if (r.replace(/[|\-:\s]/g, "") === "") return;
+              const tag = ri === 0 ? "th" : "td";
+              html += "<tr>" + cells(r).map((c) => `<${tag}>${inlineMd(c)}</${tag}>`).join("") + "</tr>";
+            });
+            out.push(html + "</table>"); continue;
+          }
+          if (/^[-*]\s/.test(t)) { const items = []; while (i < lines.length && /^[-*]\s/.test(lines[i].trim())) { items.push("<li>" + inlineMd(lines[i].trim().replace(/^[-*]\s/, "")) + "</li>"); i++; } out.push("<ul>" + items.join("") + "</ul>"); continue; }
+          const para = []; while (i < lines.length && lines[i].trim() !== "" && !/^([#|]|[-*]\s|---)/.test(lines[i].trim())) { para.push(lines[i].trim()); i++; }
+          out.push("<p>" + inlineMd(para.join(" ")) + "</p>");
+        }
+        return out.join("\n");
+      }
+      function renderDrawerFoot(j) {
+        $("drawerFoot").innerHTML = actionsHtml(j);
+      }
+      async function openReport(num) {
+        CURRENT = num;
+        const job = JOBS.find((j) => j.reportNumber === num) || JOBS.find((j) => String(j.number) === num);
+        $("drawerOv").classList.add("show"); $("drawer").classList.add("show");
+        if (job) {
+          $("drawerHead").innerHTML = `
+            ${ringHtml(job.score)}
+            <div class="head">
+              <div class="role">${esc(job.role)}</div>
+              <div class="company">${avatar(job.company)} ${esc(job.company)}${job.date ? `<span class="sep">·</span>${esc(job.date)}` : ""}</div>
+            </div>
+            <button class="drawer-close" id="drawerCloseBtn">✕</button>`;
+          renderDrawerFoot(job);
+        }
+        $("drawerBody").innerHTML = `<div class="sk-bar" style="height:14px;margin-bottom:10px"></div><div class="sk-bar" style="height:14px;width:80%;margin-bottom:10px"></div><div class="sk-bar" style="height:120px"></div>`;
+        try {
+          const r = await fetch("/api/report/" + num);
+          if (!r.ok) throw 0;
+          const data = await r.json();
+          $("drawerBody").innerHTML = mdToHtml(data.markdown);
+        } catch { $("drawerBody").innerHTML = `<p style="color:var(--muted)">Report not found.</p>`; }
+      }
+      function closeReport() { CURRENT = null; $("drawerOv").classList.remove("show"); $("drawer").classList.remove("show"); }
+
+      // ---- locations ----
+      let LOC = { remote_ok: true, regions: [] };
+      async function loadLocations() { LOC = await (await fetch("/api/locations")).json(); renderLocations(); }
+      function renderLocations() {
+        $("remoteOk").checked = LOC.remote_ok !== false;
+        $("locList").innerHTML = LOC.regions.length
+          ? LOC.regions.map((rg, i) => {
+              const sub = [rg.country, (rg.cities || []).join(", ")].filter(Boolean).join(" · ");
+              return `<div class="loc-row ${rg.enabled ? "" : "off"}">
+                  <div class="info"><b>${esc(rg.label)}</b><small>${esc(sub) || "—"}</small></div>
+                  <button class="switch ${rg.enabled ? "on" : ""}" data-toggle="${i}">${rg.enabled ? "On" : "Off"}</button>
+                  <button class="icon-x" data-del="${i}" title="Delete">✕</button>
+                </div>`;
+            }).join("")
+          : `<p class="hint">No regions yet. Add one below.</p>`;
+      }
+      function openLoc() { $("locOverlay").classList.add("show"); loadLocations(); }
+      function closeLoc() { $("locOverlay").classList.remove("show"); }
+
+      // ---- sources ----
+      let SRC = { engines: [], companies: [], custom: [] };
+      const kindLabel = { ats: "ATS board", linkedin: "LinkedIn search", careers: "Careers page" };
+      async function loadSources() { SRC = await (await fetch("/api/sources")).json(); renderSources(); }
+      function renderSources() {
+        $("srcEngines").innerHTML = (SRC.engines || []).map((e) => `
+          <div class="src-row"><div class="info"><b>${esc(e.name)}</b><small>${esc(e.note || "")}</small></div>
+            <a class="btn icon" href="${esc(e.url)}" target="_blank" rel="noopener">Open ↗</a>
+            <span class="src-tag ${e.auto ? "auto" : "manual"}">${e.auto ? "auto" : "query"}</span></div>`).join("");
+        const comps = SRC.companies || [];
+        $("srcCompCount").textContent = `(${comps.filter((c) => c.enabled !== false).length})`;
+        $("srcCompanies").innerHTML = comps.length
+          ? comps.map((c) => c.url
+              ? `<a class="src-chip ${c.enabled === false ? "off" : ""}" href="${esc(c.url)}" target="_blank" rel="noopener" title="${esc(c.url)}">${esc(c.name)}</a>`
+              : `<span class="src-chip ${c.enabled === false ? "off" : ""}">${esc(c.name)}</span>`).join("")
+          : `<p class="hint">portals.yml not found.</p>`;
+        const cust = SRC.custom || [];
+        $("srcCustomCount").textContent = cust.length ? `(${cust.length})` : "";
+        $("srcCustom").innerHTML = cust.length
+          ? cust.map((s) => {
+              const kind = s.kind || "careers"; const auto = kind === "ats" || kind === "linkedin";
+              return `<div class="src-row ${s.enabled === false ? "off" : ""}">
+                  <div class="info"><b>${esc(s.name)}</b>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a>` : `<small>no link</small>`}</div>
+                  <span class="src-tag ${kind}">${esc(kindLabel[kind] || kind)}</span>
+                  <span class="src-tag ${auto ? "auto" : "manual"}">${auto ? "auto" : "ATS auto-detect"}</span>
+                  <button class="switch ${s.enabled === false ? "" : "on"}" data-src-toggle="${s.id}">${s.enabled === false ? "Off" : "On"}</button>
+                  <button class="icon-x" data-src-del="${s.id}" title="Delete">✕</button></div>`;
+            }).join("")
+          : `<p class="hint">No custom sources yet. Add an ATS board, a LinkedIn search link, or a careers page below.</p>`;
+      }
+      async function postSource(id, body) {
+        const r = await fetch("/api/sources/" + id, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+        if (!r.ok) { toast("Error: action failed"); return; }
+        SRC.custom = (await r.json()).custom || []; renderSources();
+      }
+      function openSrc() { $("srcOverlay").classList.add("show"); loadSources(); }
+      function closeSrc() { $("srcOverlay").classList.remove("show"); }
+
+      // ---- cover letter ----
+      let CL = { num: null, company: "", role: "", seed: 0 };
+      async function openCoverLetter(num, company, role) {
+        CL = { num, company: company || "", role: role || "", seed: 0 };
+        $("clTitle").textContent = `Cover Letter${company ? " — " + company : ""}`;
+        $("clSub").textContent = role ? `${role} · generated from your CV + this job's evaluation. Edit freely before using.` : "Generated from your CV + this job's evaluation. Edit freely before using.";
+        $("clText").value = "Generating…";
+        $("clOverlay").classList.add("show");
+        await fetchCoverLetter();
+      }
+      async function fetchCoverLetter() {
+        try {
+          const q = new URLSearchParams({ company: CL.company, role: CL.role, v: String(CL.seed) });
+          const r = await fetch(`/api/cover-letter/${CL.num}?` + q.toString());
+          if (!r.ok) throw 0;
+          $("clText").value = (await r.json()).text || "";
+        } catch { $("clText").value = "Could not generate a cover letter for this job."; }
+      }
+      function closeCl() { $("clOverlay").classList.remove("show"); }
+
+      // ---- interview prep ----
+      let IV = { num: null, company: "", role: "", persona: "hr", data: null };
+      async function openInterview(num, company, role) {
+        IV = { num, company: company || "", role: role || "", persona: "hr", data: null };
+        $("ivTitle").textContent = `Interview Prep${company ? " — " + company : ""}`;
+        document.querySelectorAll(".iv-pchip").forEach((c) => c.classList.toggle("active", c.dataset.persona === "hr"));
+        $("ivBody").innerHTML = `<p style="color:var(--muted)">Loading…</p>`;
+        $("ivOverlay").classList.add("show");
+        await fetchInterview();
+      }
+      async function fetchInterview() {
+        $("ivBody").innerHTML = `<p style="color:var(--muted)">Preparing questions…</p>`;
+        try {
+          const q = new URLSearchParams({ company: IV.company, role: IV.role, persona: IV.persona });
+          const r = await fetch(`/api/interview/${IV.num}?` + q.toString());
+          if (!r.ok) throw 0;
+          IV.data = await r.json();
+          renderInterview();
+        } catch { $("ivBody").innerHTML = `<p style="color:var(--muted)">Could not prepare questions for this job.</p>`; }
+      }
+      function renderInterview() {
+        const d = IV.data; if (!d) return;
+        $("ivBody").innerHTML = d.items.map((it, i) =>
+          `<div class="iv-item"><div class="iv-q"><span class="num">Q${i + 1}.</span><span>${esc(it.q)}</span></div><div class="iv-a">${esc(it.a)}</div></div>`).join("");
+      }
+      function interviewText() {
+        const d = IV.data; if (!d) return "";
+        return `Interview Prep — ${d.company} · ${d.role}\nInterviewer: ${d.personaLabel}\n\n` +
+          d.items.map((it, i) => `Q${i + 1}. ${it.q}\n${it.a}`).join("\n\n");
+      }
+      function closeIv() { $("ivOverlay").classList.remove("show"); }
+
+      // ---- pros & cons ----
+      let PC = { num: null, company: "", role: "", data: null };
+      async function openProsCons(num, company, role) {
+        PC = { num, company: company || "", role: role || "", data: null };
+        $("pcTitle").innerHTML = `⚖ Pros &amp; Cons${company ? " — " + esc(company) : ""}`;
+        $("pcBody").innerHTML = `<p style="color:var(--muted)">Assessing…</p>`;
+        $("pcOverlay").classList.add("show");
+        try {
+          const q = new URLSearchParams({ company: PC.company, role: PC.role });
+          const r = await fetch(`/api/proscons/${num}?` + q.toString());
+          if (!r.ok) throw 0;
+          PC.data = await r.json();
+          renderProsCons();
+        } catch { $("pcBody").innerHTML = `<p style="color:var(--muted)">Could not assess this job.</p>`; }
+      }
+      function renderProsCons() {
+        const d = PC.data; if (!d) return;
+        const li = (arr) => arr.length ? arr.map((x) => `<li>${esc(x)}</li>`).join("") : `<li style="opacity:.6">—</li>`;
+        $("pcBody").innerHTML =
+          `<div class="pc-score">Overall fit score: <b>${d.score || "—"}/5</b></div>
+           <div class="pc-cols">
+             <div class="pc-col pros"><h3>👍 Pros (${d.pros.length})</h3><ul class="pc-list">${li(d.pros)}</ul></div>
+             <div class="pc-col cons"><h3>👎 Cons (${d.cons.length})</h3><ul class="pc-list">${li(d.cons)}</ul></div>
+           </div>
+           <div class="pc-bottom"><span class="verdict">${esc(d.bottom)}</span></div>`;
+      }
+      function prosConsText() {
+        const d = PC.data; if (!d) return "";
+        return `Pros & Cons — ${d.company} · ${d.role}  (fit ${d.score || "—"}/5)\n\n` +
+          `PROS:\n${d.pros.map((p) => "+ " + p).join("\n")}\n\nCONS:\n${d.cons.map((c) => "- " + c).join("\n")}\n\n${d.bottom}`;
+      }
+      function closePc() { $("pcOverlay").classList.remove("show"); }
+
+      // ---- reference finder ----
+      let REF = { num: null, company: "", role: "", data: null };
+      async function openReferences(num, company, role) {
+        REF = { num, company: company || "", role: role || "", data: null };
+        $("refTitle").innerHTML = `🤝 Reference finder${company ? " — " + esc(company) : ""}`;
+        $("refBody").innerHTML = `<p style="color:var(--muted)">Finding referral targets…</p>`;
+        $("refOverlay").classList.add("show");
+        try {
+          const q = new URLSearchParams({ company: REF.company, role: REF.role });
+          const r = await fetch(`/api/reference/${num}?` + q.toString());
+          if (!r.ok) throw 0;
+          REF.data = await r.json();
+          renderReferences();
+        } catch { $("refBody").innerHTML = `<p style="color:var(--muted)">Could not build referral targets.</p>`; }
+      }
+      function refCard(c, n, warm) {
+        const precise = REF.data && REF.data.hasId;
+        const broadLabel = precise ? "🎯 Current employees ↗" : "🔎 All at company ↗";
+        const broadTitle = precise ? "Only people who work there right now" : "All matching people at this company (any connection degree)";
+        const links = [
+          `<a class="ref-link precise" href="${esc(c.urlBroad)}" target="_blank" rel="noopener" title="${broadTitle}">${broadLabel}</a>`,
+          `<a class="ref-link" href="${esc(c.urlNet)}" target="_blank" rel="noopener" title="2nd-degree connections you can be introduced through">🤝 2nd-degree ↗</a>`,
+        ].join("");
+        return `<div class="ref-item${warm ? " ref-warm" : ""}">
+          <div class="ra"><span class="ref-num">${n}</span><span class="ref-arch">${esc(c.archetype || c.label)}</span></div>
+          <div class="ref-target">${esc(c.target || c.label)}</div>
+          <div class="ref-why">${esc(c.why)}</div>
+          <div class="ref-links">${links}</div>
+          <div class="ref-msg">
+            <textarea readonly rows="3">${esc(c.message)}</textarea>
+            <div class="ref-msgbar"><button class="btn ref-copy" data-refmsg="1">Copy note</button><span class="ref-hint">Swap [name] for their first name before sending</span></div>
+          </div>
+        </div>`;
+      }
+      function renderReferences() {
+        const d = REF.data; if (!d) return;
+        let html = "";
+        if (d.peopleUrl) html += `<a class="ref-people" href="${esc(d.peopleUrl)}" target="_blank" rel="noopener">👥 Browse all current ${esc(d.company)} employees ↗</a>`;
+        html += `<div class="ref-sec">Key contacts</div><div class="ref-list">` + d.contacts.map((c, i) => refCard(c, i + 1, false)).join("") + `</div>`;
+        if (d.warmPaths && d.warmPaths.length)
+          html += `<div class="ref-sec">Warm paths — shared background (highest reply rate)</div><div class="ref-list">` + d.warmPaths.map((c) => refCard(c, "★", true)).join("") + `</div>`;
+        html += `<div class="ref-tip">💡 ${esc(d.tip)}</div>`;
+        // company-mapping fixer: short / surname-like company names can't be scoped
+        // by keyword — teach the system this company's LinkedIn page once.
+        const warn = (d.slugGuessed && !d.hasId)
+          ? `<div class="ref-warn">⚠ Company scope is guessed for “${esc(d.company)}”. If the results look like random people (wrong company), set its real LinkedIn page below — this fixes it permanently and enables a strict current-employees filter.</div>`
+          : "";
+        html += `<div class="ref-fix">${warn}
+          <label>Set <b>${esc(d.company)}</b>'s LinkedIn page (or a people search filtered to it):</label>
+          <div class="ref-fixrow">
+            <input id="refFixInput" type="text" placeholder="https://www.linkedin.com/company/…  ·  or a search URL with currentCompany=[…]">
+            <button class="btn primary" id="refFixSave">Save</button>
+          </div>
+          <span class="ref-hint">Current map: ${d.slug ? `/company/${esc(d.slug)}/` : "—"}${d.hasId ? " · id set (strict filter on)" : ""}</span>
+        </div>`;
+        $("refBody").innerHTML = html;
+        const fx = $("refFixSave"); if (fx) fx.addEventListener("click", saveCompanyFix);
+        const fi = $("refFixInput"); if (fi) fi.addEventListener("keydown", (e) => { if (e.key === "Enter") saveCompanyFix(); });
+      }
+      async function saveCompanyFix() {
+        const input = ($("refFixInput").value || "").trim();
+        if (!input) { toast("Paste a LinkedIn company or people-search URL"); return; }
+        try {
+          const r = await fetch("/api/reference/company", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ company: REF.company, input }) });
+          if (!r.ok) { toast("Could not read that URL — paste a /company/… or currentCompany=[…] link"); return; }
+          toast("Company mapping saved — refreshing");
+          openReferences(REF.num, REF.company, REF.role);
+        } catch { toast("Save failed"); }
+      }
+      function referencesText() {
+        const d = REF.data; if (!d) return "";
+        const block = (c, label) => `${label}: ${c.archetype || c.label}` +
+          `\n   At company: ${c.urlBroad}` +
+          `\n   2nd-degree: ${c.urlNet}\n   Note: ${c.message}`;
+        let out = `Referral targets — ${d.company} · ${d.role}\n`;
+        if (d.peopleUrl) out += `\nAll current employees: ${d.peopleUrl}\n`;
+        out += `\nKEY CONTACTS\n` + d.contacts.map((c, i) => block(c, String(i + 1))).join("\n\n");
+        if (d.warmPaths && d.warmPaths.length) out += `\n\nWARM PATHS\n` + d.warmPaths.map((c) => block(c, "★")).join("\n\n");
+        return out + `\n\n${d.tip}`;
+      }
+      function closeRef() { $("refOverlay").classList.remove("show"); }
+
+      // ---- scanner trigger ----
+      let scanPoll = null;
+      function setScanning(on) {
+        const btn = $("scanBtn");
+        btn.disabled = on;
+        btn.innerHTML = on ? `<span class="spin"></span> Scanning…` : "🔍 Scan now";
+      }
+      function pollScan() {
+        clearTimeout(scanPoll);
+        scanPoll = setTimeout(async () => {
+          try {
+            const s = await (await fetch("/api/scan")).json();
+            if (s.running) { pollScan(); return; }
+            setScanning(false);
+            if (s.error) { toast("Scan error: " + s.error); return; }
+            const n = s.added || 0;
+            toast(`Scan complete · ${n} new job${n === 1 ? "" : "s"} found`);
+            await load();
+            if (n > 0) { activeTab = "discovered"; saveState(); render(); }
+          } catch { setScanning(false); }
+        }, 3000);
+      }
+      async function runScan() {
+        const r = await fetch("/api/scan", { method: "POST" });
+        if (!r.ok) { toast("Could not start scan"); return; }
+        setScanning(true);
+        toast("Scan started… this can take a few minutes");
+        pollScan();
+      }
+      async function checkScan() {
+        try { const s = await (await fetch("/api/scan")).json(); if (s.running) { setScanning(true); pollScan(); } } catch {}
+      }
+
+      // ---- evaluate trigger (Discovered → To Apply) ----
+      let evalPoll = null;
+      function setEvaluating(on, phase) {
+        const btn = $("evalBtn");
+        btn.disabled = on;
+        btn.innerHTML = on ? `<span class="spin"></span> ${phase ? phase[0].toUpperCase() + phase.slice(1) : "Evaluating"}…` : "🧠 Evaluate";
+      }
+      function pollEval() {
+        clearTimeout(evalPoll);
+        evalPoll = setTimeout(async () => {
+          try {
+            const s = await (await fetch("/api/evaluate")).json();
+            if (s.running) { setEvaluating(true, s.phase + (s.evaluated ? ` (${s.evaluated})` : "")); pollEval(); return; }
+            setEvaluating(false);
+            if (s.error) { toast("Evaluate error: " + s.error); }
+            const n = s.evaluated || 0;
+            toast(`Evaluation complete · ${n} job${n === 1 ? "" : "s"} scored`);
+            await load();
+            if (n > 0) { activeTab = "todo"; saveState(); render(); }
+          } catch { setEvaluating(false); }
+        }, 4000);
+      }
+      async function runEvaluate() {
+        if ($("scanBtn").disabled) { toast("Wait for the scan to finish first"); return; }
+        const r = await fetch("/api/evaluate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
+        if (!r.ok) { toast("Could not start evaluation"); return; }
+        const j = await r.json();
+        if (!j.started) { toast("Already running (scan or evaluation)"); return; }
+        setEvaluating(true, "caching JDs");
+        toast("Evaluating discovered jobs… scores your CV against each (a few minutes)");
+        pollEval();
+      }
+      async function checkEval() {
+        try { const s = await (await fetch("/api/evaluate")).json(); if (s.running) { setEvaluating(true, s.phase); pollEval(); } } catch {}
+      }
+
+      // ---- delegated events ----
+      document.addEventListener("click", (e) => {
+        const act = e.target.closest("[data-act]");
+        if (act) { e.stopPropagation(); setStatus(act.dataset.id, act.dataset.act); return; }
+        const clb = e.target.closest("[data-cl]");
+        if (clb) { e.stopPropagation(); openCoverLetter(clb.dataset.cl, clb.dataset.company, clb.dataset.role); return; }
+        const ivb = e.target.closest("[data-iv]");
+        if (ivb) { e.stopPropagation(); openInterview(ivb.dataset.iv, ivb.dataset.company, ivb.dataset.role); return; }
+        const pcb = e.target.closest("[data-pc]");
+        if (pcb) { e.stopPropagation(); openProsCons(pcb.dataset.pc, pcb.dataset.company, pcb.dataset.role); return; }
+        const rfb = e.target.closest("[data-ref]");
+        if (rfb) { e.stopPropagation(); openReferences(rfb.dataset.ref, rfb.dataset.company, rfb.dataset.role); return; }
+        const rmsg = e.target.closest("[data-refmsg]");
+        if (rmsg) {
+          e.stopPropagation();
+          const ta = rmsg.closest(".ref-msg")?.querySelector("textarea");
+          if (ta) navigator.clipboard.writeText(ta.value).then(() => toast("Note copied")).catch(() => toast("Copy failed"));
+          return;
+        }
+        const pchip = e.target.closest("[data-persona]");
+        if (pchip) { IV.persona = pchip.dataset.persona; document.querySelectorAll(".iv-pchip").forEach((c) => c.classList.toggle("active", c === pchip)); fetchInterview(); return; }
+        const tab = e.target.closest("[data-tab]");
+        if (tab) { activeTab = tab.dataset.tab; saveState(); render(); return; }
+        const st = e.target.closest("[data-src-toggle]"); if (st) { postSource(st.dataset.srcToggle, { action: "toggle" }); return; }
+        const sd = e.target.closest("[data-src-del]"); if (sd) { postSource(sd.dataset.srcDel, { action: "delete" }); return; }
+        const lt = e.target.closest("[data-toggle]"); if (lt) { const i = +lt.dataset.toggle; LOC.regions[i].enabled = !LOC.regions[i].enabled; renderLocations(); return; }
+        const ld = e.target.closest("[data-del]"); if (ld) { LOC.regions.splice(+ld.dataset.del, 1); renderLocations(); return; }
+        if (e.target.id === "drawerCloseBtn") { closeReport(); return; }
+        // open report / pipeline url (ignore inner controls)
+        if (!e.target.closest("a,button,select")) {
+          const rc = e.target.closest(".card[data-report]"); if (rc) { openReport(rc.dataset.report); return; }
+          const pc = e.target.closest(".card[data-url]"); if (pc) { window.open(pc.dataset.url, "_blank", "noopener"); return; }
+        }
+      });
+      document.addEventListener("change", (e) => {
+        const sel = e.target.closest('select[data-role="status"]');
+        if (sel) setStatus(sel.dataset.id, sel.value);
+      });
+
+      // header buttons + modals
+      $("scanBtn").addEventListener("click", runScan);
+      $("evalBtn").addEventListener("click", runEvaluate);
+      $("locBtn").addEventListener("click", openLoc);
+      $("locClose").addEventListener("click", closeLoc);
+      $("locOverlay").addEventListener("click", (e) => { if (e.target.id === "locOverlay") closeLoc(); });
+      $("srcBtn").addEventListener("click", openSrc);
+      $("srcClose").addEventListener("click", closeSrc);
+      $("srcOverlay").addEventListener("click", (e) => { if (e.target.id === "srcOverlay") closeSrc(); });
+      $("drawerOv").addEventListener("click", closeReport);
+
+      // cover letter modal
+      $("clClose").addEventListener("click", closeCl);
+      $("clOverlay").addEventListener("click", (e) => { if (e.target.id === "clOverlay") closeCl(); });
+      $("clRegen").addEventListener("click", () => { CL.seed++; $("clText").value = "Generating…"; fetchCoverLetter(); });
+      $("clCopy").addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText($("clText").value); toast("Cover letter copied"); }
+        catch { $("clText").select(); document.execCommand("copy"); toast("Cover letter copied"); }
+      });
+      $("clDownload").addEventListener("click", () => {
+        const blob = new Blob([$("clText").value], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+        a.download = `Cover Letter - ${(CL.company || "job").replace(/[^\w .-]/g, "")}.txt`; a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      // interview modal
+      $("ivClose").addEventListener("click", closeIv);
+      $("ivOverlay").addEventListener("click", (e) => { if (e.target.id === "ivOverlay") closeIv(); });
+      $("ivCopy").addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(interviewText()); toast("Interview prep copied"); }
+        catch { toast("Copy failed"); }
+      });
+      $("ivDownload").addEventListener("click", () => {
+        const blob = new Blob([interviewText()], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+        a.download = `Interview Prep - ${(IV.company || "job").replace(/[^\w .-]/g, "")}.txt`; a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      // pros & cons modal
+      $("pcClose").addEventListener("click", closePc);
+      $("pcOverlay").addEventListener("click", (e) => { if (e.target.id === "pcOverlay") closePc(); });
+      $("pcCopy").addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(prosConsText()); toast("Pros & cons copied"); } catch { toast("Copy failed"); }
+      });
+      $("pcDownload").addEventListener("click", () => {
+        const blob = new Blob([prosConsText()], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+        a.download = `Pros and Cons - ${(PC.company || "job").replace(/[^\w .-]/g, "")}.txt`; a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      // reference finder modal
+      $("refClose").addEventListener("click", closeRef);
+      $("refOverlay").addEventListener("click", (e) => { if (e.target.id === "refOverlay") closeRef(); });
+      $("refCopy").addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(referencesText()); toast("Referral links copied"); } catch { toast("Copy failed"); }
+      });
+
+      $("locAdd").addEventListener("click", () => {
+        const label = $("locLabel").value.trim(), country = $("locCountry").value.trim();
+        if (!label && !country) { toast("Enter a label or country"); return; }
+        const cities = $("locCities").value.split(",").map((s) => s.trim()).filter(Boolean);
+        LOC.regions.push({ label: label || country, country, cities, keywords: [], enabled: true });
+        $("locLabel").value = $("locCountry").value = $("locCities").value = ""; renderLocations();
+      });
+      $("locSave").addEventListener("click", async () => {
+        LOC.remote_ok = $("remoteOk").checked;
+        const r = await fetch("/api/locations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(LOC) });
+        if (r.ok) { LOC = await r.json(); toast("Locations saved → search updated"); closeLoc(); } else toast("Error: save failed");
+      });
+      $("srcAdd").addEventListener("click", async () => {
+        const name = $("srcName").value.trim(), url = $("srcUrl").value.trim();
+        if (!name && !url) { toast("Enter a name or link"); return; }
+        const r = await fetch("/api/sources", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, url }) });
+        if (!r.ok) { toast("Error: add failed"); return; }
+        SRC.custom = (await r.json()).custom || []; $("srcName").value = $("srcUrl").value = "";
+        toast("Source added → included in next scan"); renderSources();
+      });
+
+      // filter controls
+      $("fSearch").addEventListener("input", (e) => { filters.search = e.target.value; saveState(); render(); });
+      $("fSector").addEventListener("change", (e) => { filters.sector = e.target.value; saveState(); render(); });
+      $("fScore").addEventListener("input", (e) => { filters.minScore = parseFloat(e.target.value); $("fScoreVal").textContent = filters.minScore.toFixed(1); saveState(); render(); });
+      $("fSort").addEventListener("change", (e) => { filters.sort = e.target.value; saveState(); render(); });
+      $("fReset").addEventListener("click", () => {
+        Object.assign(filters, { search: "", sector: "", minScore: 0, sort: "score" });
+        syncControls(); saveState(); render();
+      });
+
+      // keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if ($("clOverlay").classList.contains("show")) return closeCl();
+          if ($("ivOverlay").classList.contains("show")) return closeIv();
+          if ($("pcOverlay").classList.contains("show")) return closePc();
+          if ($("refOverlay").classList.contains("show")) return closeRef();
+          if ($("drawer").classList.contains("show")) return closeReport();
+          if ($("locOverlay").classList.contains("show")) return closeLoc();
+          if ($("srcOverlay").classList.contains("show")) return closeSrc();
+        }
+        if (e.target.matches("input, select, textarea")) return;
+        if (e.key === "/") { e.preventDefault(); $("fSearch").focus(); return; }
+        const n = parseInt(e.key, 10);
+        if (n >= 1 && n <= TABS.length) { activeTab = TABS[n - 1].id; saveState(); render(); }
+      });
+
+      loadState(); syncControls(); load(); checkScan(); checkEval();
+    </script>
+  </body>
+</html>

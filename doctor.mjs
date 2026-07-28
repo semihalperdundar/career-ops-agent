@@ -90,6 +90,21 @@ function checkProfile() {
   };
 }
 
+// Data contract: user customizations live in modes/_profile.md, NEVER _shared.md.
+function checkProfileMd() {
+  if (existsSync(join(projectRoot, 'modes', '_profile.md'))) {
+    return { pass: true, label: 'modes/_profile.md found (user customization file)' };
+  }
+  const hasTemplate = existsSync(join(projectRoot, 'modes', '_profile.template.md'));
+  return {
+    pass: false,
+    label: 'modes/_profile.md not found',
+    fix: hasTemplate
+      ? 'Run: cp modes/_profile.template.md modes/_profile.md  (then customize)'
+      : 'Run: node update-system.mjs apply  to restore system files',
+  };
+}
+
 function checkPortals() {
   if (existsSync(join(projectRoot, 'portals.yml'))) {
     return { pass: true, label: 'portals.yml found' };
@@ -159,6 +174,7 @@ async function main() {
     await checkPlaywright(),
     checkCv(),
     checkProfile(),
+    checkProfileMd(),   // data contract: user customizations must be in _profile.md
     checkPortals(),
     checkFonts(),
     checkAutoDir('data'),
@@ -187,8 +203,6 @@ async function main() {
     process.exit(1);
   } else {
     console.log('Result: All checks passed. You\'re ready to go! Run `claude` to start.');
-    console.log('');
-    console.log('Join the community: https://discord.gg/8pRpHETxa4');
     process.exit(0);
   }
 }
