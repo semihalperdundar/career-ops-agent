@@ -12,6 +12,7 @@ Kullanım:
 """
 
 import csv
+import hashlib
 import io
 import json
 import os
@@ -503,34 +504,52 @@ def fetch_lever(slug, company, pool=None):
 
 # ─── ARCHIVE ─────────────────────────────────────────────────────────────────
 
+SENT_HEADER = ["id", "url", "company", "title", "location", "profile", "score", "sent_at"]
+
+
+def job_id(job: dict) -> str:
+    """URL tracking parametreleri değişse de sabit kalan kimlik."""
+    url = (job.get("url") or "").split("?")[0].rstrip("/").lower()
+    key = url or f"{job.get('company','')}|{job.get('title','')}".lower()
+    return hashlib.sha1(key.encode("utf-8")).hexdigest()[:16]
+
+
 def load_sent_urls() -> set:
-    sent = set()
+    """Hem id hem ham URL döner — eski (id'siz) satırlarla geriye dönük uyumlu."""
+    sent: set[str] = set()
     for path in (SENT_ARCHIVE, ARCHIVE_LOG):
-        if path.exists():
-            with open(path, encoding="utf-8") as f:
-                reader = csv.DictReader(f, delimiter="\t")
-                for row in reader:
-                    sent.add(row.get("url", "").strip())
+        if not path.exists():
+            continue
+        with open(path, encoding="utf-8", newline="") as f:
+            for row in csv.DictReader(f, delimiter="\t"):
+                url = (row.get("url") or "").strip()
+                if url:
+                    sent.add(url)
+                    sent.add(job_id({"url": url}))   # eski satırları da id'ye çevir
+                if row.get("id"):
+                    sent.add(row["id"].strip())
     return sent
 
 
 def save_sent(jobs: list):
-    """Gönderilen ilanları hem SENT_ARCHIVE hem ARCHIVE_LOG'a yazar."""
-    now    = datetime.now().strftime("%Y-%m-%d %H:%M")
-    header = ["url", "company", "title", "location", "profile", "score", "sent_at"]
+    """Append-only; CI'da her run sonrası repoya geri push edilir."""
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     for path in (SENT_ARCHIVE, ARCHIVE_LOG):
+        path.parent.mkdir(parents=True, exist_ok=True)
         write_header = not path.exists() or path.stat().st_size == 0
         with open(path, "a", encoding="utf-8", newline="") as f:
             w = csv.writer(f, delimiter="\t")
             if write_header:
-                w.writerow(header)
+                w.writerow(SENT_HEADER)
             for job in jobs:
                 w.writerow([
-                    job["url"], job["company"], job["title"],
-                    job.get("location", ""), job["profile"],
+                    job.get("id") or job_id(job), job["url"], job["company"],
+                    job["title"], job.get("location", ""), job["profile"],
                     f"{job['score']:.1f}", now,
                 ])
+            f.flush()
+            os.fsync(f.fileno())   # runner kill edilirse satırlar kaybolmasın
 
 
 # ─── RLHF FEEDBACK ───────────────────────────────────────────────────────────
@@ -866,9 +885,11 @@ def main():
     stale_count   = 0
     for job in raw:
         url = job.get("url", "").strip()
-        if not url or url in sent_urls or url in seen:
+        jid = job_id(job)
+        if not url or jid in sent_urls or url in sent_urls or jid in seen:
             continue
-        seen.add(url)
+        seen.add(jid)
+        job["id"] = jid
         # Scout: block detection on raw_html field if present
         raw_html = job.pop("raw_html", None)
         if raw_html:
