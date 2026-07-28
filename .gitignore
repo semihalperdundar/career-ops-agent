@@ -45,3 +45,21 @@ bun.lock
 .claude/memory/
 career-dashboard
 package-lock.json
+
+# Editor local
+.vscode/
+
+# Vendored external repos (kendi git geçmişleri var — submodule değil)
+Iskur/
+caveman/
+
+# Python
+__pycache__/
+*.pyc
+
+# Runtime caches / RLHF state (her run'da yeniden üretilir)
+data/proxy-cache.json
+data/telegram-pending.json
+data/telegram-offset.txt
+data/rlhf_feedback.json
+data/listener*.log
