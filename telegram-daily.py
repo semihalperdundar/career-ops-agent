@@ -120,7 +120,7 @@ GEMINI_MODEL          = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 ENABLE_LLM_ENRICHMENT = bool(GEMINI_API_KEY)  # env'de key varsa otomatik aktif
 USE_CAVEMAN_PROMPTS   = True   # caveman_compress → ~%40 token tasarrufu
 LLM_MAX_JOBS          = 10     # run başına LLM çağrı tavanı (free tier koruması)
-LLM_MAX_DESC_CHARS    = 3500   # JD payload bütçesi (~875 token)
+LLM_MAX_DESC_CHARS    = 2800   # JD payload bütçesi (~700 token, caveman sınırı)
 LLM_MAX_OUTPUT_TOKENS = 900    # yapılandırılmış JSON yanıt için yeterli
 
 # RLHF Feedback
@@ -263,7 +263,54 @@ P2_TIER2 = [
     "transcription", "localization", "localisation", "translator",
     "türkçe", "türk dili", "dilbilim",
 ]
+
+# ─── CONFIG'DEN ANAHTAR KELİME BİRLEŞTİRME ───────────────────────────────────
+# config/profile.yml → profile_rnd.matching bloğu kod listeleriyle BİRLEŞTİRİLİR.
+# Böylece yeni bir hedef rol eklemek için kodu düzenlemek gerekmez; config
+# tek kaynak olur. Dosya/pyyaml yoksa yalnızca kod listeleri kullanılır.
+
+PROFILE_CONFIG_PATH = BASE_DIR / "config" / "profile.yml"
+
+
+def _load_matching_config(path=None) -> dict:
+    """profile_rnd.matching bloğunu okur; hata durumunda boş sözlük döner."""
+    p = path or PROFILE_CONFIG_PATH
+    try:
+        import yaml
+    except ImportError:
+        return {}
+    try:
+        with open(p, encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+    except (OSError, Exception):
+        return {}
+    cfg = ((data.get("profile_rnd") or {}).get("matching") or {})
+    return cfg if isinstance(cfg, dict) else {}
+
+
+def _merge_keywords(base: list, extra) -> list:
+    """Küçük harfe indirir, sırayı korur, tekrarları eler."""
+    out, seen = [], set()
+    for kw in list(base) + list(extra or []):
+        k = str(kw).strip().lower()
+        if k and k not in seen:
+            seen.add(k)
+            out.append(k)
+    return out
+
+
+_MATCHING_CFG = _load_matching_config()
+P2_TIER1 = _merge_keywords(P2_TIER1, _MATCHING_CFG.get("tier1"))
+P2_TIER2 = _merge_keywords(P2_TIER2, _MATCHING_CFG.get("tier2"))
+# Aynı kelime iki katmanda da varsa T1 kazanır (çift sayım P1 dengesini bozar)
+P2_TIER2 = [k for k in P2_TIER2 if k not in set(P2_TIER1)]
+
 P2_KEYWORDS = P2_TIER1 + P2_TIER2   # detect_profile() uyumluluğu için
+
+# Portal aramalarında kullanılacak ek P2 sorguları
+P2_SEARCH_QUERIES = [
+    str(q).strip() for q in (_MATCHING_CFG.get("search_queries") or []) if str(q).strip()
+]
 
 NEGATIVE_KEYWORDS = [
     "ios", "android", "php", "ruby", "embedded", "firmware", "fpga",
@@ -273,6 +320,8 @@ NEGATIVE_KEYWORDS = [
     "graphic designer", "ux designer", "finance manager", "accountant",
     "lawyer", "legal counsel",
 ]
+# Config'den ek negatif kelimeler (kod listesi taban olarak korunur)
+NEGATIVE_KEYWORDS = _merge_keywords(NEGATIVE_KEYWORDS, _MATCHING_CFG.get("negative"))
 
 # ─── SCORING ─────────────────────────────────────────────────────────────────
 NL_TR_KW = ["netherlands","nederland","amsterdam","rotterdam","tilburg","utrecht","eindhoven","the hague","turkey","türkiye","istanbul","ankara","izmir"]
@@ -407,9 +456,20 @@ def detect_profile(title: str) -> str | None:
     if any(neg in t for neg in NEGATIVE_KEYWORDS):
         return None
 
-    p1 = sum(1 for kw in P1_KEYWORDS if kw in t)
-    t1 = sum(1 for kw in P2_TIER1 if kw in t)
-    t2 = sum(1 for kw in P2_TIER2 if kw in t)
+    p1_hits = [kw for kw in P1_KEYWORDS if kw in t]
+    t1_hits = [kw for kw in P2_TIER1 if kw in t]
+    t2_hits = [kw for kw in P2_TIER2 if kw in t]
+
+    # Özgüllük kuralı: bir P1 kelimesi, eşleşen bir P2 kelimesinin İÇİNDE
+    # geçiyorsa sayılmaz — daha spesifik eşleşme generic olanı kapsar.
+    # Örn. "Text Analytics Specialist": P1 "analytics" ile P2 "text analytics"
+    # çakışıyordu ve generic olan kazanıp ilanı P1'e (ve eşiğin altına) itiyordu.
+    p2_hits = t1_hits + t2_hits
+    p1_hits = [kw for kw in p1_hits if not any(kw in p2kw for p2kw in p2_hits)]
+
+    p1 = len(p1_hits)
+    t1 = len(t1_hits)
+    t2 = len(t2_hits)
     p2 = t1 + t2
     if p1 == 0 and p2 == 0:
         return None
@@ -1047,7 +1107,8 @@ def main():
                 enable_kariyer=ENABLE_KARIYER_PW,
                 enable_indeed_tr=ENABLE_INDEED_PW,
                 verbose=True,
-                max_age_minutes=window,   # kaynak tarafında tazelik filtresi
+                max_age_minutes=window,        # kaynak tarafında tazelik filtresi
+                extra_queries=P2_SEARCH_QUERIES,  # config/profile.yml P2 sorguları
             )
         except Exception as e:
             print(f"⚠️  Playwright portal hatası: {e}", flush=True)

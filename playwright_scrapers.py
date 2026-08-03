@@ -163,6 +163,8 @@ def fetch_linkedin(
     max_per_query: int = 25,
     verbose: bool = False,
     max_age_minutes: int | None = None,
+    extra_queries: list | None = None,
+    max_extra: int = 8,
 ) -> list[_JOB]:
     """
     LinkedIn jobs-guest API'sinden iş ilanları çeker.
@@ -180,7 +182,15 @@ def fetch_linkedin(
     if max_age_minutes:
         tpr_seconds = max(3600, min(86400, int(max_age_minutes) * 60))
 
-    for keywords, location in LINKEDIN_QUERIES:
+    # config/profile.yml'den gelen ek sorgular (global konum). max_extra ile
+    # sınırlanır: her sorgu ~3sn gecikme + bir HTTP isteği demek.
+    queries = list(LINKEDIN_QUERIES)
+    for q in (extra_queries or [])[:max_extra]:
+        pair = (str(q).strip().lower(), "")
+        if pair[0] and pair not in queries:
+            queries.append(pair)
+
+    for keywords, location in queries:
         params: dict = {
             "keywords": keywords,
             "start":    0,
@@ -919,6 +929,7 @@ def fetch_all_playwright(
     enable_indeed_tr:          bool = False,  # 403 Forbidden (geo-blocked)
     verbose: bool = True,
     max_age_minutes: int | None = None,   # kaynak tarafında tazelik filtresi
+    extra_queries: list | None = None,    # config/profile.yml'den P2 sorguları
 ) -> list[_JOB]:
     """
     Tüm Playwright / requests tabanlı ek kaynaklardan iş ilanı toplar.
@@ -932,7 +943,7 @@ def fetch_all_playwright(
         print(f"\n🎭 Playwright/requests taraması başlıyor ({active} kaynak)...", flush=True)
 
     _steps = [
-        ("LinkedIn",            enable_linkedin,           lambda: fetch_linkedin(verbose=verbose, max_age_minutes=max_age_minutes)),
+        ("LinkedIn",            enable_linkedin,           lambda: fetch_linkedin(verbose=verbose, max_age_minutes=max_age_minutes, extra_queries=extra_queries)),
         ("Indeed NL",           enable_indeed_nl,          lambda: fetch_indeed_nl(verbose=verbose)),
         ("Glassdoor",           enable_glassdoor,          lambda: fetch_glassdoor(verbose=verbose)),
         ("AcademicPositions",   enable_academic_positions, lambda: fetch_academic_positions(verbose=verbose)),

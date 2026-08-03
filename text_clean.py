@@ -27,8 +27,10 @@ try:
 except ImportError:
     _BS4_AVAILABLE = False
 
-# Varsayılan karakter bütçesi — ~1 token ≈ 4 karakter, yani ~875 token
-DEFAULT_MAX_CHARS = 3500
+# Varsayılan karakter bütçesi — ~1 token ≈ 4 karakter, yani ~700 token.
+# "Caveman" bütçesi: JD'nin sinyal taşıyan kısmı (rol + gereksinimler) bu
+# aralığa rahat sığıyor; fazlası benefits/kültür anlatısı oluyor.
+DEFAULT_MAX_CHARS = 2800
 
 # HTML olduğunu ele veren işaretler
 _HTML_HINT = re.compile(r"<(html|body|div|p|br|li|span|script)\b", re.I)

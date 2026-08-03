@@ -49,7 +49,7 @@ try:
     _CLEAN_AVAILABLE = True
 except ImportError:
     _CLEAN_AVAILABLE = False
-    DEFAULT_MAX_CHARS = 3500
+    DEFAULT_MAX_CHARS = 2800
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Aday profili — LLM bağlamı (dosya okumadan hızlı erişim)
@@ -65,6 +65,10 @@ _TECH_MATRIX = """\
 | ML/DL | PyTorch, Scikit-learn | TensorFlow, Keras | JAX | PyTorch → TensorFlow (aynı paradigma, farklı API) |
 | NLP/LLM | HuggingFace Transformers, Tokenizers, BERT/GPT fine-tuning | LangChain, RAG temelleri | LlamaIndex, vLLM | HF → herhangi bir LLM framework |
 | Türkçe NLP | Mergen TLM tokenizer (4yr katkı), morfolojik analiz, korpus işleme | — | — | Biricik alan uzmanlığı |
+| LLM Alignment | RLHF veri pipeline, tercih verisi (preference data) tasarımı, anotasyon rehberi yazımı | DPO, instruction tuning, SFT veri kürasyonu | PPO, constitutional AI | Anotasyon/rubrik tasarımı → RLHF veya DPO veri süreci (aynı metodoloji, farklı etiket) — CEZALANDIRMA |
+| Veri Kürasyonu | Korpus temizleme, dedup, kalite skorlama, kontaminasyon kontrolü (Mergen) | Dataset curation for SFT, sentetik veri filtreleme | Data-centric AI araçları | Korpus kürasyonu → herhangi bir LLM eğitim verisi hattı |
+| Değerlendirme | Psikometrik ölçek geliştirme, güvenirlik/geçerlik, rubrik tasarımı | Eval benchmark tasarımı, red teaming prompt setleri | LM eval harness, HELM | **Psikometri = model değerlendirme metodolojisi; benchmark deneyimi "yok" sayılMAZ** |
+| Çok Dillilik | Türkçe (ana dil), İngilizce (C1+), sondan eklemeli dil morfolojisi | Cross-lingual transfer, düşük kaynaklı dil adaptasyonu, semantik ayrıştırma | Hollandaca (B1) | Türkçe düşük-kaynak uzmanlığı → herhangi bir cross-lingual transfer görevi |
 | XAI | SHAP, LIME, attention görselleştirme | Captum, integrated gradients | — | XAI araştırması → herhangi bir MLOps explainability aracı |
 | Veri Mühendisliği | Pandas, NumPy | PySpark, Spark | Snowflake, dbt, Airflow | Araştırma pipeline → üretim ETL (metodoloji taşınır) |
 | Görselleştirme | Power BI (DAX), Matplotlib, Seaborn | Plotly | Tableau | Power BI → Tableau (aynı kavramlar) |
@@ -97,6 +101,10 @@ _CANDIDATE_SUMMARY = """\
   - Kabul edilebilir ünvanlar: Junior, Entry-level, Graduate, Associate, Analyst
 - **P2 (NLP/R&D):** ARAŞTIRMADA SENIOR — PhD (2021) + 7 yıl araştırma + 6 yayın
   - Kabul edilebilir ünvanlar: Senior, Lead, Specialist, Principal Researcher, Expert
+  - Hedef roller: AI Linguist, LLM Data Curation Lead, Corpus Lead, Prompt Engineer/
+    Researcher, NLP Researcher, Computational Linguist, Annotation Lead,
+    LLM Domain Expert, Text Analytics / Semantic Search / Knowledge Graph Specialist,
+    Data Quality Specialist (AI/ML) — hepsi PRIMARY veya SECONDARY uyum, SKIP değil
 
 ### Eğitim
 - PhD Türk Dili, Gazi Üniversitesi (2021)
@@ -121,6 +129,13 @@ Aday şu anda kişisel VM'de aktif Türkçe LLM fine-tuning projesi yürütmekte
 - "Turkish instruction tuning", "low-resource Turkish NLP"
 - "Türkçe LLM", "Türkçe dil modeli", "Mergen"
 - "Turkish RLHF", "Turkish pre-training", "Turkish fine-tuning"
+
+**KURAL 2 (P2 — LLM alignment terimleri):** Aşağıdakiler adayın AKTİF çalışma
+alanıdır; JD'de geçmeleri boşluk (gap) DEĞİL, eşleşmedir. `core_tech_fit` ≥ 7.5:
+RLHF, DPO / direct preference optimization, preference data, instruction tuning,
+SFT, dataset curation/cleansing, deduplication, cross-lingual transfer,
+semantic parsing, morphological disambiguation, evaluation benchmark, red teaming,
+prompt engineering, corpus curation, knowledge graph, semantic search.
 """
 
 # ─────────────────────────────────────────────────────────────────────────────
