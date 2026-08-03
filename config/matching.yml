@@ -1,0 +1,105 @@
+# ============================================================
+# CareerOps — Eşleştirme Motoru Anahtar Kelimeleri
+# ------------------------------------------------------------
+# NEDEN AYRI BİR DOSYA?
+#   config/profile.yml kişisel veri içerdiği için gitignore'da; CI
+#   runner'ında hiç bulunmuyor. Anahtar kelimeler orada kalsaydı
+#   üretimde (GitHub Actions) hiç yüklenmezdi. Bu dosya kişisel veri
+#   içermez, repoda tutulur ve CI'da da okunur.
+#
+# NASIL ÇALIŞIR?
+#   telegram-daily.py sırayla okur ve BİRLEŞTİRİR:
+#     1. koddaki gömülü listeler (taban)
+#     2. bu dosya                    (repoda, CI'da geçerli)
+#     3. config/profile.yml → profile_rnd.matching  (yerel, opsiyonel)
+#   Yeni bir hedef rol eklemek için kodu değil bu dosyayı düzenleyin.
+#
+#   tier1 = yüksek özgüllük (1.5× ağırlık) — doğrudan profil eşleşmesi
+#   tier2 = geniş keşif    (0.7× ağırlık) — bitişik/transfer roller
+#   Kelimeler küçük harf; ünvan içinde alt-dize olarak aranır.
+# ============================================================
+
+profile_rnd:
+  matching:
+    tier1:
+      # ── Birincil roller ────────────────────────────────────────
+      - "ai linguist"
+      - "llm data curation"
+      - "data curation lead"
+      - "corpus lead"
+      - "corpus curation"
+      - "prompt engineer"
+      - "prompt researcher"
+      - "prompt engineering"
+      # ── LLM alignment teknikleri ───────────────────────────────
+      - "dpo"
+      - "direct preference optimization"
+      - "preference optimization"
+      - "preference data"
+      - "human feedback"
+      - "reinforcement learning from human feedback"
+      - "instruction tuning"
+      - "sft"
+      - "supervised fine-tuning"
+      - "alignment researcher"
+      - "alignment specialist"
+      - "model alignment"
+      # ── Veri kürasyonu (ilan edilen superpower) ────────────────
+      - "dataset curation"
+      - "data curation"
+      - "data cleansing"
+      - "deduplication"
+      # ── Değerlendirme / güvenlik ───────────────────────────────
+      - "evaluation benchmark"
+      - "eval benchmark"
+      - "benchmark design"
+      - "adversarial prompt"
+      - "model evaluation"
+      - "red teaming"
+      # ── Dilbilim çekirdeği ─────────────────────────────────────
+      - "morphological disambiguation"
+      - "morphological analysis"
+      - "semantic parsing"
+      - "cross-lingual transfer"
+      - "cross-lingual"
+      - "low-resource language"
+      - "dil verisi uzmanı"
+      - "yapay zeka dilbilimci"
+
+    tier2:
+      # ── İkincil roller ─────────────────────────────────────────
+      - "domain expert"
+      - "generative ai"
+      - "llm domain expert"
+      - "text analytics"
+      - "semantic search"
+      - "data quality specialist"
+      - "knowledge graph"
+      # ── Bitişik teknik alanlar ─────────────────────────────────
+      - "vector search"
+      - "retrieval augmented"
+      - "rag"
+      - "embeddings"
+      - "information retrieval"
+      - "ontology engineering"
+      - "corpus linguistics"
+      - "veri kürasyonu"
+      - "anlamsal arama"
+
+    # Ünvanda geçerse ilan hiç değerlendirilmez (kod listesine eklenir)
+    negative: []
+
+    # Portal aramalarına beslenen ek sorgular (LinkedIn; ilk 8 kullanılır)
+    search_queries:
+      - "ai linguist"
+      - "llm data curation"
+      - "corpus lead"
+      - "prompt engineer"
+      - "rlhf"
+      - "data annotation specialist"
+      - "semantic search specialist"
+      - "knowledge graph specialist"
+      - "prompt researcher"
+      - "dpo alignment"
+      - "text analytics specialist"
+      - "llm domain expert"

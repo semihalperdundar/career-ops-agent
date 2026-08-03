@@ -265,27 +265,46 @@ P2_TIER2 = [
 ]
 
 # ─── CONFIG'DEN ANAHTAR KELİME BİRLEŞTİRME ───────────────────────────────────
-# config/profile.yml → profile_rnd.matching bloğu kod listeleriyle BİRLEŞTİRİLİR.
-# Böylece yeni bir hedef rol eklemek için kodu düzenlemek gerekmez; config
-# tek kaynak olur. Dosya/pyyaml yoksa yalnızca kod listeleri kullanılır.
+# profile_rnd.matching blokları kod listeleriyle BİRLEŞTİRİLİR; böylece yeni
+# hedef rol eklemek için kod düzenlemek gerekmez.
+#
+# İKİ DOSYA OKUNUR (sırayla, birleştirilerek):
+#   1. config/matching.yml  — repoda tutulur, kişisel veri içermez → CI'da GEÇERLİ
+#   2. config/profile.yml   — kişisel veri içerdiği için gitignore'da → yalnızca yerel
+#
+# Ayrım kritik: profile.yml runner'da hiç bulunmadığı için anahtar kelimeler
+# yalnızca orada dursaydı üretimde sessizce devre dışı kalırdı.
 
-PROFILE_CONFIG_PATH = BASE_DIR / "config" / "profile.yml"
+MATCHING_CONFIG_PATHS = (
+    BASE_DIR / "config" / "matching.yml",
+    BASE_DIR / "config" / "profile.yml",
+)
 
 
-def _load_matching_config(path=None) -> dict:
-    """profile_rnd.matching bloğunu okur; hata durumunda boş sözlük döner."""
-    p = path or PROFILE_CONFIG_PATH
+def _read_matching_block(path) -> dict:
+    """Tek bir YAML dosyasından profile_rnd.matching bloğunu okur."""
     try:
         import yaml
     except ImportError:
         return {}
     try:
-        with open(p, encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             data = yaml.safe_load(f) or {}
-    except (OSError, Exception):
+    except Exception:
         return {}
     cfg = ((data.get("profile_rnd") or {}).get("matching") or {})
     return cfg if isinstance(cfg, dict) else {}
+
+
+def _load_matching_config(paths=None) -> dict:
+    """Tüm config kaynaklarını okuyup listeleri birleştirir."""
+    merged: dict = {}
+    for p in (paths or MATCHING_CONFIG_PATHS):
+        block = _read_matching_block(p)
+        for key, values in block.items():
+            if isinstance(values, list):
+                merged.setdefault(key, []).extend(values)
+    return merged
 
 
 def _merge_keywords(base: list, extra) -> list:
