@@ -21,6 +21,7 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 # Force UTF-8 output on Windows
 if sys.stdout.encoding != "utf-8":
@@ -644,10 +645,35 @@ def _tsv_clean(value) -> str:
     return _TSV_BAD.sub(" ", str(value if value is not None else "")).strip()
 
 
+# Kimlik TAŞIMAYAN (yalnızca izleme amaçlı) query parametreleri.
+# DİKKAT: query'nin tamamını atmak YANLIŞ — Greenhouse gömülü sayfaları
+# (?gh_jid=), Indeed (?jk=) ve Trade Republic (?jobId=) ilan kimliğini
+# tam olarak burada taşır; atılırsa farklı ilanlar aynı sayılır.
+_TRACKING_PARAMS = frozenset({
+    "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
+    "ref", "referrer", "source", "src", "trk", "trackingid", "refid",
+    "originalsubdomain", "position", "pagenum", "ebp", "savedsearchid",
+    "sessionid", "gh_src", "lipi", "licu", "eventorigin", "recommendedflavor",
+    "fbclid", "gclid", "msclkid", "at", "ts", "rq", "rsk",
+})
+
+
+def canonical_url(url: str) -> str:
+    """İzleme parametrelerini atar, kimlik taşıyanları korur."""
+    p = urlsplit((url or "").strip().lower())
+    kept = sorted(
+        (k, v) for k, v in parse_qsl(p.query, keep_blank_values=False)
+        if k.lower() not in _TRACKING_PARAMS
+    )
+    # Şema (http/https) kimliğin parçası değil → dışarıda bırakılır
+    return urlunsplit(("", p.netloc, p.path.rstrip("/"), urlencode(kept), ""))
+
+
 def job_id(job: dict) -> str:
-    """URL tracking parametreleri değişse de sabit kalan kimlik."""
-    url = (job.get("url") or "").split("?")[0].rstrip("/").lower()
-    key = url or f"{job.get('company','')}|{job.get('title','')}".lower()
+    """İzleme parametreleri değişse de sabit kalan ilan kimliği."""
+    key = canonical_url(job.get("url", ""))
+    if not key:
+        key = f"{job.get('company','')}|{job.get('title','')}".lower()
     return hashlib.sha1(key.encode("utf-8")).hexdigest()[:16]
 
 
