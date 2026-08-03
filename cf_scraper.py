@@ -71,63 +71,60 @@ except ImportError:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Premium (Bright Data ISP) proxy — PREMIUM_PROXY_URL
+# Ağ politikası — akıllı proxy yönlendirme (net_policy.py)
 # ─────────────────────────────────────────────────────────────────────────────
-# Format: http://kullanici:parola@brd.superproxy.io:22225
-# Ayarlıysa ücretsiz proxy havuzu ATLANIR: gateway zaten IP rotasyonu yapar,
-# rotasyon denemeleri boşuna bant genişliği yakar.
+# Premium proxy YALNIZCA katı host'larda (kariyer.net, indeed, glassdoor) veya
+# doğrudan denemede blok yenen host'larda kullanılır. Greenhouse/Lever/Ashby
+# gibi açık API'ler doğrudan gider → proxy bant genişliği korunur.
 
-def premium_proxy(country: str | None = None) -> str | None:
-    """PREMIUM_PROXY_URL'i (opsiyonel geo eki ile) tam proxy URL'i olarak döner."""
-    raw = os.environ.get("PREMIUM_PROXY_URL", "").strip()
-    if not raw:
+try:
+    from net_policy import (
+        escalate,
+        geo_for_url,
+        mask as _mask_proxy,
+        needs_premium,
+        premium_proxy,
+        profile_for_url,
+        proxy_for_url,
+        warmup_url,
+    )
+    _POLICY_AVAILABLE = True
+except ImportError:   # politika modülü yoksa: her şey doğrudan bağlantı
+    _POLICY_AVAILABLE = False
+
+    def premium_proxy(country: str | None = None) -> str | None:  # type: ignore[misc]
         return None
-    u = urlparse(raw)
-    if not u.hostname:
+
+    def proxy_for_url(url: str) -> str | None:  # type: ignore[misc]
         return None
-    user = u.username or ""
-    # Bright Data geo hedefleme: kullanıcı adı sonuna -country-tr eklenir
-    if country and user and "-country-" not in user:
-        user = f"{user}-country-{country.lower()}"
-    netloc = u.hostname if not user else f"{user}:{u.password or ''}@{u.hostname}"
-    if u.port:
-        netloc += f":{u.port}"
-    return urlunparse((u.scheme or "http", netloc, "", "", "", ""))
+
+    def needs_premium(url: str) -> bool:  # type: ignore[misc]
+        return False
+
+    def geo_for_url(url: str) -> str | None:  # type: ignore[misc]
+        return None
+
+    def profile_for_url(url: str) -> str | None:  # type: ignore[misc]
+        return None
+
+    def warmup_url(url: str) -> str | None:  # type: ignore[misc]
+        return None
+
+    def escalate(url: str) -> None:  # type: ignore[misc]
+        return None
+
+    def _mask_proxy(proxy: str | None) -> str:  # type: ignore[misc]
+        if not proxy:
+            return "direct"
+        u = urlparse(proxy)
+        return f"{u.scheme}://***@{u.hostname}:{u.port}" if u.username else proxy
 
 
 PREMIUM_AVAILABLE = bool(os.environ.get("PREMIUM_PROXY_URL", "").strip())
 
-
-# Host → gerekli exit ülkesi. Kariyer.net TR IP olmadan PerimeterX'e takılır,
-# Indeed TR datacenter IP'lerine 403 döner.
-_GEO_HOSTS: tuple[tuple[str, str], ...] = (
-    ("kariyer.net", "tr"),
-    ("tr.indeed.com", "tr"),
-    ("yenibiris.com", "tr"),
-    ("secretcv.com", "tr"),
-    ("nl.indeed.com", "nl"),
-    ("glassdoor.nl", "nl"),
-    ("uk.indeed.com", "gb"),
-)
-
-
-def geo_for_url(url: str) -> str | None:
-    """URL host'una göre gereken exit ülkesini döner (yoksa None)."""
-    low = (url or "").lower()
-    for host, cc in _GEO_HOSTS:
-        if host in low:
-            return cc
-    return None
-
-
-def _mask_proxy(proxy: str | None) -> str:
-    """Log'a parola yazmamak için kimlik bilgisini maskeler."""
-    if not proxy:
-        return "direct"
-    if "://" not in proxy:
-        return proxy
-    u = urlparse(proxy)
-    return f"{u.scheme}://***@{u.hostname}:{u.port}" if u.username else proxy
+# Isıtılmış (çerez almış) oturumlar — host başına bir kez
+_warmed: set[str] = set()
+_warm_lock = threading.Lock()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tarayıcı profilleri
@@ -295,6 +292,7 @@ class CFSession:
     ) -> None:
         self.proxy   = proxy
         self.profile = profile or random.choice(BROWSER_PROFILES)
+        self.warmed: set[str] = set()   # çerez ısıtması yapılmış host'lar
         self._sess   = self._make_session()
 
     # ─── iç yardımcılar ─────────────────────────────────────────────────────
@@ -407,6 +405,34 @@ _session_cache = _SessionCache(maxsize=20)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Çerez ısıtması — Kariyer.net/Indeed arama sayfasına doğrudan girmek şüpheli
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _warm_up(sess: "CFSession", url: str, timeout: int = 20, verbose: bool = False) -> None:
+    """
+    Arama URL'inden önce ana sayfayı ziyaret ederek oturuma çerez toplar.
+
+    PerimeterX (kariyer.net) ilk isteği arama sayfasına gelen ziyaretçiyi
+    bot sayar; gerçek kullanıcı önce ana sayfayı görür. Oturum başına bir kez
+    yapılır — 403 sonrası oturum atıldığında yeniden tetiklenir.
+    """
+    home = warmup_url(url)
+    if not home:
+        return
+    host = urlparse(url).hostname or ""
+    if host in sess.warmed:
+        return
+    sess.warmed.add(host)
+    try:
+        sess.get(home, referer="https://www.google.com/", timeout=timeout)
+        if verbose:
+            print(f"   [CF] çerez ısıtması: {home}")
+        time.sleep(random.uniform(1.2, 2.8))   # insan gecikmesi
+    except Exception:
+        pass   # ısıtma başarısızsa asıl istek yine denensin
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # safe_cf_get — proxy rotasyonlu, insanlaştırılmış GET
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -430,34 +456,37 @@ def safe_cf_get(
       - 200/30x/40x için Response nesnesi
       - Tüm denemeler başarısız olursa None
 
+    Proxy politikası (net_policy.py):
+      - Katı host (kariyer.net/indeed/glassdoor) → ilk istekten premium
+      - Diğer host'lar                           → doğrudan bağlantı
+      - Doğrudan denemede blok                   → host premium'a yükseltilir
+
     Yeniden deneme stratejisi:
-      - 403 → proxy değiştir, _session_cache.evict(), bekle
+      - 403 → oturumu at (yeni exit IP), host'u yükselt, bekle
       - 429 → uzun bekle (rate-limit)
       - 503 → CF challenge bekleme süresi, bekle
       - Hata → proxy'yi bad işaretle, kısa bekle
-      - Son deneme → proxysiz (doğrudan) dene
     """
     if referer is None:
         referer = random.choice(_REFERERS)
 
-    premium = premium_proxy(country)
-
     for attempt in range(retries):
-        # Son denemede proxysiz dene (fallback — kendi IP'imizle CF dene)
-        is_last   = (attempt == retries - 1)
-        proxy_str = None
+        is_last = (attempt == retries - 1)
 
-        if premium:
-            # ISP gateway'i her yeni oturumda farklı exit IP verir; ücretsiz
-            # havuzu hiç denemeyiz — başarısız denemeler bant genişliği yakar
-            proxy_str = premium
+        # Politika HER denemede yeniden okunur: önceki turda blok yenildiyse
+        # escalate() çağrılmıştır ve bu tur premium'a geçilir
+        proxy_str = None
+        if needs_premium(url):
+            proxy_str = premium_proxy(country or geo_for_url(url))
         elif pool and not is_last:
             proxy_str = pool.get() if hasattr(pool, "get") else None
 
-        profile = random.choice(BROWSER_PROFILES[:4])  # tercihan en güncel profiller
+        # Host'a özel TLS parmak izi (kariyer.net → chrome110), yoksa rastgele
+        profile = profile_for_url(url) or random.choice(BROWSER_PROFILES[:4])
 
         try:
             sess = _session_cache.get_or_create(proxy_str, profile=profile)
+            _warm_up(sess, url, timeout=timeout, verbose=verbose)
             resp = sess.get(
                 url, referer=referer, extra_headers=headers,
                 timeout=timeout, **kwargs,
@@ -476,25 +505,30 @@ def safe_cf_get(
 
             # ── CF / erişim engeli ──────────────────────────────────────────
             elif code == 403:
+                # Doğrudan bağlantıda blok → host'u premium'a yükselt.
+                # Zaten premium'daysak evict yeterli: yeni oturum = yeni IP.
+                escalate(url)
                 if verbose:
-                    print(f"   [CF] 403 — oturum kapatılıyor, proxy değiştiriliyor ({attempt+1}/{retries})")
-                # Premium'da evict yeterli: yeni oturum = yeni exit IP.
-                # mark_bad yalnızca ücretsiz havuz proxy'leri için anlamlı.
+                    nxt = "premium'a yükseltiliyor" if not proxy_str else "yeni exit IP"
+                    print(f"   [CF] 403 — {nxt} ({attempt+1}/{retries})")
                 _session_cache.evict(proxy_str)
-                if proxy_str and pool and proxy_str != premium:
-                    pool.mark_bad(proxy_str)
+                if proxy_str and pool and "://" not in proxy_str:
+                    pool.mark_bad(proxy_str)   # yalnızca ücretsiz havuz proxy'si
                 if delay:
                     time.sleep(random.uniform(*_DELAY_403))
 
             # ── Rate-limit ──────────────────────────────────────────────────
             elif code == 429:
+                escalate(url)   # IP bazlı limit — farklı exit IP gerekiyor
                 wait = random.uniform(*_DELAY_429)
                 if verbose:
                     print(f"   [CF] 429 rate-limit — {wait:.0f}s bekleniyor")
+                _session_cache.evict(proxy_str)
                 time.sleep(wait)
 
             # ── CF JS challenge / geçici hata ───────────────────────────────
             elif code == 503:
+                escalate(url)
                 wait = random.uniform(*_DELAY_503)
                 if verbose:
                     print(f"   [CF] 503 challenge — {wait:.0f}s bekleniyor")
@@ -508,7 +542,7 @@ def safe_cf_get(
             if verbose:
                 print(f"   [CF] Hata (deneme {attempt+1}): {type(exc).__name__}: {exc}")
             _session_cache.evict(proxy_str)
-            if proxy_str and pool and proxy_str != premium:
+            if proxy_str and pool and "://" not in proxy_str:
                 pool.mark_bad(proxy_str)
             if delay and not is_last:
                 time.sleep(random.uniform(*_DELAY_ERROR))

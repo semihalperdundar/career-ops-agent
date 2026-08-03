@@ -74,17 +74,32 @@ LINKEDIN_API = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/
 
 # (anahtar kelimeler, konum) çiftleri — boş konum = global
 LINKEDIN_QUERIES = [
+    # ── P1 (Junior Data/AI) ──────────────────────────────────────────────────
     ("data scientist",           "Netherlands"),
     ("data engineer",            "Netherlands"),
     ("analytics engineer",       "Netherlands"),
     ("machine learning engineer","Netherlands"),
     ("data analyst",             "Netherlands"),
-    ("nlp researcher",           ""),
     ("ai engineer",              ""),
-    ("applied scientist",        "Europe"),
     ("data scientist",           "Turkey"),
     ("veri bilimci",             "Türkiye"),
+    # ── P2 (R&D / NLP / dil verisi) ─────────────────────────────────────────
+    # Önceki listede P2'yi yalnızca "nlp researcher" ve "research scientist"
+    # temsil ediyordu; anotasyon/RLHF/dil uzmanı sorguları hiç yoktu.
+    ("nlp researcher",           ""),
+    ("applied scientist",        "Europe"),
     ("research scientist",       "Europe"),
+    ("computational linguist",   ""),
+    ("linguist",                 "Europe"),
+    ("data annotation",          ""),
+    ("ai trainer",               ""),
+    ("rlhf",                     ""),
+    ("language model",           "Europe"),
+    ("turkish",                  ""),
+    ("annotation specialist",    ""),
+    ("dil uzmanı",               "Türkiye"),
+    ("veri etiketleme",          "Türkiye"),
+    ("araştırmacı",              "Türkiye"),
 ]
 
 _LI_HEADERS = {
@@ -122,6 +137,12 @@ def _parse_linkedin_html(html: str) -> list[_JOB]:
         loc     = loc_el.get_text(strip=True)      if loc_el     else ""
         href    = link_el.get("href", "")          if link_el    else ""
 
+        # Yayın zamanı: <time datetime="2026-07-27"> veya "3 hours ago" metni
+        time_el  = card.select_one("time[datetime], time[class*='listdate']")
+        posted   = ""
+        if time_el:
+            posted = (time_el.get("datetime") or "").strip() or time_el.get_text(strip=True)
+
         # Tracking parametrelerini temizle
         if href and "linkedin.com/jobs/view/" in href:
             href = href.split("?")[0]
@@ -133,24 +154,38 @@ def _parse_linkedin_html(html: str) -> list[_JOB]:
                 "company":  company,
                 "location": loc,
                 "source":   "linkedin",
+                "posted_at": posted,
             })
     return jobs
 
 
-def fetch_linkedin(max_per_query: int = 25, verbose: bool = False) -> list[_JOB]:
+def fetch_linkedin(
+    max_per_query: int = 25,
+    verbose: bool = False,
+    max_age_minutes: int | None = None,
+) -> list[_JOB]:
     """
     LinkedIn jobs-guest API'sinden iş ilanları çeker.
     Login gerektirmez, Playwright gerekmez.
+
+    `max_age_minutes` verilirse f_TPR filtresi buna göre daraltılır: sunucu
+    tarafında filtrelemek hem bant genişliği hem ayrıştırma maliyetini düşürür
+    (önceki sabit 30 günlük pencere her turda aynı eski ilanları çekiyordu).
     """
     all_jobs: list[_JOB] = []
     seen: set[str] = set()
+
+    # En az 1 saat, en fazla 24 saat — LinkedIn indeksleme gecikmesi payı
+    tpr_seconds = 86400
+    if max_age_minutes:
+        tpr_seconds = max(3600, min(86400, int(max_age_minutes) * 60))
 
     for keywords, location in LINKEDIN_QUERIES:
         params: dict = {
             "keywords": keywords,
             "start":    0,
             "count":    max_per_query,
-            "f_TPR":    "r2592000",  # son 30 gün
+            "f_TPR":    f"r{tpr_seconds}",
         }
         if location:
             params["location"] = location
@@ -183,6 +218,21 @@ def fetch_linkedin(max_per_query: int = 25, verbose: bool = False) -> list[_JOB]
 # ─────────────────────────────────────────────────────────────────────────────
 # Playwright yardımcıları
 # ─────────────────────────────────────────────────────────────────────────────
+
+# Akıllı yönlendirme: premium proxy YALNIZCA katı host'larda kullanılır.
+# AcademicPositions/AcademicTransfer gibi hafif siteler doğrudan gider.
+try:
+    from net_policy import geo_for_url, needs_premium
+    _POLICY_AVAILABLE = True
+except ImportError:
+    _POLICY_AVAILABLE = False
+
+    def needs_premium(url: str) -> bool:  # type: ignore[misc]
+        return False
+
+    def geo_for_url(url: str) -> str | None:  # type: ignore[misc]
+        return None
+
 
 # PREMIUM_PROXY_URL formatı: http://user:pass@gate.saglayici.com:7777
 # Kariyer.net/PerimeterX TR exit ister; Indeed CF datacenter IP'yi bloklar.
@@ -246,10 +296,25 @@ _GEO = {
 _GEO_DEFAULT = ("en-US", "Europe/Amsterdam", "en-US,en;q=0.9")
 
 
-def _new_browser(playwright, headless: bool = True, country: str | None = None):
-    """Stealth + opsiyonel residential proxy ile Chromium; (browser, ctx) döner."""
-    ua    = random.choice(_USER_AGENTS)
-    proxy = _proxy_cfg(country)
+def _new_browser(
+    playwright,
+    headless: bool = True,
+    country: str | None = None,
+    target_url: str | None = None,
+):
+    """
+    Stealth + akıllı proxy yönlendirmeli Chromium; (browser, ctx) döner.
+
+    `target_url` verilirse premium proxy kararı net_policy'ye bırakılır:
+    yalnızca katı host'lar (kariyer.net/indeed/glassdoor) gateway'den geçer,
+    diğerleri doğrudan bağlanır → proxy bant genişliği korunur.
+    """
+    ua = random.choice(_USER_AGENTS)
+    if country is None and target_url:
+        country = geo_for_url(target_url)
+    # target_url yoksa geriye dönük davranış: country verilmişse proxy kullan
+    use_premium = needs_premium(target_url) if target_url else bool(country)
+    proxy = _proxy_cfg(country) if use_premium else None
     locale, tz, accept_lang = _GEO.get((country or "").lower(), _GEO_DEFAULT)
 
     browser = playwright.chromium.launch(
@@ -298,14 +363,22 @@ def _new_browser(playwright, headless: bool = True, country: str | None = None):
 # ─────────────────────────────────────────────────────────────────────────────
 
 KARIYER_QUERIES_PW = [
+    # P1
     "data scientist",
     "veri bilimci",
     "data engineer",
     "veri analisti",
     "makine öğrenmesi",
     "yapay zeka",
+    # P2 — dil verisi / anotasyon / araştırma
     "nlp",
     "araştırmacı",
+    "dil uzmanı",
+    "veri etiketleme",
+    "doğal dil işleme",
+    "dilbilimci",
+    "yapay zeka eğitmeni",
+    "ölçme değerlendirme",
 ]
 
 _KARIYER_BASE = "https://www.kariyer.net"
@@ -377,7 +450,7 @@ def fetch_kariyer_pw(max_queries: int = 5, verbose: bool = False) -> list[_JOB]:
 
     try:
         with sync_playwright() as pw:
-            browser, ctx = _new_browser(pw, headless=True, country="tr")
+            browser, ctx = _new_browser(pw, headless=True, target_url=_KARIYER_SEARCH)
             page = ctx.new_page()
 
             for query in KARIYER_QUERIES_PW[:max_queries]:
@@ -503,7 +576,7 @@ def fetch_indeed_tr_pw(max_queries: int = 5, verbose: bool = False) -> list[_JOB
 
     try:
         with sync_playwright() as pw:
-            browser, ctx = _new_browser(pw, headless=True, country="tr")
+            browser, ctx = _new_browser(pw, headless=True, target_url=_INDEED_TR_SEARCH)
             page = ctx.new_page()
             page.set_extra_http_headers({"Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8"})
 
@@ -615,7 +688,8 @@ def fetch_glassdoor(max_urls: int = 6, verbose: bool = False) -> list[_JOB]:
 
     try:
         with sync_playwright() as pw:
-            browser, ctx = _new_browser(pw, headless=True, country="nl")
+            browser, ctx = _new_browser(pw, headless=True,
+                                        target_url=GLASSDOOR_SLUG_URLS[0] if GLASSDOOR_SLUG_URLS else None)
             page = ctx.new_page()
 
             for url in GLASSDOOR_SLUG_URLS[:max_urls]:
@@ -682,6 +756,9 @@ def _extract_indeed_nl_pw(page) -> list[_JOB]:
         title   = link_el.get_text(strip=True) if link_el else ""
         company = co_el.get_text(strip=True)   if co_el   else ""
         loc     = loc_el.get_text(strip=True)  if loc_el  else "Netherlands"
+        date_el = card.select_one("[data-testid='myJobsStateDate'], span.date, "
+                                  "[class*='jobMetaDataGroup'] span")
+        posted  = date_el.get_text(strip=True) if date_el else ""
         job_key = link_el.get("data-jk", "")  if link_el else ""
         url     = f"{_INDEED_NL_BASE}/rc/clk?jk={job_key}" if job_key else ""
 
@@ -692,6 +769,7 @@ def _extract_indeed_nl_pw(page) -> list[_JOB]:
                 "company":  company,
                 "location": loc,
                 "source":   "indeed.nl",
+                "posted_at": posted,
             })
     return jobs
 
@@ -708,7 +786,7 @@ def fetch_indeed_nl(max_queries: int = 6, verbose: bool = False) -> list[_JOB]:
 
     try:
         with sync_playwright() as pw:
-            browser, ctx = _new_browser(pw, headless=True, country="nl")
+            browser, ctx = _new_browser(pw, headless=True, target_url=_INDEED_NL_SEARCH)
             page = ctx.new_page()
             page.set_extra_http_headers({"Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8"})
 
@@ -802,7 +880,8 @@ def fetch_academic_positions(max_urls: int = 5, verbose: bool = False) -> list[_
 
     try:
         with sync_playwright() as pw:
-            browser, ctx = _new_browser(pw, headless=True)
+            browser, ctx = _new_browser(pw, headless=True,
+                                        target_url=ACADEMIC_POSITIONS_URLS[0] if ACADEMIC_POSITIONS_URLS else None)
             page = ctx.new_page()
 
             for url in ACADEMIC_POSITIONS_URLS[:max_urls]:
@@ -839,6 +918,7 @@ def fetch_all_playwright(
     enable_kariyer:            bool = False,  # PerimeterX + Türk IP gerektirir
     enable_indeed_tr:          bool = False,  # 403 Forbidden (geo-blocked)
     verbose: bool = True,
+    max_age_minutes: int | None = None,   # kaynak tarafında tazelik filtresi
 ) -> list[_JOB]:
     """
     Tüm Playwright / requests tabanlı ek kaynaklardan iş ilanı toplar.
@@ -852,7 +932,7 @@ def fetch_all_playwright(
         print(f"\n🎭 Playwright/requests taraması başlıyor ({active} kaynak)...", flush=True)
 
     _steps = [
-        ("LinkedIn",            enable_linkedin,           lambda: fetch_linkedin(verbose=verbose)),
+        ("LinkedIn",            enable_linkedin,           lambda: fetch_linkedin(verbose=verbose, max_age_minutes=max_age_minutes)),
         ("Indeed NL",           enable_indeed_nl,          lambda: fetch_indeed_nl(verbose=verbose)),
         ("Glassdoor",           enable_glassdoor,          lambda: fetch_glassdoor(verbose=verbose)),
         ("AcademicPositions",   enable_academic_positions, lambda: fetch_academic_positions(verbose=verbose)),

@@ -48,10 +48,10 @@ jobs:
       run: |
         git config user.name  "career-ops-bot"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add data/telegram-sent.tsv data/telegram-archive.tsv
+        git add data/telegram-sent.tsv data/telegram-archive.tsv data/scraper-state.json
         # Değişiklik yoksa sessizce çık (workflow'u kırmadan)
         git diff --staged --quiet && echo "state değişmedi" && exit 0
-        git commit -m "chore(state): telegram arşivi güncellendi [skip ci]"
+        git commit -m "chore(state): telegram arşivi + tarama durumu güncellendi [skip ci]"
         # Paralel/geciken run'larla çarpışmayı önle: rebase edip tekrar dene
         for i in 1 2 3; do
           git pull --rebase --autostash origin ${{ github.ref_name }} && \

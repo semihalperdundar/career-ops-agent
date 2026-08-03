@@ -65,6 +65,20 @@ try:
 except ImportError:
     GENAI_AVAILABLE = False
 
+try:
+    from freshness import human_age, job_age_minutes, minutes_since, within_window
+    FRESHNESS_AVAILABLE = True
+except ImportError:
+    FRESHNESS_AVAILABLE = False
+    print("⚠️  freshness.py bulunamadı — tazelik kapısı devre dışı", flush=True)
+
+try:
+    from run_state import freshness_window, load_state, record_run
+    RUN_STATE_AVAILABLE = True
+except ImportError:
+    RUN_STATE_AVAILABLE = False
+    print("⚠️  run_state.py bulunamadı — sabit pencere kullanılacak", flush=True)
+
 # ─── CONFIG ──────────────────────────────────────────────────────────────────
 BASE_DIR  = Path(__file__).parent
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -75,6 +89,11 @@ SENT_ARCHIVE = BASE_DIR / "data" / "telegram-sent.tsv"
 ARCHIVE_LOG  = BASE_DIR / "data" / "telegram-archive.tsv"
 
 MIN_SCORE               = 5.0   # Bu puanın altındakileri gönderme
+# Profil bazlı eşik: P2 (R&D/NLP) puanlaması daha muhafazakâr (base 2.5'ten
+# başlar), P1 eşiği uygulanınca gerçek eşleşmeler de eleniyordu
+MIN_SCORE_BY_PROFILE    = {"P1": 5.0, "P2": 4.3}
+# P2 havuzu yapısal olarak küçük; kota olmadan P1 kalabalığı tüm kontenjanı yer
+P2_MIN_SLOTS            = 5     # her run'da P2'ye ayrılan minimum kontenjan
 MAX_PER_RUN             = 15    # Saatlik maksimum ilan
 FETCH_WORKERS           = 12    # Greenhouse/Lever paralel API isteği sayısı
 SCHEDULE_INTERVAL_HOURS = 1     # --daemon modu tarama aralığı
@@ -161,6 +180,18 @@ GREENHOUSE_BOARDS = [
     ("gleanwork",         "Glean"),
     ("boomilp",           "Boomi"),
     ("buynomics",         "Buynomics"),
+    # ── P2 (R&D / NLP / dil verisi) odaklı board'lar ─────────────────────────
+    # Önceki liste tamamen ürün/tech şirketlerinden oluşuyordu; anotasyon,
+    # RLHF ve dil verisi işvereni hiç yoktu — P2 ilanı yapısal olarak
+    # bulunamıyordu. Aşağıdakiler canlı API ile doğrulandı.
+    ("scaleai",           "Scale AI"),
+    ("turing",            "Turing"),
+    ("labelbox",          "Labelbox"),
+    ("snorkelai",         "Snorkel AI"),
+    ("toloka",            "Toloka"),
+    ("prolific",          "Prolific"),
+    ("assemblyai",        "AssemblyAI"),
+    ("speechmatics",      "Speechmatics"),
 ]
 
 LEVER_COMPANIES = [
@@ -219,10 +250,17 @@ P2_TIER2 = [
     "eğitim araştırmacısı", "ölçme değerlendirme", "yapay zeka eğitimi",
     "ai safety", "content moderation", "information extraction", "named entity",
     "text classification", "text analyst", "speech recognition", "machine translation",
-    "language technology", "nlp engineer", "text mining", "conversational ai",
+    # "nlp engineer" P1 listesinde de var; her ikisinde tutmak çift sayıma yol
+    # açıp "NLP Engineer"i junior takibinden çıkarıyordu → yalnızca "nlp" bırakıldı
+    "language technology", "text mining", "conversational ai",
     "semantic search", "fine-tuning", "ai evaluator", "data quality",
     "language data", "multilingual", "knowledge graph", "dialogue system",
     "embedding specialist", "annotation lead", "labeling", "label",
+    # Tek başına güçlü P2 sinyalleri — bunlar listede yoktu, dolayısıyla
+    # "Staff ML Engineer, NLP" gibi ünvanlar P1'e düşüp kıdem kapısında siliniyordu
+    "nlp", "llm", "prompt engineer", "ontology", "taxonomy",
+    "transcription", "localization", "localisation", "translator",
+    "türkçe", "türk dili", "dilbilim",
 ]
 P2_KEYWORDS = P2_TIER1 + P2_TIER2   # detect_profile() uyumluluğu için
 
@@ -300,8 +338,14 @@ _BLOCK_SIGNATURES: dict[str, list[str]] = {
     "AUTH_WALL":   ["sign in to view", "log in to see", "create an account to view", "please log in"],
 }
 
-FRESHNESS_GATE_MINUTES = 60    # 1 h — saatlik taramada yalnızca son 1 saatin ilanları
-# Note: Greenhouse/Lever API'leri timestamp dönmez → bu kaynaklar her zaman geçer (is_fresh pasif)
+FRESHNESS_GATE_MINUTES = 60    # taban pencere; run_state gecikmeye göre genişletir
+
+# Zaman damgası ÜRETEMEYEN kaynaklar. Bunlarda "bilinmiyor" ilanı elemez —
+# tekrar gönderimi zaten arşiv dedup'ı engeller. Diğer tüm kaynaklarda
+# damgasız ilan ELENİR (katı mod).
+FRESHNESS_EXEMPT_SOURCES = {
+    "glassdoor", "academicpositions", "academictransfer", "indeed.tr",
+}
 
 
 def detect_block(text: str) -> str | None:
@@ -321,53 +365,87 @@ def detect_block(text: str) -> str | None:
 
 def parse_freshness_minutes(timestamp_str: str) -> int | None:
     """
-    Parses relative timestamps → minutes since posting.
-    "5 minutes ago" → 5 | "2 hours ago" → 120 | "just now" → 0
-    Returns None when the string can't be parsed (job passes through).
+    Zaman damgasını "kaç dakika önce" değerine çevirir.
+    ISO-8601, epoch (s/ms) ve göreli metin (TR/EN/NL) desteklenir.
+    Ayrıştırılamazsa None.
     """
-    if not timestamp_str:
-        return None
-    t = timestamp_str.lower().strip()
-    if any(kw in t for kw in ["just now", "moments ago", "seconds ago", "şimdi", "az önce"]):
-        return 0
-    m = _re.search(r"(\d+)\s*(min|dakika)", t)
-    if m:
-        return int(m.group(1))
-    m = _re.search(r"(\d+)\s*(hour|saat)", t)
-    if m:
-        return int(m.group(1)) * 60
-    m = _re.search(r"(\d+)\s*(day|gün)", t)
-    if m:
-        return int(m.group(1)) * 1440
-    return None
+    return minutes_since(timestamp_str) if FRESHNESS_AVAILABLE else None
 
 
 def is_fresh(job: dict, max_minutes: int = FRESHNESS_GATE_MINUTES) -> bool:
     """
-    Returns True if the job is within the freshness window.
-    When no timestamp field exists, always returns True (Greenhouse/Lever APIs
-    don't provide posting time, so we must not penalise them).
+    İlan tazelik penceresinde mi?
+
+    Katı mod: zaman damgası yoksa ilan ELENİR — ancak kaynak yapısal olarak
+    damga üretemiyorsa (FRESHNESS_EXEMPT_SOURCES) muaf tutulur.
     """
-    ts = job.get("posted_at") or job.get("timestamp") or ""
-    if not ts:
+    if not FRESHNESS_AVAILABLE:
         return True
-    minutes = parse_freshness_minutes(str(ts))
-    return minutes is None or minutes <= max_minutes
+    src = str(job.get("source", "")).split("/")[0].lower()
+    unknown_ok = src in FRESHNESS_EXEMPT_SOURCES
+    return within_window(job, max_minutes, unknown_ok=unknown_ok)
 
 
 def detect_profile(title: str) -> str | None:
+    """
+    Ünvanı P1 (Junior Data/AI) veya P2 (Senior R&D/NLP) profiline atar.
+
+    Önceki sürümdeki iki hata P2 ilanlarının neredeyse tamamını eliyordu:
+
+    1. Beraberlik P1'e gidiyordu. "NLP Engineer" hem P1 hem P2 listesinde
+       geçtiği için p1 == p2 oluyor, ilan P1 sayılıyordu.
+    2. P1'e atanan kıdemli ünvan doğrudan çöpe gidiyordu. Yani
+       "Senior NLP Engineer" önce (1) yüzünden P1 oluyor, sonra kıdem
+       kapısına takılıp siliniyordu — oysa tam olarak P2 profilinin hedefi.
+
+    Yeni mantık: T1 eşleşmeleri (yüksek özgüllüklü, "rlhf"/"computational
+    linguist") P1'in genel kelimelerini geçersiz kılar; kıdemli ünvanda
+    herhangi bir P2 sinyali varsa ilan P1'den düşürülmek yerine P2'ye taşınır.
+    """
     t = title.lower()
     if any(neg in t for neg in NEGATIVE_KEYWORDS):
         return None
+
     p1 = sum(1 for kw in P1_KEYWORDS if kw in t)
-    p2 = sum(1 for kw in P2_KEYWORDS if kw in t)
+    t1 = sum(1 for kw in P2_TIER1 if kw in t)
+    t2 = sum(1 for kw in P2_TIER2 if kw in t)
+    p2 = t1 + t2
     if p1 == 0 and p2 == 0:
         return None
-    profile = "P2" if p2 > p1 else "P1"
-    # P1 için sert kıdem kapısı: kıdemli ünvanlar doğrudan reddedilir
-    if profile == "P1" and _is_senior_for_p1(title):
-        return None
-    return profile
+
+    # T1 = 1.5×, T2 = 0.7× — score_job ile aynı ağırlıklandırma
+    p2_weight = t1 * 1.5 + t2 * 0.7
+    senior    = _is_senior_for_p1(title)
+
+    if p2_weight > p1:
+        return "P2"
+    if senior:
+        # Kıdemli ünvan: P1 (junior) için uygun değil ama P2 sinyali varsa P2
+        return "P2" if p2 > 0 else None
+    return "P1"
+
+
+def _apply_profile_quota(jobs: list, limit: int, p2_slots: int = P2_MIN_SLOTS) -> list:
+    """
+    Kontenjanı profiller arasında paylaştırır.
+
+    Saf skor sıralamasında P1 ilanları (çok daha kalabalık kaynak havuzu)
+    listenin tamamını dolduruyor ve P2 hiç görünmüyordu. Burada P2'ye
+    ayrılmış minimum kontenjan verilir; P2 o kadar ilan yoksa boş kalan
+    kontenjan P1'e döner.
+    """
+    if len(jobs) <= limit:
+        return jobs
+    p2 = [j for j in jobs if j.get("profile") == "P2"]
+    p1 = [j for j in jobs if j.get("profile") != "P2"]
+    take_p2 = min(len(p2), max(p2_slots, 0))
+    take_p1 = limit - take_p2
+    if take_p1 > len(p1):                      # P1 az ise kalanı P2'ye ver
+        take_p2 = min(len(p2), limit - len(p1))
+        take_p1 = len(p1)
+    merged = p1[:take_p1] + p2[:take_p2]
+    merged.sort(key=lambda x: x["score"], reverse=True)
+    return merged[:limit]
 
 
 def score_job(title: str, location: str, profile: str) -> float:
@@ -513,6 +591,8 @@ def fetch_greenhouse(slug, company, pool=None):
                 "company":  company,
                 "location": loc.get("name", "") if isinstance(loc, dict) else str(loc),
                 "source":   f"greenhouse/{slug}",
+                # first_published = ilk yayın; updated_at düzenlemede değişir
+                "posted_at": j.get("first_published") or j.get("updated_at") or "",
             })
         return [j for j in jobs if j["title"] and j["url"]]
     except Exception:
@@ -539,6 +619,7 @@ def fetch_lever(slug, company, pool=None):
                 "company":  company,
                 "location": loc,
                 "source":   f"lever/{slug}",
+                "posted_at": j.get("createdAt") or "",   # epoch ms
             })
         return [j for j in jobs if j["title"] and j["url"]]
     except Exception:
@@ -548,6 +629,19 @@ def fetch_lever(slug, company, pool=None):
 # ─── ARCHIVE ─────────────────────────────────────────────────────────────────
 
 SENT_HEADER = ["id", "url", "company", "title", "location", "profile", "score", "sent_at"]
+
+_TSV_BAD = _re.compile(r"[\r\n\t]+")
+
+
+def _tsv_clean(value) -> str:
+    """
+    Alan içindeki CR/LF/TAB'ı temizler.
+
+    Bazı ilan başlıkları gömülü \\r taşıyordu; csv okuyucu bunu kayıt sonu
+    sayıp satırı ikiye bölüyor, bölünen parçalar da geçersiz URL'ler olarak
+    dedup setine giriyordu (aynı ilan tekrar gönderilebiliyordu).
+    """
+    return _TSV_BAD.sub(" ", str(value if value is not None else "")).strip()
 
 
 def job_id(job: dict) -> str:
@@ -586,11 +680,11 @@ def save_sent(jobs: list):
             if write_header:
                 w.writerow(SENT_HEADER)
             for job in jobs:
-                w.writerow([
+                w.writerow([_tsv_clean(v) for v in (
                     job.get("id") or job_id(job), job["url"], job["company"],
                     job["title"], job.get("location", ""), job["profile"],
                     f"{job['score']:.1f}", now,
-                ])
+                )])
             f.flush()
             os.fsync(f.fileno())   # runner kill edilirse satırlar kaybolmasın
 
@@ -847,6 +941,15 @@ def main():
     date_str = f"{now.day} {TURKISH_MONTHS[now.month]} {now.year}"
     print(f"[{now:%Y-%m-%d %H:%M}] CareerOps başlıyor — {date_str}", flush=True)
 
+    # ── 0. Tazelik penceresi — son BAŞARILI taramadan bu yana geçen süre ──────
+    # Cron gecikirse veya bir run atlanırsa pencere otomatik genişler;
+    # aradaki ilanlar kaybolmaz, eskiler de içeri sızmaz.
+    if RUN_STATE_AVAILABLE:
+        window, why = freshness_window(load_state())
+    else:
+        window, why = FRESHNESS_GATE_MINUTES, "run_state yok"
+    print(f"⏱  Tazelik penceresi: {window}dk ({why})", flush=True)
+
     # ── 1. Proxy havuzu başlat ────────────────────────────────────────────────
     pool = None
     if HAS_PREMIUM_PROXY:
@@ -918,6 +1021,7 @@ def main():
                 enable_kariyer=ENABLE_KARIYER_PW,
                 enable_indeed_tr=ENABLE_INDEED_PW,
                 verbose=True,
+                max_age_minutes=window,   # kaynak tarafında tazelik filtresi
             )
         except Exception as e:
             print(f"⚠️  Playwright portal hatası: {e}", flush=True)
@@ -945,8 +1049,8 @@ def main():
                 print(f"🚨 SENTINEL [{block}] {job.get('company','?')} — {url[:60]}", flush=True)
                 blocked_count += 1
                 continue
-        # Scout: freshness gate
-        if not is_fresh(job):
+        # Scout: tazelik kapısı — bu çalıştırmanın penceresi
+        if not is_fresh(job, window):
             stale_count += 1
             continue
         profile = detect_profile(job.get("title", ""))
@@ -954,15 +1058,19 @@ def main():
             continue
         job["profile"] = profile
         job["score"]   = score_job(job["title"], job.get("location", ""), profile)
-        if job["score"] >= MIN_SCORE:
+        job["age_min"] = job_age_minutes(job) if FRESHNESS_AVAILABLE else None
+        # Eşik profil bazlı: P2 havuzu yapısal olarak daha küçük ve puanlaması
+        # daha muhafazakâr — P1 eşiğiyle tamamen eleniyordu
+        if job["score"] >= MIN_SCORE_BY_PROFILE.get(profile, MIN_SCORE):
             ready.append(job)
     if blocked_count:
         print(f"🚨 Sentinel: {blocked_count} ilan altyapı bloğu nedeniyle atlandı", flush=True)
     if stale_count:
-        print(f"⏱  Scout: {stale_count} ilan tazelik eşiği dışında ({FRESHNESS_GATE_MINUTES}dk)", flush=True)
+        print(f"⏱  Scout: {stale_count} ilan pencere dışında ({window}dk)", flush=True)
 
+    # Profil kotası: P2 ilanları P1 kalabalığına ezdirilmesin
     ready.sort(key=lambda x: x["score"], reverse=True)
-    ready = ready[:MAX_PER_RUN]
+    ready = _apply_profile_quota(ready, MAX_PER_RUN)
 
     # ── 6b. LLM zenginleştirme (opsiyonel) ───────────────────────────────────
     if ENABLE_LLM_ENRICHMENT and GEMINI_API_KEY:
@@ -983,9 +1091,11 @@ def main():
             print(f"   Token: {tok_in} in / {tok_out} out "
                   f"(~{tok_in // max(len(batch), 1)} in/ilan)", flush=True)
 
-    # Kaynak dağılımını göster
-    src_dist = Counter(j.get("source", "?").split("/")[0] for j in ready)
-    print(f"📊 Gönderilecek: {len(ready)} ilan | Kaynak: {dict(src_dist)}", flush=True)
+    # Kaynak + profil dağılımını göster
+    src_dist  = Counter(j.get("source", "?").split("/")[0] for j in ready)
+    prof_dist = Counter(j.get("profile", "?") for j in ready)
+    print(f"📊 Gönderilecek: {len(ready)} ilan | Profil: {dict(prof_dist)} "
+          f"| Kaynak: {dict(src_dist)}", flush=True)
 
     # ── 7. Telegram'a gönder ──────────────────────────────────────────────────
     broadcast(ready, date_str)
@@ -993,6 +1103,13 @@ def main():
     # ── 8. Arşive kaydet ──────────────────────────────────────────────────────
     if ready:
         save_sent(ready)
+
+    # ── 9. Çalışma durumunu kaydet (bir sonraki pencerenin dayanağı) ─────────
+    if RUN_STATE_AVAILABLE:
+        record_run(
+            sent=len(ready), scanned=len(raw),
+            stale=stale_count, blocked=blocked_count, success=True,
+        )
 
     print(f"[{datetime.now():%Y-%m-%d %H:%M}] Tamamlandı.", flush=True)
 

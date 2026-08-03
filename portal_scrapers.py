@@ -129,6 +129,7 @@ def fetch_ashby(slug: str, company: str, fetch_fn: FetchFn) -> list[_JOB]:
             "company":  company,
             "location": loc or "",
             "source":   f"ashby/{slug}",
+            "posted_at": p.get("publishedAt") or p.get("updatedAt") or "",
         })
     return jobs
 
@@ -186,6 +187,7 @@ def fetch_remotive(fetch_fn: FetchFn) -> list[_JOB]:
                     "company":  j.get("company_name", ""),
                     "location": j.get("candidate_required_location") or "Remote",
                     "source":   "remotive",
+                    "posted_at": j.get("publication_date") or "",
                 })
         except Exception:
             continue
@@ -251,12 +253,14 @@ def _parse_rss(xml_data, source_tag: str) -> list[_JOB]:
             title   = parts[1].strip()
 
         if title and url:
+            pub_el = item.find("pubDate")
             jobs.append({
                 "title":    title,
                 "url":      url,
                 "company":  company,
                 "location": region,
                 "source":   source_tag,
+                "posted_at": (pub_el.text or "").strip() if pub_el is not None else "",
             })
     return jobs
 
@@ -295,6 +299,7 @@ KARIYER_SEARCH = f"{KARIYER_BASE}/is-ilanlari"
 
 # Profil 1 (Data/AI/ML) ve Profil 2 (NLP/Araştırma) için Türkçe anahtar kelimeler
 KARIYER_QUERIES = [
+    # P1 — Junior Data/AI
     "veri bilimci",
     "data scientist",
     "makine ogrenmesi",
@@ -303,10 +308,16 @@ KARIYER_QUERIES = [
     "veri muhendisi",
     "data engineer",
     "data analyst",
+    # P2 — R&D / NLP / dil verisi (genişletildi)
     "arastirmaci",
     "nlp",
     "dil uzmani",
     "veri etiketleme",
+    "dilbilimci",
+    "dogal dil isleme",
+    "yapay zeka egitmeni",
+    "icerik uzmani",
+    "olcme degerlendirme",
 ]
 
 
@@ -343,6 +354,8 @@ def _extract_kariyer_json(html: str) -> list[_JOB]:
                         "company":  company,
                         "location": f"{loc}, Türkiye" if loc and "türkiye" not in loc.lower() else loc,
                         "source":   "kariyer.net",
+                        "posted_at": (j.get("publishDate") or j.get("createdDate")
+                                      or j.get("datePosted") or j.get("publishedDate") or ""),
                     })
             if jobs:
                 return jobs
@@ -374,6 +387,7 @@ def _extract_kariyer_json(html: str) -> list[_JOB]:
                         "company":  company,
                         "location": f"{loc}, Türkiye" if loc else "Türkiye",
                         "source":   "kariyer.net",
+                        "posted_at": item.get("datePosted") or "",
                     })
             if jobs:
                 return jobs
