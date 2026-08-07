@@ -1,14 +1,14 @@
 {
   "last_result": {
-    "at": "2026-08-07T00:26:49.340459+00:00",
+    "at": "2026-08-07T04:12:45.960755+00:00",
     "blocked": 0,
-    "scanned": 4828,
-    "sent": 2,
-    "stale": 4624,
+    "scanned": 4785,
+    "sent": 15,
+    "stale": 4470,
     "success": true
   },
-  "last_run_at": "2026-08-07T00:26:49.340459+00:00",
-  "last_success_at": "2026-08-07T00:26:49.340459+00:00",
-  "total_runs": 30,
-  "total_sent": 437
+  "last_run_at": "2026-08-07T04:12:45.960755+00:00",
+  "last_success_at": "2026-08-07T04:12:45.960755+00:00",
+  "total_runs": 31,
+  "total_sent": 452
 }
