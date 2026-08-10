@@ -4,7 +4,6 @@ id	url	company	title	location	profile	score	sent_at
 0584468207c6beb6	https://traderepublic.com/en-de/about?jobId=6589276003&gh_jid=6589276003	Trade Republic	Analytics Engineer  (Berlin)	Berlin	P1	5.7	2026-05-13 17:18
 51bf62f9f3343872	https://traderepublic.com/en-de/about?jobId=7623520003&gh_jid=7623520003	Trade Republic	Analytics Engineering (Paris)	Paris	P1	5.7	2026-05-13 17:18
 0e9fbe4039b589b4	http://stability.ai/careers?gh_jid=4711065101	Stability AI	Research Scientist – Controlled 3D Generation	Remote	P2	5.6	2026-05-13 17:18
-a698440a9ef5000f	https://job-boards.eu.greenhouse.io/amplemarket/jobs/4108094101	Amplemarket	Spontaneous Application - Data Engineer	Remote, EMEA/LATAM	P1	5.5	2026-05-13 17:18
 ef4091206c472db7	https://jobs.lever.co/mistral/bd88179e-de69-4675-8a6c-74e2547a85ac	Mistral AI	Code Data Annotation Quality Specialist	Paris	P2	5.5	2026-05-13 17:18
 6c67773a4f43caac	https://jobs.lever.co/mistral/1cb8bbe9-012f-46a6-83d0-1200be477793	Mistral AI	Data Annotation Quality Specialist	Paris	P2	5.5	2026-05-13 17:18
 55446129fbac6a84	https://job-boards.greenhouse.io/celonis/jobs/7662738003?gh_jid=7662738003	Celonis	Associate Applied AI Engineer (APAC) - Orbit Program	Madrid, Spain	P1	5.4	2026-05-13 17:18
@@ -106,73 +105,36 @@ bf3e1730caf3fe8e	https://nl.linkedin.com/jobs/view/senior-machine-learning-engin
 867d2caeba5eead2	https://nl.linkedin.com/jobs/view/senior-data-engineer-at-hot-item-conclusion-4410713005	Hot ITem Conclusion	Senior Data Engineer	The Randstad, Netherlands	P1	5.4	2026-05-13 23:42
 c1377d6235740cf7	https://jobs.lever.co/spotify/08d82da1-0c72-44d1-91eb-7fa22dee3d39	Spotify	Analytics Engineer II	Stockholm	P1	6.0	2026-05-14 10:23
 304a545e48ce6693	https://nl.indeed.com/rc/clk?jk=72b4074b6a3de885	Yourhosting	Business Analyst (Data & Predictive Analytics)	Hybride werken in 8041 Zwolle	P1	6.0	2026-05-14 10:23
-4cfa4efcacb796ca	https://job-boards.greenhouse.io/celonis/jobs/7669112003?gh_jid=7669112003	Celonis	Associate Applied AI Engineer (Madrid/Spain) - Orbit Program	Tokyo, Japan	P1	5.8	2026-05-14 10:23
-5b31df3e0c6e45c4	https://jobs.lever.co/spotify/6b8e77f1-666d-4241-a988-f1ad78272ec1	Spotify	Associate Data Scientist - User Fraud	Toronto	P1	5.8	2026-05-14 10:23
 6656d27f89f6fe58	https://www.glassdoor.nl/job-listing/junior-machine-learning-engineer-ministerie-van-defensie-JV_KO0,32_KE33,56.htm?jl=1010122650096	Ministerie van Defensie	Junior Machine Learning Engineer	Overijssel	P1	5.8	2026-05-14 10:23
-03c58a4aa85fdf7b	https://jobs.ashbyhq.com/cohere/23c35d20-e31e-42bb-a4dc-88a8e063061a	Cohere	Data Annotation Specialist, Arabic Language Najdi/Hijazi Dialect	Canada	P2	5.6	2026-05-14 10:23
-429b6fe416619ff2	https://jobs.ashbyhq.com/cohere/0ef0a9f8-33ac-4360-a833-f8ce8e108a31	Cohere	Data Annotation Specialist, Engineering	Canada	P2	5.6	2026-05-14 10:23
-ad10320e787f2d65	https://jobs.ashbyhq.com/cohere/acec6038-117b-400b-92e3-0745fbb4cf53	Cohere	Data Annotation Specialist - German Writer/Translator	Canada	P2	5.6	2026-05-14 10:23
-ae6810b1fef04de9	https://jobs.ashbyhq.com/cohere/5e8c8cc4-4349-4574-a8c6-b17687014d76	Cohere	Data Annotation Specialist, Japanese	Canada	P2	5.6	2026-05-14 10:23
-e62a8fe2869d4a0c	https://jobs.ashbyhq.com/cohere/c88a1738-bfe7-4f2f-ad01-117b45511232	Cohere	Data Annotation Specialist, Modern Standard Arabic (MSA)	Canada	P2	5.6	2026-05-14 10:23
-35c7ab5207c2704a	https://jobs.ashbyhq.com/cohere/6bbe2e47-a281-4af9-8ca9-79f35bf4be9b	Cohere	Data Annotation Specialist, Portuguese	Canada	P2	5.6	2026-05-14 10:23
-6d1063e2fe99bbe4	https://jobs.ashbyhq.com/cohere/34533921-d731-4529-89e7-cf4939055a20	Cohere	Data Annotation Specialist, Simplified Chinese / Mandarin	Canada	P2	5.6	2026-05-14 10:23
 80ec98e3520dbc46	https://jobs.ashbyhq.com/cohere/7ec9eaf4-8cfc-4977-9041-86f73e7ab10b	Cohere	Senior Research Scientist, Cohere Labs	London	P2	5.6	2026-05-14 10:23
-2b9bf4dead357b45	https://jobs.ashbyhq.com/cohere/830c613b-d4bf-4673-ab33-46ccc12cc415	Cohere	Senior Research Scientist, Model Evaluation	Toronto	P2	5.6	2026-05-14 10:23
 34bc33cc6225c4cc	https://www.academictransfer.com/en/jobs/360611/phd-position-vision-language-models-for-biodiversity-environmental-monitoring/	Wageningen University & Research	PhD position: Vision-Language Models for Biodiversity & Environmental Monitoring	Wageningen	P2	5.4	2026-05-14 10:23
-f323401cb733864c	https://jobs.elastic.co/jobs?gh_jid=7889677&gh_jid=7889677	Elastic	Cloud/GenAI Engineer	Bangalore, India	P1	5.0	2026-05-14 10:23
-3aef11c5d9eb64df	https://jobs.elastic.co/jobs?gh_jid=7858138&gh_jid=7858138	Elastic	Elastic AI Engineer	Canada	P1	5.0	2026-05-14 10:23
-18b0f3a3224dc415	https://job-boards.greenhouse.io/celonis/jobs/7681593003?gh_jid=7681593003	Celonis	Applied AI Engineer	Bangalore, India	P1	5.0	2026-05-14 11:17
-ba26fc88f585f211	https://careers.hellofresh.com/global/en/job/7601339?gh_jid=7601339	HelloFresh	Data Analyst	Manila, Manila, Philippines	P1	5.0	2026-05-14 11:17
 bf996629ed49bac7	https://careers.hellofresh.com/global/en/job/7559778?gh_jid=7559778	HelloFresh	Data Engineer, Global Data Products	Warszawa, Masovian Voivodeship, Poland	P1	5.0	2026-05-14 11:17
-ec9826199f76b70d	https://careers.hellofresh.com/global/en/job/7387627?gh_jid=7387627	HelloFresh	[HelloConnect] Product Data Analyst (SQL/Python)	Manila, Manila, Philippines	P1	5.0	2026-05-14 11:17
-d6ea4527ccc58e0d	https://wayve.firststage.co/jobs?gh_jid=8105900002	Wayve	Machine Learning Engineer	Japan	P1	5.0	2026-05-14 11:17
-ce4eee7d3212a428	https://wayve.firststage.co/jobs?gh_jid=8463919002	Wayve	Machine Learning Engineer, AV Engineering	Israel	P1	5.0	2026-05-14 11:17
-1b26ca6fe55375ee	https://job-boards.greenhouse.io/anthropic/jobs/5055488008	Anthropic	Applied AI Engineer	Tokyo, Japan	P1	5.0	2026-05-14 11:17
-9d8ebaf14c57088b	https://job-boards.greenhouse.io/anthropic/jobs/5014500008	Anthropic	Applied AI Engineer	Seoul, South Korea	P1	5.0	2026-05-14 11:17
 ec013095e4361e64	https://job-boards.greenhouse.io/anthropic/jobs/5116274008	Anthropic	Applied AI Engineer	London, UK	P1	5.0	2026-05-14 11:17
-31e5c9d2c69060ed	https://job-boards.greenhouse.io/anthropic/jobs/5146028008	Anthropic	Applied AI Engineer, Beneficial Deployments	Bangalore, India	P1	5.0	2026-05-14 11:17
 c2843e5c5e1d1c1f	https://job-boards.greenhouse.io/anthropic/jobs/5156057008	Anthropic	Data Engineer, Safeguards	London, UK	P1	5.0	2026-05-14 11:17
 c2b0af7aae0be79b	https://job-boards.eu.greenhouse.io/speechmatics/jobs/4719611101	Speechmatics	Data Engineer	Belgrade, Belgrade, Serbia	P1	5.0	2026-05-14 11:17
 ec48e7c00d994521	https://job-boards.eu.greenhouse.io/speechmatics/jobs/4660432101	Speechmatics	Machine Learning Engineer	Cambridge, England, United Kingdom	P1	5.0	2026-05-14 11:17
 6920e1cbdf02fec2	https://job-boards.eu.greenhouse.io/speechmatics/jobs/4660424101	Speechmatics	Machine Learning Engineer	London, England, United Kingdom	P1	5.0	2026-05-14 11:17
-08b2c99b8733a11c	https://job-boards.eu.greenhouse.io/physicsx/jobs/4749996101	PhysicsX	Machine Learning Engineer	Singapore	P1	5.0	2026-05-14 11:17
-1bcd6ccb289f6b19	https://sumup.com/careers/positions/5152350002?gh_jid=5152350002	SumUp	Business Analyst	São Paulo, Brazil	P1	5.0	2026-05-14 11:17
-2f2056d14c8f18d8	https://sumup.com/careers/positions/8498277002?gh_jid=8498277002	SumUp	Data Analyst - CoreOps	Santiago, Chile	P1	5.0	2026-05-14 11:17
-9b0547370c3aa81a	https://job-boards.eu.greenhouse.io/polyai/jobs/4855037101	PolyAI	Forward Deployed AI Engineer (Must be based in Toronto, Canada)	Toronto, Canada	P1	5.0	2026-05-14 11:17
 3dc37a0f732f15ac	https://nl.linkedin.com/jobs/view/junior-data-scientist-at-haystack-4411168986	Haystack	Junior Data Scientist	Amsterdam, North Holland, Netherlands	P1	5.8	2026-05-15 10:21
 20605acbc5d8a04f	https://nl.linkedin.com/jobs/view/junior-mid-level-data-engineer-at-harnham-4409907062	Harnham	Junior/Mid level Data Engineer	Amsterdam Area	P1	5.8	2026-05-15 10:21
-306b6a13900a635c	https://careers.hellofresh.com/global/en/job/7839750?gh_jid=7839750	HelloFresh	Data Engineer	Sydney, New South Wales, Australia	P1	5.0	2026-05-15 10:21
-b7049e57ae7e4937	https://boomi.com/boomi-jobs/?gh_jid=5979759004	Boomi	Reporting and Analytics Advisor	India	P1	5.0	2026-05-15 10:21
 98a779f9cb947996	https://jobs.lever.co/mistral/aceffeba-c4e9-4b3b-adff-e7e78b986c5c	Mistral AI	Applied AI Engineer, Fullstack Software Engineer - EMEA	Paris	P1	5.0	2026-05-15 10:21
 2b1b461a5d20578a	https://jobs.lever.co/mistral/ac195fdb-1731-4ce2-b47e-c1bb8c72c59d	Mistral AI	Applied AI Engineer, Prototyping	Paris	P1	5.0	2026-05-15 10:21
 30044b022621c075	https://jobs.lever.co/mistral/77f6fd1b-65cf-45d8-9b68-594c62732f62	Mistral AI	Applied AI, Forward Deployed Machine Learning Engineer - EMEA	Paris	P1	5.0	2026-05-15 10:21
-7b41f73ab3cb6e5d	https://jobs.lever.co/mistral/a73cb128-b07e-437c-b82d-57b06661c52b	Mistral AI	Applied AI, Forward Deployed Machine Learning Engineer - Montreal	Montreal	P1	5.0	2026-05-15 10:21
-2531a1b7469bd42b	https://jobs.lever.co/mistral/cb2137e6-d6b1-47d7-8450-6370a61f2b79	Mistral AI	Applied AI, Forward Deployed Machine Learning Engineer - Morocco	Casablanca	P1	5.0	2026-05-15 10:21
-a14c6a973adf0ebc	https://jobs.lever.co/mistral/6fc7ccb5-47bb-4eab-aea0-55929403315d	Mistral AI	Applied AI, Forward Deployed Machine Learning Engineer- Singapore	Singapore	P1	5.0	2026-05-15 10:21
 3f3af5c2837d9657	https://jobs.lever.co/mistral/c7b7fdfe-a071-4d62-bc15-7bcdff8067e7	Mistral AI	Applied AI, Forward Deployed Machine Learning Engineer, Critical and Sovereign Institutions, EMEA	Paris	P1	5.0	2026-05-15 10:21
 f9f0591bae2e83a8	https://jobs.lever.co/mistral/b7ae8fc4-5779-4ad2-8f5b-632b4d9498cf	Mistral AI	Applied Scientist / Research Engineer - EMEA	Paris	P1	5.0	2026-05-15 10:21
-9c5dbe4fee0a0b13	https://jobs.lever.co/mistral/c41d9d9e-f0ea-4621-a4a9-3f10dfa9ae84	Mistral AI	Applied Scientist / Research Engineer - Singapore	Singapore	P1	5.0	2026-05-15 10:21
 c3e65d76605ff6da	https://jobs.lever.co/mistral/6f28da96-76f9-44bb-9b85-4e3519fde6d4	Mistral AI	Data Engineer	Paris	P1	5.0	2026-05-15 10:21
 ba87d4f7db64dfa1	https://jobs.lever.co/mistral/bf5bcae2-839b-492e-a5bc-11d4427ee843	Mistral AI	Data Scientist	Paris	P1	5.0	2026-05-15 10:21
 6cc902232b4405ac	https://jobs.lever.co/mistral/ef4c26fc-3fdb-4dd2-a64e-95264ee769dd	Mistral AI	Open-Source Software, Machine Learning Engineer	Paris	P1	5.0	2026-05-15 10:21
 a0bd1767a22b23e6	https://jobs.lever.co/spotify/baa87498-b0a3-4ac5-b197-a224e93c8a07	Spotify	Backend/Data Engineer - Data Platform	London	P1	5.0	2026-05-15 10:21
-37ec2ec68a62fa73	https://www.linkedin.com/jobs/view/junior-ai-engineer-at-onto-innovation-4310893067	Onto Innovation	Junior AI Engineer	Wilmington, MA	P1	5.8	2026-05-16 10:22
 0778c37caddb9775	https://tr.linkedin.com/jobs/view/jr-data-scientist-at-teknasyon-4411590966	Teknasyon	Jr. Data Scientist	Istanbul, Türkiye	P1	5.8	2026-05-16 10:22
 babfb61469966731	https://wayve.firststage.co/jobs?gh_jid=8552515002	Wayve	Applied Scientist, Wayve Labs	London	P1	5.0	2026-05-16 10:22
-6aa62ae438391d08	https://wayve.firststage.co/jobs?gh_jid=8552547002	Wayve	Applied Scientist, Wayve Labs	Vancouver	P1	5.0	2026-05-16 10:22
-08cdbc6bae31a3bc	https://jobs.lever.co/spotify/4303f795-d0a5-41ed-8c78-0941780b6e54	Spotify	Data Engineer – Platform	Toronto	P1	5.0	2026-05-16 10:22
 132256b6f539b29c	https://jobs.lever.co/spotify/5d36b6f4-e89d-4a01-985c-59a184080440	Spotify	Data Engineer I - Revenue	London	P1	5.0	2026-05-16 10:22
 80aad28e7a149013	https://jobs.lever.co/spotify/cc60212e-e20b-407e-a877-32b3d8dfe11a	Spotify	Data Scientist - Content Understanding	London	P1	5.0	2026-05-16 10:22
-ff7296b9bff590e4	https://jobs.lever.co/spotify/71c28dec-d4a1-4e27-bb9b-1dab4a616ce5	Spotify	Data Scientist - Platform Mission	Toronto	P1	5.0	2026-05-16 10:22
 f0fb1ff67024e6ce	https://jobs.lever.co/spotify/fee22111-f04f-4ac2-88f0-07a0a5d8f4f3	Spotify	Data Scientist, Subscriptions	London	P1	5.0	2026-05-16 10:22
 6b62591e43b4f236	https://jobs.lever.co/spotify/4972fad1-f3d8-49ef-9d41-d132b5281942	Spotify	Machine Learning Engineer, Personalization, Samba	London	P1	5.0	2026-05-16 10:22
 5edc09120a4f2cc9	https://jobs.lever.co/palantir/ff1029bd-bb6d-4d78-a03e-5f9744d0b798	Palantir	Forward Deployed AI Engineer	London, United Kingdom	P1	5.0	2026-05-16 10:22
 041f391d54ac12f4	https://weworkremotely.com/remote-jobs/we-work-remotely-digital-analytics-engineer-ga4-gtm	We Work Remotely	Digital Analytics Engineer (GA4 / GTM)	Anywhere in the World	P1	6.0	2026-05-17 10:19
-98fcf15a5d61c554	https://jobs.ashbyhq.com/cohere/031c2335-db85-4265-8a88-a54b911be36a	Cohere	Applied AI Engineer – Agentic Workflows (Korea)	Korea	P1	5.0	2026-05-17 10:19
-7685107f37018fa0	https://jobs.ashbyhq.com/cohere/9c18b199-cd1f-4ef3-9fab-ce05589348ae	Cohere	Applied AI Engineer - Agentic Workflows (Singapore)	Singapore	P1	5.0	2026-05-17 10:19
 81113b5ead1cb344	https://jobs.ashbyhq.com/synthesia/a40cbbc3-6be7-48a2-b8c7-1f09a1c5aa43	Synthesia	Commercial Data Scientist	Europe	P1	5.0	2026-05-17 10:19
 a73ad9760795b1ab	https://jobs.ashbyhq.com/mollie/7c7ae534-c038-4e23-ac06-4f69d38618bd	Mollie	Data Engineer	Lisbon	P1	5.0	2026-05-17 10:19
-24f2fb566ab7b256	https://remotive.com/remote-jobs/artificial-intelligence/ai-engineer-2089958	Dry Ground AI	AI Engineer	Brazil, Colombia, Philippines	P1	5.0	2026-05-17 10:19
 a0e29d7f125bbf2f	https://www.academictransfer.com/en/jobs/360720/researcher-teacher-artificial-intelligence-in-biomedical-data-sciences/	Leiden University Medical Center (LUMC)	Researcher / Teacher Artificial Intelligence in biomedical data sciences	Leiden	P1	5.0	2026-05-17 10:19
 3f6aa91a052a9bb8	https://nl.linkedin.com/jobs/view/machine-learning-engineer-python-computer-vision-edge-ai-at-haystack-people-4413540349	Haystack People	Machine Learning Engineer (Python, Computer Vision, Edge AI)	South Holland, Netherlands	P1	5.0	2026-05-17 10:19
 f9ddaf3fd9b58dd8	https://nl.linkedin.com/jobs/view/data-engineer-at-dhl-ecommerce-nederland-4413495039	DHL eCommerce Nederland	Data Engineer	Utrecht, Netherlands	P1	5.0	2026-05-17 10:19
@@ -182,7 +144,6 @@ a38222050021e93a	https://nl.linkedin.com/jobs/view/data-engineer-at-elevation-gr
 191e96340e73834e	https://nl.linkedin.com/jobs/view/data-engineer-at-salt-4411579891	Salt	Data Engineer	Amsterdam Area	P1	5.0	2026-05-17 10:19
 f19b79ed88945283	https://nl.linkedin.com/jobs/view/data-scientist-at-cz-4413459907	CZ	Data Scientist	Tilburg, North Brabant, Netherlands	P1	5.0	2026-05-17 10:19
 cd2a1a489361dd29	https://nl.linkedin.com/jobs/view/data-analyst-trust-safety-at-jobgether-4414789621	Jobgether	Data Analyst, Trust & Safety	Brabantine City Row	P1	5.0	2026-05-17 10:19
-b8d3b988dde7f2f8	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-josh-pros-4413404291	Josh Pros	AI/ML Engineer	Willing, NY	P1	5.0	2026-05-17 10:19
 e30fd4afdc95575b	https://uk.linkedin.com/jobs/view/llm-data-scientist-at-holland-barrett-4413435601	Holland & Barrett	LLM Data Scientist	London, England, United Kingdom	P1	5.0	2026-05-17 10:19
 2bcc2a9fa74d3b3d	https://pt.linkedin.com/jobs/view/ai-data-scientist-at-decskill-4410172048	Decskill	AI Data Scientist	Lisbon, Portugal	P1	5.0	2026-05-17 10:19
 7a9ba4598f7b1a2a	https://rs.linkedin.com/jobs/view/ml-ai-engineer-at-expert-executive-recruiters-eer-global-4413523881	Expert Executive Recruiters (EER Global)	ML/ AI Engineer	Serbia	P1	5.0	2026-05-17 10:19
@@ -233,7 +194,6 @@ f845f056adc2ad5d	https://nl.linkedin.com/jobs/view/data-engineer-at-adyen-425702
 b87e427b720cfe86	https://nl.indeed.com/rc/clk?jk=9fa1dd8bb735d62c	Ayvens	Data Engineer met BI Focus	Hybride werken in Amsterdam	P1	5.0	2026-05-19 10:20
 4e20284b035ef54b	https://nl.indeed.com/rc/clk?jk=aee59c3580b1502d	The Greenery	Functioneel Consultant Analytics - Barendrecht	Hybride werken in Barendrecht	P1	5.0	2026-05-19 10:20
 0b2c07f45796cba7	https://nl.linkedin.com/jobs/view/analytics-engineer-opendata-at-jobgether-4415782946	Jobgether	Analytics Engineer - OpenData	Brabantine City Row	P1	6.0	2026-05-20 10:18
-f3fb4a87654a0cb6	https://careers.hellofresh.com/global/en/job/7486530?gh_jid=7486530	HelloFresh	ICT Business Analyst (Demand Systems)	Sydney, New South Wales, Australia	P1	5.0	2026-05-20 10:18
 ff25f0ecaf85d1cf	https://jobs.lever.co/mistral/249d0ec9-1824-41cb-8c4f-cb17a1d5d111	Mistral AI	Applied Scientist / Research Engineer, AI4Engineering - EMEA	Paris	P1	5.0	2026-05-20 10:18
 322467a871c230b5	https://nl.linkedin.com/jobs/view/data-engineer-at-geeksoft-consulting-4415766496	GeekSoft Consulting	Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-20 10:18
 b244333febb1aa5c	https://ch.linkedin.com/jobs/view/applied-scientist-search-at-thomson-reuters-4407960465	Thomson Reuters	Applied Scientist, Search	Zug, Zug, Switzerland	P1	5.0	2026-05-20 10:18
@@ -259,7 +219,6 @@ ef9b56baab3e6110	https://www.glassdoor.nl/job-listing/data-scientist-semwerkt-JV
 f2954aeeceb7b55d	https://tr.linkedin.com/jobs/view/quantum-research-scientist-with-python-freelance-ai-trainer-at-mindrift-4416662873	Mindrift	Quantum Research Scientist with Python - Freelance AI Trainer	Türkiye	P2	7.0	2026-05-21 10:18
 cfdcaacbcdd95bba	https://nl.indeed.com/rc/clk?jk=c274d0221bef97f4	NVIDIA	Senior Applied Deep Learning Scientist - Large Vision Language Models	Amsterdam	P2	6.1	2026-05-21 10:18
 eca8258d5f24736a	https://nl.indeed.com/rc/clk?jk=fb950a2100322df8	Booking.com	Data Analytics Engineer II	Hybride werken in 1011 Amsterdam Centrum	P1	6.0	2026-05-21 10:18
-9100fe2b6bd4a664	https://www.linkedin.com/jobs/view/junior-ai-ml-engineer-at-modern-technology-solutions-inc-mtsi-4415716399	Modern Technology Solutions, Inc. (MTSI)	Junior AI/ML Engineer	Dayton, OH	P1	5.8	2026-05-21 10:18
 3b0d62433ca29984	https://pt.linkedin.com/jobs/view/junior-ai-ml-engineer-at-tensorops-4416627430	TensorOps	Junior AI/ML Engineer	Portugal	P1	5.8	2026-05-21 10:18
 321bba4f38653250	https://pt.linkedin.com/jobs/view/junior-ai-ml-engineer-at-tensorops-4416627429	TensorOps	Junior AI/ML Engineer	Porto, Porto, Portugal	P1	5.8	2026-05-21 10:18
 721f9ddc1023587b	https://www.academictransfer.com/en/jobs/361180/senior-research-scientist-tracking-detectors/	Leiden University	Senior Research Scientist - Tracking Detectors	Leiden	P2	5.6	2026-05-21 10:18
@@ -276,10 +235,7 @@ c34da5b0ccbac9c8	https://nl.linkedin.com/jobs/view/ai-engineer-at-marvelx-ai-441
 34ec3ace852b60ee	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-xomnia-4282843346	Xomnia	Machine Learning Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-21 10:18
 93a03085b4087dfc	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-rebelsai-4406522779	RebelsAI	Machine Learning Engineer	The Randstad, Netherlands	P1	5.0	2026-05-21 10:18
 032058d3d6dd1e78	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sia-4410079027	Sia	Machine learning Engineer	Maastricht, Limburg, Netherlands	P1	5.0	2026-05-21 10:18
-c4040ea3822908f8	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-modern-technology-solutions-inc-mtsi-4415727328	Modern Technology Solutions, Inc. (MTSI)	AI/ML Engineer	Dayton, OH	P1	5.0	2026-05-21 10:18
-3acc4c7e371a0cdd	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-modern-technology-solutions-inc-mtsi-4415723354	Modern Technology Solutions, Inc. (MTSI)	AI/ML Engineer	Dayton, OH	P1	5.0	2026-05-21 10:18
 d181dfcb110e5b2d	https://jobs.ashbyhq.com/mollie/a8befd3d-61ef-4e40-bc2a-dbb1a2a1821f	Mollie	Analytics Engineer	Lisbon	P1	6.0	2026-05-22 10:24
-71be8f6cbd9ef3c1	https://careers.hellofresh.com/global/en/job/7940311?gh_jid=7940311	HelloFresh	Junior Business Intelligence Analyst	Sydney, New South Wales, Australia	P1	5.8	2026-05-22 10:24
 5a5b279ea366b5fd	https://nl.indeed.com/rc/clk?jk=7e4acd01c90e515b	Happy Horizon B.V.	Junior Data Engineer	Hybride werken in 6538 Nijmegen	P1	5.8	2026-05-22 10:24
 2c4ba73196524781	https://nl.indeed.com/rc/clk?jk=e46767da95c67977	Booking.com	Associate Data Analyst	Hybride werken in 1011 Amsterdam Centrum	P1	5.8	2026-05-22 10:24
 266eb632be6f08f4	https://sumup.com/careers/positions/8559467002?gh_jid=8559467002	SumUp	Data Analyst	Cologne, Germany	P1	5.0	2026-05-22 10:24
@@ -289,7 +245,6 @@ d0afc76698d11e18	https://sumup.com/careers/positions/8458941002?gh_jid=845894100
 02a0256eadfae75b	https://nl.linkedin.com/jobs/view/python-data-engineer-at-rubicon-cloud-advisor-4415610345	Rubicon Cloud Advisor	Python Data Engineer	The Randstad, Netherlands	P1	5.0	2026-05-22 10:24
 48eabeece42302bb	https://nl.linkedin.com/jobs/view/ai-ml-engineer-at-air-apps-4416406703	Air Apps	AI/ML Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-22 10:24
 4d1c9d350a04b6b7	https://nl.linkedin.com/jobs/view/data-scientist-%E2%80%93-marketing-intelligence-at-billy-grace-4416225863	Billy Grace	Data Scientist – Marketing Intelligence	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-22 10:24
-edc2253e6c974eaa	https://www.linkedin.com/jobs/view/machine-learning-engineer-remote-at-harbor-freight-tools-4412843492	Harbor Freight Tools	Machine Learning Engineer - Remote	Calabasas, CA	P1	5.0	2026-05-22 10:24
 9217980ff8d70741	https://tr.linkedin.com/jobs/view/data-scientist-at-armut-homerun-4410175419	Armut / HomeRun	Data Scientist	Istanbul, Türkiye	P1	5.0	2026-05-22 10:24
 f5ccbfc2e793511d	https://tr.linkedin.com/jobs/view/data-scientist-at-mars-athletic-club-4413946553	Mars Athletic Club	Data Scientist	Besiktas, Istanbul, Türkiye	P1	5.0	2026-05-22 10:24
 56cdbd208515dff3	https://nl.indeed.com/rc/clk?jk=44f64a3e85baa9b8	Sociale Verzekeringsbank	Data Engineer	Hybride werken in Amstelveen	P1	5.0	2026-05-22 10:24
@@ -305,13 +260,6 @@ b62c1b71bfefd254	https://nl.indeed.com/rc/clk?jk=1d1053691138fe54	Dartshopper	An
 4ac9075689bff4f4	https://weworkremotely.com/remote-jobs/toptal-ai-engineer-python-develope	Toptal	AI Engineer/Python Develope	Anywhere in the World	P1	5.0	2026-05-25 10:16
 fd1d963b2fc87b95	https://nl.linkedin.com/jobs/view/data-engineer-i-at-booking-com-4418433128	Booking.com	Data Engineer I	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-25 10:16
 3dbb1a15317c92a1	https://nl.linkedin.com/jobs/view/data-engineer-at-us3-consulting-4413963269	Us3 Consulting	Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-25 10:16
-3b2473c4a3aac12d	https://www.linkedin.com/jobs/view/agentic-ai-and-data-engineer-at-booz-allen-hamilton-4413279294	Booz Allen Hamilton	Agentic AI and Data Engineer	Honolulu, HI	P1	5.0	2026-05-25 10:16
-da8ba076ba017ac7	https://www.linkedin.com/jobs/view/agentic-ai-and-data-engineer-at-booz-allen-hamilton-4413287072	Booz Allen Hamilton	Agentic AI and Data Engineer	Mahinahina Camp, HI	P1	5.0	2026-05-25 10:16
-2b4db00fe24d030c	https://www.linkedin.com/jobs/view/site-ai-engineer-fort-meyers-fl-at-suffolk-construction-4412021184	Suffolk Construction	Site AI Engineer - Fort Meyers, FL	Fort Myers, FL	P1	5.0	2026-05-25 10:16
-e63fc3aae6358f63	https://www.linkedin.com/jobs/view/ai-engineer-at-colonial-group-inc-4411274993	Colonial Group, Inc.	AI Engineer	Savannah, GA	P1	5.0	2026-05-25 10:16
-014e5d980ff0df64	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-facilities-maintenance-management-llc-fmm-4406061420	Facilities Maintenance Management, LLC. (FMM)	AI/ML Engineer	Denham Springs, LA	P1	5.0	2026-05-25 10:16
-13ccc9dac741b949	https://www.linkedin.com/jobs/view/ai-engineer-at-smc%C2%B3-4398633837	SMC³	AI Engineer	Peachtree City, GA	P1	5.0	2026-05-25 10:16
-0b28ea1a89db56e4	https://www.linkedin.com/jobs/view/ai-engineer-at-vika-talent-solutions-4403449996	Vika Talent Solutions	AI Engineer	Savannah, GA	P1	5.0	2026-05-25 10:16
 80f16a963cc6a738	https://tr.linkedin.com/jobs/view/yapay-zeka-stajyeri%CC%87-at-cizgi-technology-electronic-design-and-manufacturing-inc-4416598988	Cizgi Technology Electronic Design and Manufacturing Inc.	YAPAY ZEKA STAJYERİ	Sancaktepe, Istanbul, Türkiye	P1	5.0	2026-05-25 10:16
 61a0d0b593fabb06	https://nl.indeed.com/rc/clk?jk=bab8604325717217	ABN AMRO	Data Scientist ABN AMRO Hypotheken Groep	Amersfoort	P1	5.0	2026-05-25 10:16
 679e4bc66fb49661	https://nl.indeed.com/rc/clk?jk=2883d04fb541eea6	Gemeente Amsterdam	Data Scientist	Hybride werken in Amsterdam	P1	5.0	2026-05-25 10:16
@@ -327,7 +275,6 @@ f9d52590daf4b1d1	https://nl.linkedin.com/jobs/view/analytics-engineer-at-rentman
 b6c8af7087cb32a9	https://nl.linkedin.com/jobs/view/data-analytics-engineer-at-xomnia-4356760569	Xomnia	Data Analytics Engineer	Amsterdam, North Holland, Netherlands	P1	6.0	2026-05-26 10:17
 13582bed48a75f85	https://nl.linkedin.com/jobs/view/analytics-engineer-f-m-x-at-eye-security-4405343381	Eye Security	Analytics Engineer (f/m/x)	Rotterdam and The Hague	P1	6.0	2026-05-26 10:17
 4b828ea81514c955	https://nl.linkedin.com/jobs/view/analytics-engineer-at-ampelmann-operations-4416606319	Ampelmann Operations	Analytics Engineer	Delft, South Holland, Netherlands	P1	6.0	2026-05-26 10:17
-54dd60cc10e626e5	https://jobs.ashbyhq.com/cohere/0cf19dbd-bfa9-425f-a357-e2bd874bb489	Cohere	Data Annotation Specialist, Safety	Canada	P2	5.6	2026-05-26 10:17
 af8f5d27e90c5cb4	https://nl.linkedin.com/jobs/view/data-scientist-ai-at-sendcloud-4412557765	Sendcloud	Data Scientist (AI)	Eindhoven, North Brabant, Netherlands	P1	5.0	2026-05-26 10:17
 bd6d03b547ed9c06	https://nl.linkedin.com/jobs/view/data-scientist-at-zonneplan-4413032772	Zonneplan	Data Scientist	Zwolle, Overijssel, Netherlands	P1	5.0	2026-05-26 10:17
 2d40d45575bfebac	https://nl.linkedin.com/jobs/view/data-scientist-at-jd-com-4417750188	JD.COM	Data Scientist	Rotterdam and The Hague	P1	5.0	2026-05-26 10:17
@@ -338,7 +285,6 @@ c42be6423f1f64a3	https://nl.linkedin.com/jobs/view/data-science-engineer-at-nava
 30a19898b0d4182c	https://nl.linkedin.com/jobs/view/data-scientist-maastricht-at-cgi-nederland-4391117994	CGI Nederland	Data Scientist - Maastricht	Maastricht, Limburg, Netherlands	P1	5.0	2026-05-26 10:17
 886719aa72bc8b54	https://nl.linkedin.com/jobs/view/data-scientist-at-vitol-4390939166	Vitol	Data Scientist	Rotterdam, South Holland, Netherlands	P1	5.0	2026-05-26 10:17
 7e454968355c138c	https://nl.linkedin.com/jobs/view/data-engineer-at-mytomorrows-4344358728	myTomorrows	Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-05-26 10:17
-10d83392b816542d	https://www.linkedin.com/jobs/view/data-scientist-at-los-angeles-lakers-4412393985	Los Angeles Lakers	Data Scientist	El Segundo, CA	P1	5.0	2026-05-26 10:17
 780d68591cf1af2a	https://pl.linkedin.com/jobs/view/data-scientist-at-samba-tv-4380668364	Samba TV	Data Scientist	Warsaw, Mazowieckie, Poland	P1	5.0	2026-05-26 10:17
 0ad3d531ddf45aab	https://uk.linkedin.com/jobs/view/applied-scientist-at-asos-com-4414325052	ASOS.com	Applied Scientist	London, England, United Kingdom	P1	5.0	2026-05-26 10:17
 53d90aed736f7354	https://nl.indeed.com/rc/clk?jk=9da70aa706ac2158	Enjins	AI Engineer	Hybride werken in Utrecht	P1	5.0	2026-05-26 10:17
@@ -348,9 +294,7 @@ ea9e12ec778dbac5	https://nl.indeed.com/rc/clk?jk=b724c8ef57b65f8d	Landstede	Data
 215d10bed5139317	https://nl.indeed.com/rc/clk?jk=0987f8542c551627	Collective.work	Analytics Engineer - Freelance H/F	75004 Paris	P1	6.0	2026-05-31 17:20
 4bfa0b31f207d6cf	https://job-boards.greenhouse.io/celonis/jobs/7609987003?gh_jid=7609987003	Celonis	Associate Applied AI Engineer (France) - Orbit Program	Madrid, Spain	P1	5.8	2026-05-31 17:20
 fd1623ed9ceb366a	https://nl.indeed.com/rc/clk?jk=43fb30cc78b57ed0	DAS	Junior Data Engineer	Hybride werken in 1101 Amsterdam-Zuidoost	P1	5.8	2026-05-31 17:20
-6efe827cad5cfa79	https://www.linkedin.com/jobs/view/research-specialist-i-at-university-of-missouri-columbia-4412835597	University of Missouri-Columbia	RESEARCH SPECIALIST I	Columbia, MO	P2	5.6	2026-05-31 17:20
 01363f8113a7c5b4	https://uk.linkedin.com/jobs/view/senior-research-associate-at-university-of-portsmouth-4416216480	University of Portsmouth	Senior Research Associate	Portsmouth, England, United Kingdom	P2	5.6	2026-05-31 17:20
-8e58566dfd2db2fd	https://jobs.lever.co/spotify/759f6c62-e450-4112-9db6-0c01eef47c76	Spotify	Data Scientist	Dubai	P1	5.0	2026-05-31 17:20
 14d62020a15d7632	https://jobs.lever.co/mistral/3e51d533-1f2d-48e3-9a2b-33fc7e8b0c0c	Mistral AI	Applied AI Engineer, ML Infrastructure Engineer / Devops - EMEA	Paris	P1	5.0	2026-05-31 17:20
 f286657675a5cf72	https://weworkremotely.com/remote-jobs/toptal-marketing-data-scientist	Toptal	Marketing Data Scientist	Anywhere in the World	P1	5.0	2026-05-31 17:20
 3e3284bc513e9d05	https://nl.linkedin.com/jobs/view/data-engineer-at-nebius-4412686350	Nebius	Data Engineer	Amsterdam Area	P1	5.0	2026-05-31 17:20
@@ -386,14 +330,12 @@ fb66fe03302ea121	https://nl.indeed.com/rc/clk?jk=0afbdc2c7964e087	Hugging Face	O
 cb8f2dfaf4eb5512	https://nl.indeed.com/rc/clk?jk=b3ac9a47da8e6747	ABN AMRO	Data Scientist Fraud Monitoring	Hybride werken in Amstelveen	P1	5.0	2026-06-01 10:20
 dd6d825e11808ba8	https://nl.indeed.com/rc/clk?jk=3921ce697f029f66	Almaviva	Data Fusion & AI Engineer	Roma	P1	5.0	2026-06-01 10:20
 4a4700d73ed16c4e	https://nl.indeed.com/rc/clk?jk=303c7e2229f9a39c	Digital360	Data Analyst	Milano	P1	5.0	2026-06-01 10:20
-24b6c10b39e95c52	https://www.linkedin.com/jobs/view/computational-linguist-generative-ai-sr-associate-at-jpmorganchase-4416622200	JPMorganChase	Computational Linguist, Generative AI - Sr. Associate	Wilmington, DE	P2	6.2	2026-06-02 10:21
 e96d478bab282106	https://n26.com/en-eu/careers/positions/7962721?gh_jid=7962721	N26	Marketing Analytics Engineer	Berlin	P1	6.0	2026-06-02 10:21
 f1da478599b70a3a	https://n26.com/en-eu/careers/positions/7962618?gh_jid=7962618	N26	Marketing Analytics Engineer	Barcelona	P1	6.0	2026-06-02 10:21
 af7593f91e71fa54	https://nl.linkedin.com/jobs/view/analytics-engineer-at-levy-professionals-4420405355	Levy Professionals	Analytics Engineer	The Hague, South Holland, Netherlands	P1	6.0	2026-06-02 10:21
 6811476d5a409e7d	https://job-boards.greenhouse.io/celonis/jobs/7662803003?gh_jid=7662803003	Celonis	Associate Applied AI Engineer (Benelux) - Orbit Program	Madrid, Spain	P1	5.8	2026-06-02 10:21
 a06d10232f24c8af	https://nl.linkedin.com/jobs/view/junior-data-engineer-at-just-eat-takeaway-com-4419203929	Just Eat Takeaway.com	Junior Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.8	2026-06-02 10:21
 cd7ec6e4d2bfdc79	https://nl.linkedin.com/jobs/view/data-scientist-at-office-collective-4421695608	Office Collective	Data Scientist	Amsterdam Area	P1	5.0	2026-06-02 10:21
-cea2f5c015de53e9	https://www.linkedin.com/jobs/view/generative-ai-engineer-at-mitre-4414224313	MITRE	Generative AI Engineer	McLean, VA	P1	5.0	2026-06-02 10:21
 9960d0b04f8a37fe	https://tr.linkedin.com/jobs/view/data-scientist-at-bigger-games-4421862227	Bigger Games	Data Scientist	Istanbul, Türkiye	P1	5.0	2026-06-02 10:21
 60c3f3163ce5168f	https://tr.linkedin.com/jobs/view/veri-analiti%C4%9Fi-ve-yapay-zeka-uzman%C4%B1-at-paket-taxi-4410380981	Paket Taxi	Veri Analitiği ve Yapay Zeka Uzmanı	Ümraniye, Istanbul, Türkiye	P1	5.0	2026-06-02 10:21
 fcff1bc6e7ee9428	https://nl.indeed.com/rc/clk?jk=4c187958992c0013	PB Web Media	Data Scientist | 32-40 uur	Hybride werken in 2012 Haarlem	P1	5.0	2026-06-02 10:21
@@ -408,8 +350,6 @@ eca2f16c893c72bf	https://nl.indeed.com/rc/clk?jk=27446261ab5c4f20	APG	Data Scien
 fd111522a347aa21	https://job-boards.greenhouse.io/isomorphiclabs/jobs/6011751004	Isomorphic Labs	Data Scientist (Analytics), London	London	P1	6.0	2026-06-03 10:16
 12f44919059375a1	https://nl.linkedin.com/jobs/view/analytics-engineer-partner-at-bol-4420407854	bol	Analytics Engineer - Partner	Utrecht, Utrecht, Netherlands	P1	6.0	2026-06-03 10:16
 6e798b65ec93faa6	https://nl.linkedin.com/jobs/view/analytics-engineer-at-xebia-4413975946	Xebia	Analytics Engineer	Amsterdam, North Holland, Netherlands	P1	6.0	2026-06-03 10:16
-8eba3ee7624d39a3	https://careers.hellofresh.com/global/en/job/7976435?gh_jid=7976435	HelloFresh	Business Intelligence Analyst	Manila, Manila, Philippines	P1	5.0	2026-06-03 10:16
-d2ced09bdb14ecb5	https://job-boards.eu.greenhouse.io/polyai/jobs/4880510101	PolyAI	Forward Deployed AI Engineer - Vancouver	Vancouver	P1	5.0	2026-06-03 10:16
 596a2f31e537a6a3	https://nl.linkedin.com/jobs/view/data-engineer-at-coinmerce-4413942599	Coinmerce	Data Engineer	Schiphol-Rijk, North Holland, Netherlands	P1	5.0	2026-06-03 10:16
 013a0ed2b6df67d8	https://nl.indeed.com/rc/clk?jk=58547a63876eeff4	DHL Express	Data Scientist	Schiphol	P1	5.0	2026-06-03 10:16
 fea4c635ae93e7c7	https://nl.indeed.com/rc/clk?jk=2877ccdd4df3eae2	Ministerie van Defensie	data scientist (SOCOM) 610765	Overijssel	P1	5.0	2026-06-03 10:16
@@ -446,10 +386,7 @@ ff8131c4cf4f56a7	https://nl.linkedin.com/jobs/view/analytics-engineer-at-coolblu
 ee2fcef3a79cd93c	https://nl.linkedin.com/jobs/view/analytics-engineer-finance-at-vinted-4423508673	Vinted	Analytics Engineer, Finance	Amsterdam, North Holland, Netherlands	P1	6.0	2026-06-08 10:16
 30b7c3357234dd09	https://nl.indeed.com/rc/clk?jk=3571acf4e9ac45b2	E.ON Grid Solutions GmbH	Machine Learning Engineer (m/w/d) - Predictive Maintenance & MLOps	Hybride werken in 14473 Potsdam	P1	6.0	2026-06-08 10:16
 110841ea394f73cb	https://nl.indeed.com/rc/clk?jk=eb1786cbf82c0afc	Nicholson SAS	Machine Learning Engineer Junior (IT) / Freelance	Paris	P1	5.8	2026-06-08 10:16
-ef2fb23190eaaca8	https://job-boards.greenhouse.io/anthropic/jobs/5248983008	Anthropic	Applied AI Engineer	Sydney, Australia	P1	5.0	2026-06-08 10:16
 11891bf3234da848	https://job-boards.greenhouse.io/arizeai/jobs/5781408004	Arize AI	Forward Deployed AI Engineer, EMEA	Remote (EMEA)	P1	5.0	2026-06-08 10:16
-079b41f23a8d72f5	https://remotive.com/remote-jobs/all-others/online-data-analyst-canada-french-language-2090945	TELUS Digital	Online Data Analyst Canada (French Language)	Canada	P1	5.0	2026-06-08 10:16
-1bf1513988ab5fa5	https://remotive.com/remote-jobs/all-others/online-data-analyst-canada-2090944	TELUS Digital	Online Data Analyst Canada	Canada	P1	5.0	2026-06-08 10:16
 826b05c51c7ba114	https://www.academictransfer.com/en/jobs/361538/assistant-professors-in-language-and-ai-engineering/	Eindhoven University of Technology (TU/e)	Assistant Professors in Language and AI Engineering	Eindhoven	P1	5.0	2026-06-08 10:16
 0eb0710bded99d19	https://nl.linkedin.com/jobs/view/data-scientist-at-office-collective-4424736937	Office Collective	Data Scientist	Amsterdam Area	P1	5.0	2026-06-08 10:16
 094daf135dfa18ed	https://nl.linkedin.com/jobs/view/data-engineer-at-harvest-4413314511	Harvest	Data Engineer	Utrecht, Netherlands	P1	5.0	2026-06-08 10:16
@@ -470,7 +407,6 @@ d602c01f7bd49f6a	https://nl.indeed.com/rc/clk?jk=a138fe60d26ac5b1	Naxan Group	Da
 a131d9795b78e3e9	https://nl.linkedin.com/jobs/view/junior-data-scientist-at-haskoning-4425868736	Haskoning	Junior Data Scientist	Amersfoort, Utrecht, Netherlands	P1	5.8	2026-06-13 10:15
 20c8fb3c0581f156	https://nl.indeed.com/rc/clk?jk=7f795feab0403be9	NGAGE	AI Engineer Internationale Duurzaamheid & Efficiency	Rotterdam	P1	5.8	2026-06-13 10:15
 e36e4028a43f6465	https://nl.indeed.com/rc/clk?jk=d4e04314e1afcee5	Kracht Recruitment	Junior AI Engineer	Hybride werken in 6827 Arnhem	P1	5.8	2026-06-13 10:15
-2d1f949496dde741	https://careers.hellofresh.com/global/en/job/7784779?gh_jid=7784779	HelloFresh	Analyst, Supply Chain Analytics	Toronto, Ontario, Canada	P1	5.0	2026-06-13 10:15
 10e8ab71822d966d	https://careers.hellofresh.com/global/en/job/8002500?gh_jid=8002500	HelloFresh	Marketing Data Analyst	Warszawa, Masovian Voivodeship, Poland	P1	5.0	2026-06-13 10:15
 25547a28351ed9be	https://jobs.lever.co/mistral/98e6a2ea-7049-4c8d-88b7-c9d824eea6f1	Mistral AI	Applied AI Engineer, CyberSecurity	Paris	P1	5.0	2026-06-13 10:15
 92f998ff5bc37e01	https://jobs.lever.co/qonto/e97346dd-7496-448d-9bbb-38a560760c82	Qonto	Data Engineer for AI Product	Paris	P1	5.0	2026-06-13 10:15
@@ -508,8 +444,6 @@ e44225c1e9bb5765	https://nl.linkedin.com/jobs/view/data-scientist-at-overheidzzp
 410cde96fadf875a	https://nl.linkedin.com/jobs/view/data-scientist-at-corendon-4425997880	Corendon	Data Scientist	Badhoevedorp, North Holland, Netherlands	P1	5.0	2026-06-15 10:17
 2da828b594a378ff	https://nl.linkedin.com/jobs/view/data-scientist-at-action-4415348772	Action	Data Scientist	Zwaagdijk-Oost, North Holland, Netherlands	P1	5.0	2026-06-15 10:17
 b215f0ef0f83e470	https://nl.linkedin.com/jobs/view/data-analyst-at-haystack-4425758054	Haystack	Data Analyst	Amsterdam, North Holland, Netherlands	P1	5.0	2026-06-15 10:17
-75098cfb43b21136	https://www.linkedin.com/jobs/view/software-machine-learning-engineer-at-teradyne-4422759003	Teradyne	Software Machine Learning Engineer	North Reading, MA	P1	5.0	2026-06-15 10:17
-2464d0d9a5c163c2	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-vantor-4426387508	Vantor	AI/ML Engineer	Herndon, VA	P1	5.0	2026-06-15 10:17
 08ad3a3f2a6c2588	https://ch.linkedin.com/jobs/view/data-scientist-at-expedia-group-4419033137	Expedia Group	Data Scientist	Geneva Metropolitan Area	P1	5.0	2026-06-15 10:17
 7c1041e7132107a1	https://tr.linkedin.com/jobs/view/data-scientist-at-arabam-com-4423633523	arabam.com	Data Scientist	Istanbul, Türkiye	P1	5.0	2026-06-15 10:17
 14ac3493af49763e	https://tr.linkedin.com/jobs/view/machine-learning-engineer-at-arc-labs-4425309236	Arc Labs	Machine Learning Engineer	Istanbul, Türkiye	P1	5.0	2026-06-15 10:17
@@ -523,11 +457,9 @@ abba1e05227b5b52	https://nl.indeed.com/rc/clk?jk=53641b31d36e2d88	KPI Solutions 
 c5c85a8ed117e1a4	https://nl.indeed.com/rc/clk?jk=e77948dbc5036315	Data-First	Data Engineer	Hybride werken in Zuid-Holland	P1	5.0	2026-06-15 10:17
 191a4a45f90646e1	https://nl.linkedin.com/jobs/view/data-analytics-engineer-at-brookwood-recruitment-ltd-4429105978	Brookwood Recruitment Ltd	Data Analytics Engineer	Amsterdam, North Holland, Netherlands	P1	6.0	2026-06-16 10:20
 691067c456e1cd97	https://nl.linkedin.com/jobs/view/junior-data-scientist-%E2%80%93-forecasting-optimization-%E2%80%93-startersfunctie-0-1-jaar-ervaring-at-the-optimiser-company-b-v-4428810579	The Optimiser Company B.V.	Junior Data Scientist – Forecasting & Optimization – Startersfunctie (0-1 jaar ervaring)	Rotterdam, South Holland, Netherlands	P1	5.8	2026-06-16 10:20
-108abf54d2fe70de	https://academicpositions.com/ad/german-international-university/2026/full-professor-associate-professor-lecturer-in-data-science/249850	German International University	Full Professor / Associate Professor / Lecturer in Data Science	Cairo, Egypt	P1	5.8	2026-06-16 10:20
 764b5314b68a8537	https://weworkremotely.com/remote-jobs/ahu-technologies-data-analyst-curam	AHU Technologies	Data Analyst/ Curam	Anywhere in the World	P1	5.0	2026-06-16 10:20
 b23e1fe859db9a55	https://nl.linkedin.com/jobs/view/data-engineer-developer-10719021-at-itproposal-4428684379	ITproposal	Data Engineer (Developer) - 10719021	Amsterdam, North Holland, Netherlands	P1	5.0	2026-06-16 10:20
 455fc47af043e29d	https://nl.linkedin.com/jobs/view/data-analyst-at-experis-nederland-4428848806	Experis Nederland	Data Analyst	The Hague, South Holland, Netherlands	P1	5.0	2026-06-16 10:20
-cbe28f5392b50e62	https://www.linkedin.com/jobs/view/builder-ai-engineer-at-reevo-4333340112	Reevo	Builder - AI Engineer	Santa Clara, CA	P1	5.0	2026-06-16 10:20
 df5a6352bb0b42a6	https://ch.linkedin.com/jobs/view/data-scientist-100%25-at-mdpi-romania-4426963915	MDPI Romania	Data Scientist (100%)	Basel, Basel, Switzerland	P1	5.0	2026-06-16 10:20
 87247f12a2be68a6	https://nl.indeed.com/rc/clk?jk=9131c64debd6a930	Stedin	Data Engineer	Hybride werken in Rotterdam	P1	5.0	2026-06-16 10:20
 95bf05ed40d8e919	https://nl.indeed.com/rc/clk?jk=2c290e150dba218d	Team EIFFEL	Data engineer (in opleiding)	3528 Utrecht	P1	5.0	2026-06-16 10:20
@@ -539,7 +471,6 @@ c128cea8020fa6c8	https://nl.indeed.com/rc/clk?jk=a23d20c860719ad0	Immigratie- en
 0ff233b78902a500	https://nl.indeed.com/rc/clk?jk=abff78d6a6ad4360	The Key To Life	AI Engineer voor Energiebeheer en Optimalisatie	Hybride werken in 6827 Arnhem	P1	5.0	2026-06-16 10:20
 179adf5358398c41	https://nl.indeed.com/rc/clk?jk=09b924ec309a4362	Elsevier	Data Scientist	Amsterdam	P1	5.0	2026-06-16 10:20
 93df43d3352624ed	https://nl.indeed.com/rc/clk?jk=15cdf1bec42fcc1b	RELX	Data Scientist	Amsterdam	P1	5.0	2026-06-16 10:20
-4591815156e2b6fb	https://www.linkedin.com/jobs/view/junior-ai-ml-engineer-at-node-digital-llc-4429133056	Node.Digital LLC	Junior AI/ML Engineer	Herndon, VA	P1	5.8	2026-06-17 10:24
 49c62bc8e396fd39	https://nl.linkedin.com/jobs/view/data-science-research-officer-at-green-award-foundation-4429518399	Green Award Foundation	Data Science & Research Officer	Rotterdam, South Holland, Netherlands	P1	5.0	2026-06-17 10:24
 296609af8f475492	https://nl.linkedin.com/jobs/view/data-scientist-at-just-good-people-4425471946	Just Good People	Data Scientist	The Randstad, Netherlands	P1	5.0	2026-06-17 10:24
 c7b5a745721405de	https://tr.linkedin.com/jobs/view/veri-bilimcisi-at-ko%C3%A7ta%C5%9F-4427301863	Koçtaş	Veri Bilimcisi	Çekmeköy, Istanbul, Türkiye	P1	5.0	2026-06-17 10:24
@@ -564,8 +495,6 @@ b353de3e8ee0a919	https://nl.linkedin.com/jobs/view/data-analyst-analytics-engine
 0e39fd316a7001f2	https://tr.linkedin.com/jobs/view/machine-learning-engineer-%E2%80%93-data-analytics-azure-databricks-at-monovi-information-technology-a-s-4426833998	Monovi Information Technology A.S.	Machine Learning Engineer – Data & Analytics (Azure / Databricks)	Urla, İzmir, Türkiye	P1	6.0	2026-06-19 10:18
 2a3869f686fc7f8d	https://job-boards.greenhouse.io/celonis/jobs/7765936003?gh_jid=7765936003	Celonis	Associate Applied AI Engineer (Benelux) - Orbit Program	Madrid, Spain	P1	5.8	2026-06-19 10:18
 2fc8c4c3cb1a5cdd	https://nl.linkedin.com/jobs/view/junior-data-engineer-at-richemont-4428722614	Richemont	Junior Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.8	2026-06-19 10:18
-5c6e5b659592416a	https://jobs.ashbyhq.com/cohere/5d31ba60-683a-4d59-8059-3f728b772a9e	Cohere	Data Annotation Specialist, Software Engineering	Canada	P2	5.6	2026-06-19 10:18
-c3cfe99d4e81ec0f	https://www.linkedin.com/jobs/view/intelligence-research-specialist-at-u-s-customs-and-border-protection-4427468982	U.S. Customs and Border Protection	Intelligence Research Specialist	Havre, MT	P2	5.6	2026-06-19 10:18
 ffb479ebfc9b92e3	https://academicpositions.com/ad/university-medical-center-hamburg-eppendorf/2026/research-associate-junior-group-leader-all-genders-feto-maternal-immunity/250049	University Medical Center Hamburg-Eppendorf	Research Associate / Junior Group Leader (all genders)– Feto-Maternal Immunity	Hamburg, Germany	P2	5.6	2026-06-19 10:18
 b3429f24e02b9d2e	https://nl.linkedin.com/jobs/view/data-scientist-at-nibc-bank-4428043671	NIBC Bank	Data Scientist	The Hague, South Holland, Netherlands	P1	5.0	2026-06-19 10:18
 6433dc2490bf57e3	https://nl.linkedin.com/jobs/view/data-engineer-at-overheidzzp-4429522810	OverheidZZP	Data Engineer	’s-Hertogenbosch, North Brabant, Netherlands	P1	5.0	2026-06-19 10:18
@@ -577,7 +506,6 @@ a76a7cb42fe78f5a	https://nl.linkedin.com/jobs/view/data-engineer-at-syntouch-442
 f11e39c2eacf9eb9	https://nl.linkedin.com/jobs/view/data-ai-engineer-at-van-oord-4429580250	Van Oord	Data & AI Engineer .	Rotterdam, South Holland, Netherlands	P1	5.0	2026-06-19 10:18
 b53c7885e884746a	https://nl.linkedin.com/jobs/view/data-analyst-at-gomibo-l-belsimpel-4366109962	Gomibo l Belsimpel	Data Analyst	Groningen, Groningen, Netherlands	P1	5.0	2026-06-19 10:18
 7a4b041fd216ba9d	https://nl.linkedin.com/jobs/view/data-analyst-at-anthony-veder-4429332192	Anthony Veder	Data Analyst	Rotterdam, South Holland, Netherlands	P1	5.0	2026-06-19 10:18
-f91010e9d4b98d09	https://www.linkedin.com/jobs/view/data-scientist-at-autozone-4428012613	AutoZone	Data Scientist	Memphis, TN	P1	5.0	2026-06-19 10:18
 a7e5ff996a565b29	https://nl.indeed.com/rc/clk?jk=8c474fc86c6325ae	Stedin	Machine Learning Engineer	Hybride werken in Rotterdam	P1	5.0	2026-06-19 10:18
 69d82958b108d774	https://nl.indeed.com/rc/clk?jk=7375050ca5e4197e	Bridgefund	Data Scientist – Credit Risk	Hybride werken in 1079 Amsterdam Zuid	P1	5.0	2026-06-19 10:18
 0297d7640286dc49	https://nl.indeed.com/rc/clk?jk=64cb97d4779fd22d	Mental Care Group (hoofdkantoor)	Data Engineer	Woerden	P1	5.0	2026-06-19 10:18
@@ -611,7 +539,6 @@ dac722c171cffd4d	https://nl.linkedin.com/jobs/view/data-scientist-early-hire-ful
 832a11b7f650bd73	https://nl.linkedin.com/jobs/view/data-engineer-at-cimsolutions-4427497686	CIMSOLUTIONS	Data Engineer	Groningen, Netherlands	P1	5.0	2026-06-23 10:18
 0ab0f3c0ea3607b3	https://nl.linkedin.com/jobs/view/data-analyst-at-ing-nederland-4428972579	ING Nederland	Data Analyst	Amsterdam, North Holland, Netherlands	P1	5.0	2026-06-23 10:18
 739e4f771c3d18ff	https://nl.linkedin.com/jobs/view/data-analyst-at-the-chain-company-4423365890	The Chain Company	Data Analyst	Oldenzaal, Overijssel, Netherlands	P1	5.0	2026-06-23 10:18
-af27bf99efe2110b	https://www.linkedin.com/jobs/view/site-ai-engineer-fort-myers-fl-at-suffolk-construction-4412021184	Suffolk Construction	Site AI Engineer - Fort Myers, FL	Fort Myers, FL	P1	5.0	2026-06-23 10:18
 2edbedcd5d3c1676	https://nl.indeed.com/rc/clk?jk=dd137aa03ad26f91	ABN AMRO	Data Scientist - AI Strategy Team	Amsterdam	P1	5.0	2026-06-23 10:18
 2e5ee881d287e90d	https://nl.indeed.com/rc/clk?jk=66ee9d2fa58fe0b6	Nedap	Data Analyst Retail Insights	Groenlo	P1	5.0	2026-06-23 10:18
 144a18c8b603a42b	https://nl.indeed.com/rc/clk?jk=dd7fa07d6bc83c57	Online Payment Platform	Data Engineer at FinTech scale-up small team, big impact	Hybride werken in 2628 Delft	P1	5.0	2026-06-23 10:18
@@ -628,7 +555,6 @@ d5f9724a16833930	https://www.glassdoor.nl/job-listing/junior-data-scientist-sted
 f7f694cc82b88ec4	https://nl.linkedin.com/jobs/view/data-engineer-at-elevation-group-4429518798	Elevation Group	Data Engineer	Utrecht, Netherlands	P1	5.0	2026-06-24 18:55
 9ae281769604e442	https://nl.linkedin.com/jobs/view/data-analyst-bi-developer-at-impulssum-4432549557	impulssum	Data Analyst/ BI Developer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-06-24 18:55
 e7a06da0b62bf714	https://nl.linkedin.com/jobs/view/ai-ml-engineer-at-amphi-labs-4432559427	AmPhi Labs	AI/ML Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-06-24 18:55
-28bbfbffedb915cb	https://www.linkedin.com/jobs/view/machine-learning-engineer-at-ikigai-4432019122	Ikigai	Machine Learning Engineer	Cambridge, MA	P1	5.0	2026-06-24 18:55
 4b30be4deb94c5d9	https://ch.linkedin.com/jobs/view/applied-scientist-search-at-thomson-reuters-4429663835	Thomson Reuters	Applied Scientist, Search	Zug, Zug, Switzerland	P1	5.0	2026-06-24 18:55
 613bbc8f7da13388	https://tr.linkedin.com/jobs/view/data-scientist-remote-at-crossing-hurdles-4432222551	Crossing Hurdles	Data Scientist | Remote	Türkiye	P1	5.0	2026-06-24 18:55
 97c7a9c91eda29be	https://tr.linkedin.com/jobs/view/fraud-analiti%C4%9Fi-ve-optimizasyon-data-scientist-at-denizbank-4429483113	DenizBank	Fraud Analitiği ve Optimizasyon (Data Scientist)	Istanbul, Türkiye	P1	5.0	2026-06-24 18:55
@@ -654,9 +580,6 @@ fd9ed569186c1b8e	https://ie.linkedin.com/jobs/view/ai-ml-engineer-at-spait-infot
 82a6077f6eeb2663	https://fr.linkedin.com/jobs/view/data-scientist-at-bright-purple-4432222878	Bright Purple	Data Scientist	Greater Lyon Area	P1	5.0	2026-06-25 10:20
 83b6086c3e7d887e	https://nl.linkedin.com/jobs/view/analytics-engineer-at-floryn-4432606184	Floryn	Analytics Engineer	’s-Hertogenbosch, North Brabant, Netherlands	P1	6.0	2026-06-26 10:20
 2f098334e7ff586a	https://nl.linkedin.com/jobs/view/medior-data-scientist-ml-engineer-at-sopra-steria-4432803180	Sopra Steria	Medior Data Scientist / ML Engineer	Groningen, Groningen, Netherlands	P1	5.3	2026-06-26 10:20
-861ceb672c83f062	https://jobs.lever.co/mistral/4eca6d89-c813-4f50-969c-b3ea88b6b956	Mistral AI	Applied AI Engineer, Fullstack	Seoul	P1	5.0	2026-06-26 10:20
-0505d6432855fdda	https://jobs.lever.co/mistral/e6accd7d-27d5-45f0-9f35-3454064374af	Mistral AI	Applied AI, Machine Learning Engineer	Seoul	P1	5.0	2026-06-26 10:20
-d6f96d73a91c4223	https://jobs.lever.co/mistral/d495bb77-df1f-44ef-9b63-e6f54cc95e41	Mistral AI	Applied Scientist / Research Engineer	Seoul	P1	5.0	2026-06-26 10:20
 c8d7b0c8a0f6b8bb	https://nl.linkedin.com/jobs/view/data-engineer-at-dhl-ecommerce-nederland-4431369429	DHL eCommerce Nederland	Data Engineer	Utrecht, Netherlands	P1	5.0	2026-06-26 10:20
 ac5b068e42d37293	https://nl.linkedin.com/jobs/view/business-intelligence-engineer-at-russell-tobin-4427870269	Russell Tobin	Business Intelligence Engineer	North Holland, Netherlands	P1	5.0	2026-06-26 10:20
 9cbf8856bf3d1e39	https://nl.linkedin.com/jobs/view/ai-engineer-at-elektramat-b-v-4433009668	Elektramat B.V.	AI Engineer	Greater Enschede Area	P1	5.0	2026-06-26 10:20
@@ -683,7 +606,6 @@ f6611fcc53fab3b4	https://nl.linkedin.com/jobs/view/analytics-engineer-at-protola
 4e795008c7ad5126	https://jobs.lever.co/pigment/7e376574-6715-4226-99a8-c72d64d8a305	Pigment	Engineering Data Analyst	Paris	P1	5.0	2026-06-27 10:16
 e90352a59eb86813	https://nl.linkedin.com/jobs/view/data-engineer-at-spektrum-4433840666	Spektrum	Data Engineer	The Hague, South Holland, Netherlands	P1	5.0	2026-06-27 10:16
 64a71059c66b9f13	https://nl.linkedin.com/jobs/view/machine-learning-ai-engineer-at-abn-amro-bank-n-v-4409194880	ABN AMRO Bank N.V.	Machine Learning & AI Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-06-27 10:16
-98b1467fcf196a3e	https://www.linkedin.com/jobs/view/applied-ai-engineer-at-ignitium-abx-orchestration-4432688185	Ignitium: ABX Orchestration	Applied AI Engineer	Spokane, WA	P1	5.0	2026-06-27 10:16
 bf5dd1e797b4499b	https://nl.indeed.com/rc/clk?jk=83bd319276b36b18	House of Bèta	Mastership Data Science & AI	Utrecht	P1	5.0	2026-06-27 10:16
 f62d6d9ee4c4da2a	https://nl.indeed.com/rc/clk?jk=dec7fd211b633325	House of Bèta	Mastership Data Science & AI	Amsterdam	P1	5.0	2026-06-27 10:16
 3a9be5564c8a7c57	https://nl.indeed.com/rc/clk?jk=1b8d66569e645e58	Good Company	Data Engineer	Hybride werken in 3526 Utrecht Zuidwest	P1	5.0	2026-06-27 10:16
@@ -727,7 +649,6 @@ dc385de322e879be	https://nl.indeed.com/rc/clk?jk=b3f71de628423756	MatchMatters B
 98d012262ea1e0ca	https://nl.indeed.com/rc/clk?jk=8023c17437933221	TNO	Startend Machine Learning Engineer	Groningen	P1	5.0	2026-06-30 10:18
 d3d121ef1d61f100	https://nl.indeed.com/rc/clk?jk=a64ad06dc4c9d279	TU Delft	PhD Position in Data and AI for Multi-Source Micromobility Safety Analytics	Delft	P1	5.0	2026-06-30 10:18
 0669ec3acc0d642c	https://nl.indeed.com/rc/clk?jk=84087000757a27d5	IJsvogel Retail BV	Analytics Engineer	Hybride werken in Ede	P1	6.0	2026-07-01 10:20
-3bc7aa1eae1c4c1d	https://careers.hellofresh.com/global/en/job/7956652?gh_jid=7956652	HelloFresh	Machine Learning Engineer, Operations Technology	Toronto, Ontario, Canada	P1	5.0	2026-07-01 10:20
 18ffbe5a01a4a47d	https://jobs.lever.co/qonto/88feecdd-c4dc-410b-9e8f-bd87953240a6	Qonto	People Data & Analytics Officer	Paris	P1	5.0	2026-07-01 10:20
 ab3d18e767cb6278	https://nl.linkedin.com/jobs/view/data-engineers-at-data-wizards-4433094877	Data Wizards	Data engineers	’s-Hertogenbosch, North Brabant, Netherlands	P1	5.0	2026-07-01 10:20
 6b47faef3667a673	https://nl.linkedin.com/jobs/view/data-engineer-at-cegeka-4429841368	Cegeka	Data Engineer	Groningen, Groningen, Netherlands	P1	5.0	2026-07-01 10:20
@@ -753,7 +674,6 @@ bfb4b59b8d3ac5df	https://nl.indeed.com/rc/clk?jk=c8613dbbb187f9ea	Numidia b.v.	(
 520a8d883e9b5499	https://nl.linkedin.com/jobs/view/data-engineer-at-spektrum-4431924436	Spektrum	Data Engineer	The Hague, South Holland, Netherlands	P1	5.0	2026-07-02 10:18
 f06c652fab51288d	https://nl.indeed.com/rc/clk?jk=ab65a09ae58b571f	KOMM Professionals	Data Scientist	Hybride werken in 3011 Rotterdam	P1	5.0	2026-07-02 10:18
 825957d1e53a7753	https://nl.indeed.com/rc/clk?jk=13a6e4eb43ab58bd	COWMANAGER B.V.	Product Owner Data & Analytics	Hybride werken in 3481 Harmelen	P1	5.0	2026-07-02 10:18
-b3b48f34feab0fd9	https://www.linkedin.com/jobs/view/linguistic-engineer-at-meta-4432355444	Meta	Linguistic Engineer	Burlingame, CA	P2	6.5	2026-07-03 10:17
 0d326eab98a0ed3b	https://nl.linkedin.com/jobs/view/analytics-engineer-at-xccelerated-part-of-xebia-4435094992	Xccelerated | Part of Xebia	Analytics Engineer	The Randstad, Netherlands	P1	6.0	2026-07-03 10:17
 efe2c70b241cc213	https://nl.linkedin.com/jobs/view/junior-professional-in-ai-and-data-science-at-european-space-agency-esa-4434316307	European Space Agency - ESA	Junior Professional in AI and Data Science	Noordwijk-Binnen, South Holland, Netherlands	P1	5.8	2026-07-03 10:17
 be7f2689bda1966a	https://tr.linkedin.com/jobs/view/junior-data-scientist-at-qnb-t%C3%BCrkiye-4432388061	QNB Türkiye	Junior Data Scientist	Istanbul, Türkiye	P1	5.8	2026-07-03 10:17
@@ -765,14 +685,12 @@ f7f15749d7cdc354	https://nl.linkedin.com/jobs/view/data-engineer-at-flynth-43803
 93a4b87ec0386dda	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sia-4436346397	Sia	Machine learning Engineer	Maastricht, Limburg, Netherlands	P1	5.0	2026-07-03 10:17
 2ea6fd737fbf7041	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sia-4436349358	Sia	Machine learning Engineer	Rotterdam, South Holland, Netherlands	P1	5.0	2026-07-03 10:17
 6f8cb860eb276b66	https://nl.linkedin.com/jobs/view/digital-data-analyst-at-verisure-4432782477	Verisure	Digital Data Analyst	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-03 10:17
-30a4537565f9f0ec	https://www.linkedin.com/jobs/view/ai-engineer-at-eightpoint-4434671394	Eightpoint	AI Engineer	Fort Myers, FL	P1	5.0	2026-07-03 10:17
 2844676d34a878e6	https://tr.linkedin.com/jobs/view/yapay-zeka-m%C3%BChendisi-at-aselsan-4431083772	Aselsan	Yapay Zeka Mühendisi	Ankara, Türkiye	P1	5.0	2026-07-03 10:17
 c6c6f669b24045f4	https://nl.indeed.com/rc/clk?jk=d5303eaca302edd4	The Key To Life	Data Engineer	Hybride werken in 6827 Arnhem	P1	5.0	2026-07-03 10:17
 680f1cf163c96adb	https://www.glassdoor.nl/job-listing/data-engineer-in-opleiding-eiffel-JV_IC3033811_KO0,26_KE27,33.htm?jl=1010176989742	Eiffel	Data engineer (in opleiding)	Arnhem	P1	5.0	2026-07-03 10:17
 052f4d81f298d034	https://www.glassdoor.nl/job-listing/data-engineer-in-opleiding-eiffel-JV_IC3045310_KO0,26_KE27,33.htm?jl=1010176989743	Eiffel	Data engineer (in opleiding)	Utrecht	P1	5.0	2026-07-03 10:17
 070cc302a3b6934b	https://academicpositions.com/ad/the-climate-and-environmental-research-institute-nilu/2026/senior-research-scientist-in-arctic-environmental-science/250792	The Climate and Environmental Research Institute NILU	Senior Research Scientist in Arctic Environmental Science	Tromsø, Norway	P2	5.6	2026-07-04 10:16
 3c03062f3c083512	https://n26.com/en-eu/careers/positions/8025909?gh_jid=8025909	N26	Data analyst - Customer Risk Lifecycle	Berlin	P1	5.0	2026-07-04 10:16
-c0237e01f0e6d02c	https://careers.hellofresh.com/global/en/job/8044937?gh_jid=8044937	HelloFresh	[HELLOCONNECT] BI Analyst	Manila, Manila, Philippines	P1	5.0	2026-07-04 10:16
 5a058632e7306692	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4433642982	CIMSOLUTIONS	Data Scientist	Flevoland, Netherlands	P1	5.0	2026-07-04 10:16
 f9c303a754201145	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4433645925	CIMSOLUTIONS	Data Scientist	Drenthe, Netherlands	P1	5.0	2026-07-04 10:16
 e20f40afcac67c43	https://nl.linkedin.com/jobs/view/data-scientist-at-fitexa-4435090632	Fitexa	Data Scientist	Eindhoven Area	P1	5.0	2026-07-04 10:16
@@ -799,17 +717,12 @@ b15f1fdc94935698	https://nl.linkedin.com/jobs/view/data-analytics-engineer-at-di
 ea964fa5589aedf7	https://job-boards.greenhouse.io/anthropic/jobs/5343697008	Anthropic	Applied AI Engineer, Beneficial Deployments	London, UK	P1	5.0	2026-07-15 16:42
 1d09daf6574eb66c	https://wayve.firststage.co/jobs?gh_jid=8622191002	Wayve	Machine Learning Engineer, ADAS	London	P1	5.0	2026-07-15 16:42
 5a520320842cc211	https://wayve.firststage.co/jobs?gh_jid=8622189002	Wayve	Machine Learning Engineer, ADAS	Germany	P1	5.0	2026-07-15 16:42
-cbcb16eb235a4443	https://wayve.firststage.co/jobs?gh_jid=8622133002	Wayve	Machine Learning Engineer, ADAS	Israel	P1	5.0	2026-07-15 16:42
-145336bc7afd54be	https://job-boards.eu.greenhouse.io/physicsx/jobs/4922319101	PhysicsX	Applied Scientist - All Levels	Singapore	P1	5.0	2026-07-15 16:42
-176fec647a6fc638	https://job-boards.eu.greenhouse.io/physicsx/jobs/4749979101	PhysicsX	Data Scientist	Singapore	P1	5.0	2026-07-15 16:42
-e1bf02efc5b9fbae	https://remotive.com/remote-jobs/all-others/online-data-analyst-canada-2091047	TELUS Digital	Online Data Analyst Canada	Canada	P1	5.0	2026-07-15 16:42
 cfa76e52dccad3bd	https://www.academictransfer.com/en/jobs/362586/data-scientist-assistant-professor-in-nutrition-health-research/	Wageningen University & Research	Data scientist (assistant professor) in Nutrition & Health Research	Wageningen	P1	5.0	2026-07-15 16:42
 fc7181b1f9ddb525	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sia-4438181649	Sia	Machine learning Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-15 16:42
 774558e87e617300	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sia-4438190122	Sia	Machine learning Engineer	Rotterdam, South Holland, Netherlands	P1	5.0	2026-07-15 16:42
 f938f0f3ecc72c88	https://nl.linkedin.com/jobs/view/data-scientist-clinical-at-pacmed-4439017987	Pacmed	Data Scientist (Clinical)	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-15 16:42
 e848c1af3b49f8e5	https://nl.linkedin.com/jobs/view/analytics-engineer-marketplace-strategy-planning-at-vinted-4438610297	Vinted	Analytics Engineer, Marketplace Strategy & Planning	Amsterdam, North Holland, Netherlands	P1	6.0	2026-07-17 10:19
 4bdfbbae9ed12fbe	https://nl.indeed.com/rc/clk?jk=03fbc4ac99331b2a	TechTribe	Stage R&D Data Scientist / AI Engineer	Hilversum	P1	6.0	2026-07-17 10:19
-5c032f3806e79a7d	https://remotive.com/remote-jobs/all-others/online-data-analyst-canada-french-language-c-2091047	TELUS Digital	Online Data Analyst Canada (French Language) (C)	Canada	P1	5.0	2026-07-17 10:19
 d0f9b7b0552b760d	https://www.academictransfer.com/en/jobs/362689/onderzoekerdata-scientist-ai-bij-onbegrepen-gedrag/	Radboud Universiteit	Onderzoeker/Data scientist: AI bij onbegrepen gedrag	Nijmegen	P1	5.0	2026-07-17 10:19
 fbc1afc10a36373f	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-rebelsai-4439838240	RebelsAI	Machine Learning Engineer	The Randstad, Netherlands	P1	5.0	2026-07-17 10:19
 f809d8a70374dcf2	https://nl.linkedin.com/jobs/view/data-scientist-talent-program-at-mploy-associates-4439403755	Mploy Associates	Data Scientist | Talent Program	The Randstad, Netherlands	P1	5.0	2026-07-17 10:19
@@ -843,7 +756,6 @@ a7c8a3a7aab12f1d	https://nl.linkedin.com/jobs/view/data-engineer-at-shimano-euro
 ca1cd0632546622c	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-youwe-4436212428	Youwe	Machine Learning Engineer	Rotterdam, South Holland, Netherlands	P1	5.0	2026-07-18 10:16
 12442df63a464e47	https://nl.linkedin.com/jobs/view/data-analyst-at-sytac-4440024985	Sytac	Data Analyst	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-18 10:16
 7da3fc4144eab7e2	https://nl.linkedin.com/jobs/view/data-analyst-at-tiqets-4440525952	Tiqets	Data Analyst	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-18 10:16
-6ecd4efad3f2d153	https://www.linkedin.com/jobs/view/ai-engineer-at-smx-4439094101	SMX	AI Engineer	Aiea, HI	P1	5.0	2026-07-18 10:16
 42ae9fdb435cd091	https://ch.linkedin.com/jobs/view/data-scientist-100%25-at-mdpi-4428110943	MDPI	Data Scientist (100%)	Basel Metropolitan Area	P1	5.0	2026-07-18 10:16
 876e8784713d5d22	https://uk.linkedin.com/jobs/view/applied-scientist-edge-ai-and-science-at-amazon-4426308803	Amazon	Applied Scientist, Edge AI and Science	Cambridge, England, United Kingdom	P1	5.0	2026-07-18 10:16
 ae5a3b14daa53a67	https://tr.linkedin.com/jobs/view/data-scientist-at-akenerji-4440538308	Akenerji	Data Scientist	Istanbul, Türkiye	P1	5.0	2026-07-18 10:16
@@ -909,7 +821,6 @@ d43441bc6c70d744	https://weworkremotely.com/remote-jobs/coinbase-machine-learnin
 b0c073c953449c60	https://nl.linkedin.com/jobs/view/data-science-engineer-at-f2f-com-4439588293	F2F.com	DATA SCIENCE ENGINEER	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-22 10:17
 8ce7b2771868fecf	https://nl.linkedin.com/jobs/view/data-scientist-at-i4talent-detachering-4442588014	i4talent detachering	Data Scientist	The Randstad, Netherlands	P1	5.0	2026-07-22 10:17
 5b2ecb6b7cd8259e	https://nl.linkedin.com/jobs/view/data-engineer-at-factx-4443341544	FactX	Data Engineer	Groningen, Netherlands	P1	5.0	2026-07-22 10:17
-ac26599042444680	https://www.linkedin.com/jobs/view/python-ai-engineer-at-coretek-labs-4439873082	CoreTek Labs	Python AI Engineer	Cleveland, OH	P1	5.0	2026-07-22 10:17
 7a48cc628d34614a	https://tr.linkedin.com/jobs/view/data-scientist-at-rollic-4440128485	Rollic	Data Scientist	Istanbul, Türkiye	P1	5.0	2026-07-22 10:17
 6f78def19600da10	https://tr.linkedin.com/jobs/view/data-scientist-at-msc-mediterranean-shipping-company-4440442978	MSC Mediterranean Shipping Company	Data Scientist	Ümraniye, Istanbul, Türkiye	P1	5.0	2026-07-22 10:17
 9719d951fd0f991e	https://nl.indeed.com/rc/clk?jk=c59b853e1dbde447	Independent Recruiters	Analytics Engineer - Data & Semantic Modeling - Temporary	3511 Utrecht	P1	6.0	2026-07-23 11:29
@@ -929,7 +840,6 @@ e04f94e7ab214f8b	https://nl.linkedin.com/jobs/view/data-engineer-at-dk-accountan
 f424018c565d28cc	https://nl.linkedin.com/jobs/view/data-analyst-at-jobgether-4443778685	Jobgether	Data Analyst	Netherlands	P1	5.0	2026-07-23 11:29
 d3a32e1ee667acad	https://nl.linkedin.com/jobs/view/data-analyst-excel-remote-at-yo-it-consulting-4435721272	YO IT Consulting	Data Analyst Excel - Remote	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-23 11:29
 283d71070d8eafbf	https://nl.linkedin.com/jobs/view/data-analyst-at-nedap-4443387630	Nedap	Data Analyst      .	Groenlo, Gelderland, Netherlands	P1	5.0	2026-07-23 11:29
-8f661c43484748cb	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-texas-instruments-4442036073	Texas Instruments	AI/ML Engineer	Richardson, TX	P1	5.0	2026-07-23 11:29
 e29105907ec43dcc	https://nl.indeed.com/rc/clk?jk=74f18ae808773c3f	Ministerie van Defensie	Data Engineer Communicatie en Informatiesystemen Operaties (CISOPS)	Overijssel	P1	5.0	2026-07-23 11:29
 9859669ecbf4749a	https://nl.indeed.com/rc/clk?jk=1f5de487b251cf12	CareerValue B.V.	Data Engineer	Utrecht	P1	5.0	2026-07-23 11:29
 802596fdcb6d3e8c	https://nl.linkedin.com/jobs/view/data-analytics-engineer-ii-at-booking-com-4425632195	Booking.com	Data Analytics Engineer II	Amsterdam, North Holland, Netherlands	P1	6.0	2026-07-24 10:22
@@ -955,11 +865,9 @@ b0ac0be40f1c55d2	https://hr.linkedin.com/jobs/view/ml-engineer-at-pharmaforceiq-
 f865399a62b20c4a	https://tr.linkedin.com/jobs/view/data-analyst-at-joker-games-4441040552	Joker Games	Data Analyst	Istanbul, Türkiye	P1	5.0	2026-07-24 10:22
 7b42ecc928c98017	https://nl.linkedin.com/jobs/view/analytics-engineer-at-borhera-b-v-4444412541	Borhera B.V.	Analytics Engineer	Amsterdam, North Holland, Netherlands	P1	6.0	2026-07-26 14:01
 c217ef05e2ac5b4f	https://nl.linkedin.com/jobs/view/analytics-engineer-nl-at-xccelerated-part-of-xebia-4444327526	Xccelerated | Part of Xebia	Analytics engineer (NL)	Utrecht, Netherlands	P1	6.0	2026-07-26 14:01
-c8b9b2d6b426597f	https://jobs.ashbyhq.com/cohere/a7321948-288c-4e9f-9fbe-2f9ccda07ffa	Cohere	Data Annotation Specialist, Generalist	Canada	P2	5.6	2026-07-26 14:01
 bdd6e04f0ac92d3c	https://weworkremotely.com/remote-jobs/onthegosystems-data-analyst-ai-translation-quality	OnTheGoSystems	Data Analyst – AI Translation Quality	Anywhere in the World	P1	5.0	2026-07-26 14:01
 0983436184481ca3	https://nl.linkedin.com/jobs/view/data-scientist-at-experis-nederland-4441989597	Experis Nederland	Data Scientist	Utrecht, Netherlands	P1	5.0	2026-07-26 14:01
 785c780a6861a228	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sioux-technologies-4444937074	Sioux Technologies	Machine Learning Engineer	Eindhoven, North Brabant, Netherlands	P1	5.0	2026-07-26 14:01
-71d509b13853272d	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-cosmiclens-4441722195	CosmicLens	AI/ML Engineer	Time, IL	P1	5.0	2026-07-26 14:01
 30561f36b464547c	https://tr.linkedin.com/jobs/view/data-scientist-at-pentanom-talent-4444919901	Pentanom Talent	Data Scientist	Istanbul, Türkiye	P1	5.0	2026-07-26 14:01
 faac16db13ab4ce5	https://tr.linkedin.com/jobs/view/ai-engineer-at-nobel-ilac-a-s-4441810691	Nobel Ilac A.S	AI Engineer	Istanbul, Türkiye	P1	5.0	2026-07-26 14:01
 fee822242f90d2b0	https://tr.linkedin.com/jobs/view/ai-ml-engineer-at-customs-tech-4441559560	Customs Tech	AI/ML Engineer	Türkiye	P1	5.0	2026-07-26 14:01
@@ -984,7 +892,6 @@ c471c5a7b77cde88	https://nl.indeed.com/rc/clk?jk=f6eea38bb50785b7	Capgemini Soge
 869dc9619049d1f8	https://uk.linkedin.com/jobs/view/machine-learning-engineer-uk-at-bumble-inc-4442205576	Bumble Inc.	Machine Learning Engineer (UK)	London, England, United Kingdom	P1	5.0	2026-07-27 10:18
 f943122ab259a2ac	https://nl.linkedin.com/jobs/view/data-analytics-engineer-at-ilionx-4442069584	ilionx	Data Analytics Engineer	Zwolle, Overijssel, Netherlands	P1	6.0	2026-07-28 09:59
 5d6f08b47b3d9cb8	https://jobs.ashbyhq.com/DeepL/96f6d6e1-8f0b-446d-948e-2745145362ff	DeepL	Senior Research Scientist FMTA	London	P2	5.5	2026-07-28 09:59
-2dd479ffa5a9046a	https://weworkremotely.com/remote-jobs/toptal-ai-engineer-aws-bedrock-agentcore-production-agentic-systems-latam-europe	Toptal	AI Engineer — AWS Bedrock AgentCore & Production Agentic Systems | LATAM & Europe	Anywhere in the World	P1	5.0	2026-07-28 09:59
 54418155a4de5623	https://weworkremotely.com/remote-jobs/dcx-home-based-marketing-data-analyst	DCX	Home-Based Marketing Data Analyst	Anywhere in the World	P1	5.0	2026-07-28 09:59
 a2ce54162079cb18	https://www.academictransfer.com/en/jobs/362973/assistant-professor-of-operations-analytics-machine-learning-sustainability/	Vrije Universiteit Amsterdam (VU)	Assistant Professor of Operations Analytics (Machine Learning & Sustainability)	Amsterdam	P1	5.0	2026-07-28 09:59
 19b7666a87b5bf92	https://nl.linkedin.com/jobs/view/data-engineer-with-databricks-at-us3-consulting-4443326356	Us3 Consulting	Data Engineer with Databricks	Amsterdam Area	P1	5.0	2026-07-28 09:59
@@ -1005,9 +912,6 @@ ef94f9e9c432e269	https://nl.linkedin.com/jobs/view/data-analyst-excel-remote-at-
 8901d75bf37baf76	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4445706855	CIMSOLUTIONS	Data Scientist	The Randstad, Netherlands	P1	5.0	2026-07-28 15:46
 655fb9e4bb3d26cb	https://tr.linkedin.com/jobs/view/ai-engineer-at-definex-4443254731	DefineX	AI Engineer	Istanbul, Türkiye	P1	5.0	2026-07-28 18:01
 aba33c3deedd8ee2	https://uk.linkedin.com/jobs/view/research-data-scientist-at-university-of-exeter-4445943146	University of Exeter	Research Data Scientist	Exeter, England, United Kingdom	P1	5.0	2026-07-28 18:01
-49c37d70273972da	https://www.linkedin.com/jobs/view/applied-ai-engineer-at-swinerton-4437332227	Swinerton	Applied AI Engineer	Spokane, WA	P1	5.0	2026-07-28 20:03
-5cabd1fc466205f7	https://www.linkedin.com/jobs/view/applied-ai-engineer-at-ignitium-abx-orchestration-4445162913	Ignitium: ABX Orchestration	Applied AI Engineer	Spokane, WA	P1	5.0	2026-07-28 20:03
-fe28b5a8b4cf0cbb	https://www.linkedin.com/jobs/view/ai-engineer-at-hmh-4443512200	HMH	AI Engineer	Marion County, IN	P1	5.0	2026-07-28 20:03
 deeb25603cc1ee63	https://ch.linkedin.com/jobs/view/applied-scientist-search-at-thomson-reuters-4445737183	Thomson Reuters	Applied Scientist, Search	Zug, Zug, Switzerland	P1	5.0	2026-07-28 20:03
 f5ddaa8713f21d7d	https://uk.linkedin.com/jobs/view/applied-scientist-search-at-thomson-reuters-4445741167	Thomson Reuters	Applied Scientist, Search	London, England, United Kingdom	P1	5.0	2026-07-28 20:03
 b38a57db5d1e9f6a	https://nl.linkedin.com/jobs/view/data-engineer-at-akkodis-4443270320	Akkodis	Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-28 21:30
@@ -1017,7 +921,6 @@ fe8c4b0add5002c1	https://n26.com/en-eu/careers/positions/8068837?gh_jid=8068837	
 6e038aa90696016f	https://tr.linkedin.com/jobs/view/machine-learning-engineer-at-jobgether-4446007930	Jobgether	Machine Learning Engineer	Türkiye	P1	5.0	2026-07-29 10:02
 f709a3fe0ef97add	https://nl.linkedin.com/jobs/view/data-scientist-at-nextenergy-4446558706	NextEnergy	Data Scientist	Utrecht, Utrecht, Netherlands	P1	5.0	2026-07-29 12:26
 051af544fbda3905	https://nl.linkedin.com/jobs/view/ai-engineer-24-40-uur-ede-at-zenvoices-4446055962	Zenvoices	AI Engineer | 24-40 uur | Ede	Ede, Gelderland, Netherlands	P1	5.0	2026-07-29 12:26
-82217b0352eff4a6	https://www.linkedin.com/jobs/view/ai-engineer-at-kaleidoscope-innovation-4443529192	Kaleidoscope Innovation	AI Engineer	Cincinnati, OH	P1	5.0	2026-07-29 17:39
 b402ea0cb9afde5f	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-uptalent-4446311601	Uptalent	Machine Learning Engineer	Utrecht, Utrecht, Netherlands	P1	5.0	2026-07-29 21:21
 7c11a6a7a513ce94	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4445706859	CIMSOLUTIONS	Data Scientist	Gelderland, Netherlands	P1	5.0	2026-07-29 21:21
 bc6c4d25cb047c03	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4445710813	CIMSOLUTIONS	Data Scientist	Drenthe, Netherlands	P1	5.0	2026-07-29 21:21
@@ -1041,9 +944,7 @@ fb07e64e2daf9157	https://uk.linkedin.com/jobs/view/machine-learning-engineer-at-
 47c24722e57e04ff	https://nl.linkedin.com/jobs/view/data-engineer-at-xccelerated-part-of-xebia-4426086342	Xccelerated | Part of Xebia	Data Engineer	Utrecht, Netherlands	P1	5.0	2026-07-30 06:07
 3dd742f8afc376f4	https://nl.linkedin.com/jobs/view/data-engineer-at-ilionx-4435216499	ilionx	Data Engineer	Woerden, Utrecht, Netherlands	P1	5.0	2026-07-30 06:07
 af6e554abadcfd8b	https://nl.linkedin.com/jobs/view/data-engineer-at-just-good-people-4437802461	Just Good People	Data Engineer	The Randstad, Netherlands	P1	5.0	2026-07-30 06:07
-4ceaa967bbac35c8	https://www.linkedin.com/jobs/view/machine-learning-engineer-at-mach-industries-4443232576	Mach Industries	Machine Learning Engineer	Huntington Beach, CA	P1	5.0	2026-07-30 06:07
 8160dd678cdda7b0	https://nl.linkedin.com/jobs/view/data-engineer-at-olivi-growth-4446062272	Olivi.Growth	Data Engineer	Utrecht Area	P1	5.0	2026-07-30 11:32
-fce7a15eb8ad8602	https://www.linkedin.com/jobs/view/ai-ml-engineer-platform-and-agents-at-amide-technologies-4446442779	Amide Technologies	AI/ML Engineer, Platform and Agents	Waltham, MA	P1	5.0	2026-07-30 11:32
 d3c5e7adf18c63e0	https://tr.linkedin.com/jobs/view/yapay-zeka-m%C3%BChendisi-at-turkish-aerospace-4439232673	Turkish Aerospace	Yapay Zeka Mühendisi	Kahramankazan, Ankara, Türkiye	P1	5.0	2026-07-30 11:32
 ca587446894fbdcd	https://nl.linkedin.com/jobs/view/data-engineer-at-cimsolutions-4445703624	CIMSOLUTIONS	Data Engineer	South Holland, Netherlands	P1	5.0	2026-07-30 14:39
 1ed828c5b0f771d4	https://tr.linkedin.com/jobs/view/veri-m%C3%BChendisi-at-ko%C3%A7-university-4444587193	Koç University	Veri Mühendisi	Istanbul, Türkiye	P1	5.0	2026-07-30 14:39
@@ -1052,7 +953,6 @@ ca587446894fbdcd	https://nl.linkedin.com/jobs/view/data-engineer-at-cimsolutions
 8c3a4ceb6b5e2039	https://uk.linkedin.com/jobs/view/data-scientist-at-tesco-technology-4445729782	Tesco Technology	Data Scientist	Welwyn Garden City, England, United Kingdom	P1	5.0	2026-07-30 16:59
 28dbe80a188c2962	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4445707800	CIMSOLUTIONS	Data Scientist	Friesland, Netherlands	P1	5.0	2026-07-30 18:39
 39059d31bf1efbbe	https://uk.linkedin.com/jobs/view/data-scientist-at-yunojuno-4445478623	YunoJuno	Data Scientist	England, United Kingdom	P1	5.0	2026-07-31 00:27
-b2ebbed82e3af9e1	https://www.linkedin.com/jobs/view/generative-ai-and-ml-engineer-at-seez-4438626678	Seez	Generative AI and ML Engineer	Fort Lauderdale, FL	P1	5.0	2026-07-31 04:45
 f7eb541e535dfd25	https://nl.linkedin.com/jobs/view/ai-engineer-at-nice-4434891769	NiCE	AI Engineer	Alkmaar, North Holland, Netherlands	P1	5.0	2026-07-31 08:13
 ab2cf100e5736184	https://nl.linkedin.com/jobs/view/ai-ml-engineer-at-haystack-people-4446727456	Haystack People	AI/ML Engineer	Utrecht, Netherlands	P1	5.0	2026-07-31 08:13
 d5d0094d293c7152	https://nl.linkedin.com/jobs/view/ai-engineer-at-refreshworks-4441461070	Refreshworks	AI Engineer	The Hague, South Holland, Netherlands	P1	5.0	2026-07-31 08:13
@@ -1062,7 +962,6 @@ bfa844c380dca82c	https://nl.linkedin.com/jobs/view/ai-engineer-at-dustin-4433846
 7135676cd0a6ddc5	https://nl.linkedin.com/jobs/view/python-data-machine-learning-engineer-at-signify-technology-4372583040	Signify Technology	Python Data/Machine Learning Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-07-31 08:13
 3a2b4e7155882ecf	https://nl.linkedin.com/jobs/view/data-engineer-at-samsung-electronics-4443156568	Samsung Electronics	Data Engineer	Schiphol-Rijk, North Holland, Netherlands	P1	5.0	2026-07-31 11:04
 726632428c2d5bb3	https://nl.linkedin.com/jobs/view/analytics-engineer-marketing-dsa-at-vinted-4447540492	Vinted	Analytics Engineer, Marketing DSA	Amsterdam, North Holland, Netherlands	P1	6.0	2026-07-31 16:22
-afd9d72207acbcae	https://www.linkedin.com/jobs/view/ai-engineer-at-eightpoint-4447151669	Eightpoint	AI Engineer	Fort Myers, FL	P1	5.0	2026-07-31 18:43
 a90d12bbddc8c340	https://nl.linkedin.com/jobs/view/data-scientist-at-cimsolutions-4445723519	CIMSOLUTIONS	Data Scientist	Overijssel, Netherlands	P1	5.0	2026-08-01 04:42
 bcaed45ad2fb093d	https://nl.linkedin.com/jobs/view/junior-data-analyst-retail-at-cgi-nederland-4426523289	CGI Nederland	Junior Data Analyst Retail	The Randstad, Netherlands	P1	5.8	2026-08-01 07:49
 5a36c4a7854819c9	https://nl.linkedin.com/jobs/view/junior-data-engineer-at-wildkamp-b-v-4436256343	Wildkamp B.V.	Junior Data Engineer	Coevorden, Drenthe, Netherlands	P1	5.8	2026-08-01 07:49
@@ -1086,7 +985,6 @@ b37852bcce1eec82	https://nl.linkedin.com/jobs/view/data-engineer-at-sanders-cree
 ceedc37e6e23f660	https://nl.linkedin.com/jobs/view/data-engineer-at-cimsolutions-4445711496	CIMSOLUTIONS	Data Engineer	Gelderland, Netherlands	P1	5.0	2026-08-02 16:23
 cf82952aabe95a2e	https://tr.linkedin.com/jobs/view/data-scientist-at-polinity-group-4445804867	Polinity Group	Data Scientist	Istanbul, Istanbul, Türkiye	P1	5.0	2026-08-02 16:23
 3429945824b5d33a	https://nl.linkedin.com/jobs/view/data-analyst-product-led-growth-at-nmbrs-4430440001	Nmbrs	Data Analyst - Product-Led Growth	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-02 20:31
-13e2ccae19ef735c	https://www.linkedin.com/jobs/view/ai-engineer-i-at-blue-cross-of-idaho-4445232407	Blue Cross of Idaho	AI Engineer I	Meridian, ID	P1	5.0	2026-08-02 20:31
 0824dad2401435cf	https://nl.linkedin.com/jobs/view/ai-engineer-at-12build-4432211386	12Build	AI Engineer	Nijverdal, Overijssel, Netherlands	P1	5.0	2026-08-02 22:18
 3690a23053bea5d0	https://be.linkedin.com/jobs/view/ai-engineer-mlops-llmops-at-dataroots-a-talan-company-4448186131	dataroots, a Talan company	AI Engineer (MLOps & LLMOps)	Ghent Metropolitan Area	P1	7.0	2026-08-03 12:50
 0c222b47188b90d6	https://nl.linkedin.com/jobs/view/analytics-engineer-uitzendbureau-nl-at-jobster-4447957356	Jobster	Analytics Engineer - Uitzendbureau.nl	Apeldoorn, Gelderland, Netherlands	P1	6.0	2026-08-03 12:50
@@ -1116,42 +1014,30 @@ b7b744887b7ace77	https://nl.linkedin.com/jobs/view/mlops-engineer-at-empiric-444
 f4ad2ef962c3bbe1	https://nl.linkedin.com/jobs/view/forward-deployed-ai-engineer-netherlands-bcg-x-at-bcg-x-4390715216	BCG X	Forward Deployed AI Engineer, Netherlands - BCG X	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-03 18:16
 18fc82976e67195a	https://nl.linkedin.com/jobs/view/data-engineer-migratie-modernisering-at-achmea-4440072442	Achmea	Data Engineer - Migratie & Modernisering	Apeldoorn, Gelderland, Netherlands	P1	5.0	2026-08-03 18:16
 2a85e72de7848263	https://nl.linkedin.com/jobs/view/omni-channel-business-analyst-at-hunkem%C3%B6ller-4448313692	Hunkemöller	Omni Channel Business Analyst	Hilversum, North Holland, Netherlands	P1	5.0	2026-08-03 18:16
-86fc8deda2fa503f	https://www.linkedin.com/jobs/view/ai-engineer-at-verathon-4448212518	Verathon	AI Engineer	Bothell, WA	P1	5.0	2026-08-03 18:16
-6dda1de4704d286b	https://www.linkedin.com/jobs/view/data-scientist-i-and-ii-gcp-ai-engineer-at-federal-express-corporation-4448367961	Federal Express Corporation	Data Scientist I and II (GCP & AI Engineer)	Memphis, TN	P1	6.0	2026-08-03 20:07
 a7522240814574bb	https://nl.linkedin.com/jobs/view/analytics-business-partner-at-salesforce-4448389741	Salesforce	Analytics Business Partner	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-03 20:07
 2f3f63d0573bedb4	https://nl.linkedin.com/jobs/view/data-engineer-at-good-company-4448209937	Good Company	Data Engineer	Rijswijk, South Holland, Netherlands	P1	5.0	2026-08-03 20:07
 22a058ada7797f1c	https://nl.linkedin.com/jobs/view/ai-engineer-at-tomtom-4448233221	TomTom	AI Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-03 20:07
 93db45b098bf032a	https://nl.linkedin.com/jobs/view/python-developer-ai-engineering-dutch-b1-at-us3-consulting-4448603276	Us3 Consulting	Python Developer/AI Engineering(Dutch-B1)	Amsterdam Area	P1	5.0	2026-08-03 20:07
 8bcfbc1ecee6e5a6	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4448239196	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-03 20:07
 a021dfd63125a14b	https://uk.linkedin.com/jobs/view/research-scientist-growth-%C2%A360k%E2%80%93%C2%A3120k-%2B-equity-at-equals-at-jack-jill-4448238254	Jack & Jill	Research Scientist (Growth) (£60k–£120k + Equity) at EQUALS	London, England, United Kingdom	P2	4.8	2026-08-03 20:07
-6ef48cb6180ea771	https://www.linkedin.com/jobs/view/prompt-engineer-at-bright-vision-technologies-4448608659	Bright Vision Technologies	Prompt Engineer	Troy, MI	P2	4.8	2026-08-03 20:07
 8014cb98bb69b080	https://nl.linkedin.com/jobs/view/data-scientist-detecting-financial-crime-at-abn-amro-bank-n-v-4448603906	ABN AMRO Bank N.V.	Data Scientist - Detecting Financial Crime	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-03 21:29
 b892780ca4e53cf2	https://uk.linkedin.com/jobs/view/data-scientist-ai-at-ibm-4446250583	IBM	Data Scientist - AI	London, England, United Kingdom	P1	5.0	2026-08-03 21:29
 7ee7a2ab596db9a3	https://uk.linkedin.com/jobs/view/data-scientist-ai-at-ibm-4446250584	IBM	Data Scientist - AI	Manchester, England, United Kingdom	P1	5.0	2026-08-03 21:29
 9caf76b2d323cdaa	https://de.linkedin.com/jobs/view/data-scientist-at-booz-allen-hamilton-4448613195	Booz Allen Hamilton	Data Scientist	Stuttgart, Baden-Württemberg, Germany	P1	5.0	2026-08-03 21:29
-b664ea2f5d8effdf	https://www.linkedin.com/jobs/view/research-scientist-sample-analysis-bioanalytical-dept-at-qps-holdings-llc-4448617376	QPS Holdings, LLC	Research Scientist (Sample Analysis) - Bioanalytical Dept	Newark, DE	P2	4.8	2026-08-03 21:29
-7b57ca4a8a607a63	https://www.linkedin.com/jobs/view/consumer-research-specialist-at-ultimate-staffing-4448249245	Ultimate Staffing	Consumer Research Specialist	Irvine, CA	P2	4.7	2026-08-03 21:29
 63db22c3424484f5	https://be.linkedin.com/jobs/view/conversational-ai-designer-and-content-specialist-at-keystone-solutions-4448236610	Keystone Solutions	Conversational AI Designer and Content Specialist	Brussels, Brussels Region, Belgium	P2	4.7	2026-08-03 21:29
 c5f4a74fdf609280	https://at.linkedin.com/jobs/view/data-scientist-ai-engineer-all-genders-at-austrian-lotteries-4448254411	Austrian Lotteries	Data Scientist & AI Engineer (all genders)	Vienna, Austria	P1	6.0	2026-08-03 23:28
 5f285b514a2cb2a6	https://es.linkedin.com/jobs/view/translation-project-manager-%E2%80%93-linguistic-validation-and-ecoa-at-iqvia-4448248735	IQVIA	Translation Project Manager – Linguistic Validation and eCOA	Barcelona, Catalonia, Spain	P2	5.2	2026-08-03 23:28
 3d2e6c5d13b3464d	https://es.linkedin.com/jobs/view/translation-project-manager-%E2%80%93-linguistic-validation-and-ecoa-at-iqvia-4448244762	IQVIA	Translation Project Manager – Linguistic Validation and eCOA	Madrid, Community of Madrid, Spain	P2	5.2	2026-08-03 23:28
 566ab360d31e2920	https://nl.linkedin.com/jobs/view/data-analyst-at-landal-4448634985	Landal	Data Analyst	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-03 23:28
-4f82d75de310416e	https://www.linkedin.com/jobs/view/ai-engineer-at-eisneramper-4448625559	EisnerAmper	AI Engineer	Birmingham, AL	P1	5.0	2026-08-03 23:28
-bafe9c156338a8ce	https://www.linkedin.com/jobs/view/ai-engineer-at-eisneramper-4448623655	EisnerAmper	AI Engineer	Hattiesburg, MS	P1	5.0	2026-08-03 23:28
-009c89c85d1835fd	https://www.linkedin.com/jobs/view/ai-and-machine-learning-engineer-at-hewlett-packard-enterprise-4448637238	Hewlett Packard Enterprise	AI and Machine Learning Engineer	Spring, TX	P1	5.0	2026-08-03 23:28
-492bb9025419a822	https://www.linkedin.com/jobs/view/large-language-model-specialist-at-bright-vision-technologies-4448675597	Bright Vision Technologies	Large Language Model Specialist	Ahwatukee, AZ	P2	6.0	2026-08-04 03:37
 4852cabd429b54c1	https://nl.linkedin.com/jobs/view/junior-ai-engineer-at-search-x-recruitment-4425093443	Search X Recruitment	Junior AI Engineer	Haarlem, North Holland, Netherlands	P1	5.8	2026-08-04 03:37
 49c055c7bf402ab9	https://uk.linkedin.com/jobs/view/machine-learning-engineer-%C2%A3100k-%C2%A3140k-%2B-equity-at-usepassionfruit-at-jack-jill-4448674479	Jack & Jill	Machine Learning Engineer (£100k-£140k + Equity) at Usepassionfruit	London, England, United Kingdom	P1	5.0	2026-08-04 03:37
 a14be0c996464db4	https://rs.linkedin.com/jobs/view/data-scientist-at-sagerahealth-4446269753	Sagerahealth	Data Scientist	Belgrade, Serbia	P1	5.0	2026-08-04 03:37
 76230080bb1ddd1a	https://uk.linkedin.com/jobs/view/research-scientist-growth-%C2%A360k%E2%80%93%C2%A3120k-%2B-equity-at-equals-at-jack-jill-4448679413	Jack & Jill	Research Scientist (Growth) (£60k–£120k + Equity) at EQUALS	London, England, United Kingdom	P2	4.8	2026-08-04 03:37
 a94966874197ec53	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4448666661	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-04 03:37
 0c35fa75e57576c9	https://gr.linkedin.com/jobs/view/clinical-research-scientist-4448675662	Poudouleveis.gr	Clinical Research Scientist	Thessaloniki, Central Macedonia, Greece	P2	4.8	2026-08-04 03:37
-3f2b23120dd8e666	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4446260920	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-04 03:37
-9f4c4bd53f70d13e	https://www.linkedin.com/jobs/view/staff-research-scientist-foundation-models-recipes-at-waymo-4448688927	Waymo	Staff Research Scientist, Foundation Models Recipes	Kirkland, WA	P2	5.5	2026-08-04 06:52
 2ccde05480d0cb60	https://ie.linkedin.com/jobs/view/assoc-research-scientist-technical-lead-cell-molecular-biology-athlone-ireland-at-thermo-fisher-scientific-4440127505	Thermo Fisher Scientific	Assoc Research Scientist (Technical Lead), Cell & Molecular Biology - Athlone, Ireland	Athlone, Ireland	P2	5.5	2026-08-04 06:52
 18f242b0f6e17473	https://si.linkedin.com/jobs/view/r-d-specialist-at-globalpharmacia-group-your-trusted-partner-in-premium-nutritional-supplements-4448814255	GlobalPharmacia Group | Your Trusted Partner in Premium Nutritional Supplements	R&D specialist	Ljubljana Metropolitan Area	P2	5.5	2026-08-04 06:52
 dff0f5aa32cc9312	https://nl.linkedin.com/jobs/view/data-engineer-at-dk-accountants-adviseurs-4438261800	DK Accountants & Adviseurs	Data Engineer	Veenendaal, Utrecht, Netherlands	P1	5.0	2026-08-04 06:52
-fd303a841304141e	https://www.linkedin.com/jobs/view/applied-machine-learning-engineer-at-fireworks-ai-4446295489	Fireworks AI	Applied Machine Learning Engineer	San Mateo, CA	P1	5.0	2026-08-04 06:52
 61a258452b2fb291	https://tr.linkedin.com/jobs/view/data-science-engineer-remote-at-hire-feed-4448812777	Hire Feed	Data Science engineer (Remote)	Türkiye	P1	5.0	2026-08-04 06:52
 23cdeb450dd6e659	https://nl.linkedin.com/jobs/view/analytics-engineer-at-wpp-media-4448834473	WPP Media	Analytics Engineer	Eindhoven, North Brabant, Netherlands	P1	6.0	2026-08-04 10:01
 11377346f0e74595	https://lt.linkedin.com/jobs/view/experienced-ai-engineer-data-scientist-at-ey-4446610553	EY	Experienced AI Engineer / Data Scientist	Vilnius, Vilniaus, Lithuania	P1	6.0	2026-08-04 10:01
@@ -1170,8 +1056,6 @@ fc413405823ca8bb	https://it.linkedin.com/jobs/view/graduate-data-scientist-at-be
 63325a8f6b486245	https://uk.linkedin.com/jobs/view/graduate-data-scientist-at-bending-spoons-4448815593	Bending Spoons	Graduate data scientist	United Kingdom	P1	5.8	2026-08-04 10:22
 c3b4445302180298	https://es.linkedin.com/jobs/view/graduate-data-scientist-at-bending-spoons-4448830167	Bending Spoons	Graduate data scientist	Spain	P1	5.8	2026-08-04 10:22
 0976149f5f78fa84	https://uk.linkedin.com/jobs/view/graduate-data-scientist-at-bending-spoons-4448815594	Bending Spoons	Graduate data scientist	Oxford, England, United Kingdom	P1	5.8	2026-08-04 10:22
-758e4089cce0bf3f	https://www.linkedin.com/jobs/view/machine-learning-engineer-at-createnano-4448829356	Createnano	Machine Learning Engineer	Albuquerque, NM	P1	5.0	2026-08-04 10:22
-0be33647bc4bae46	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-hashlist-4414175324	Hashlist	AI/ML Engineer	Auburn Hills, MI	P1	5.0	2026-08-04 10:22
 ee156a9faa96f9b2	https://ie.linkedin.com/jobs/view/ai-research-scientist-remote-at-hired-4448813696	Hired	AI Research Scientist (Remote)	Ireland	P2	4.8	2026-08-04 10:22
 9bbe7e409bf9834e	https://uk.linkedin.com/jobs/view/ai-research-scientist-remote-at-hired-4448814715	Hired	AI Research Scientist (Remote)	United Kingdom	P2	4.8	2026-08-04 10:22
 68310e0c216eb66c	https://uk.linkedin.com/jobs/view/bengali-language-specialist-remote-at-hired-4448826567	Hired	Bengali Language Specialist (Remote)	United Kingdom	P2	4.7	2026-08-04 10:22
@@ -1187,7 +1071,6 @@ b997b3cb3334b799	https://nl.linkedin.com/jobs/view/vacature-data-scientist-at-sp
 c26cac4f32358939	https://nl.linkedin.com/jobs/view/vacature-data-engineer-at-spects-data-partners-4448852980	SPECTS Data Partners	Vacature Data Engineer	Utrecht, Utrecht, Netherlands	P1	5.0	2026-08-04 12:24
 b367b6da14f651ab	https://nl.linkedin.com/jobs/view/data-engineer-at-online-payment-platform-4383921914	Online Payment Platform	Data Engineer	Delft, South Holland, Netherlands	P1	5.0	2026-08-04 12:24
 6ef0f7516e5051e3	https://nl.linkedin.com/jobs/view/data-analyst-at-airswift-4446611884	Airswift	Data Analyst	Hilversum, North Holland, Netherlands	P1	5.0	2026-08-04 12:24
-17f7888ca9d98b95	https://www.linkedin.com/jobs/view/research-scientist-5-%E2%80%94-content-representation-models-crm-at-netflix-4428967914	Netflix	Research Scientist 5 — Content Representation Models (CRM)	Los Gatos, CA	P2	4.8	2026-08-04 12:24
 44546636bf765ff1	https://nl.linkedin.com/jobs/view/analytics-engineer-at-wpp-media-4446632958	WPP Media	Analytics Engineer	Eindhoven, North Brabant, Netherlands	P1	6.0	2026-08-04 15:47
 d6637dfae738ea95	https://nl.linkedin.com/jobs/view/junior-data-analyst-at-cbre-nederland-4448887012	CBRE Nederland	Junior data analyst	Amsterdam, North Holland, Netherlands	P1	5.8	2026-08-04 15:47
 9e46a7d70fa6a929	https://tr.linkedin.com/jobs/view/associate-data-analytics-consultant-new-graduate-entry-level-at-sna-consulting-4446655602	SnA Consulting	Associate Data Analytics Consultant - New Graduate (Entry Level)	Istanbul, Istanbul, Türkiye	P1	5.8	2026-08-04 15:47
@@ -1210,7 +1093,6 @@ d839e0a8cf5c14d1	https://nl.linkedin.com/jobs/view/data-engineer-at-chipsoft-ned
 559b087ce46f0b80	https://hr.linkedin.com/jobs/view/senior-ai-research-scientist-at-infobip-4422807292	Infobip	Senior AI Research Scientist	Rijeka, Primorje-Gorski, Croatia	P2	5.5	2026-08-04 20:05
 18413ed3ecf15a0b	https://nl.linkedin.com/jobs/view/business-analyst-ict-at-kws-group-4449025811	KWS Group	Business Analyst ICT	Andijk, North Holland, Netherlands	P1	5.0	2026-08-04 20:05
 2c0dec23d36c5c59	https://tr.linkedin.com/jobs/view/yapay-zeka-llm-m%C3%BChendisi-at-qsup-ai-4448579239	qsup.ai	Yapay Zeka / LLM Mühendisi	Istanbul, Istanbul, Türkiye	P1	5.0	2026-08-04 20:05
-8262c8980b635112	https://www.linkedin.com/jobs/view/ai-data-scientist-at-hp-4449036453	HP	AI Data Scientist	Spring, TX	P1	5.0	2026-08-04 20:05
 9600a6410401a20d	https://es.linkedin.com/jobs/view/ai-lab-machine-learning-engineer-at-hp-4449041318	HP	AI Lab - Machine Learning Engineer	Sant Cugat del Vallès, Catalonia, Spain	P1	5.0	2026-08-04 20:05
 7e560fb13f103157	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4448555642	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-04 20:05
 296ee10df0660c9f	https://uk.linkedin.com/jobs/view/research-scientist-growth-%C2%A360k%E2%80%93%C2%A3120k-%2B-equity-at-equals-at-jack-jill-4448568227	Jack & Jill	Research Scientist (Growth) (£60k–£120k + Equity) at EQUALS	London, England, United Kingdom	P2	4.8	2026-08-04 20:05
@@ -1226,16 +1108,10 @@ e1c7e801dceac676	https://nl.linkedin.com/jobs/view/data-quality-specialist-at-ha
 da6eeded6141c897	https://nl.linkedin.com/jobs/view/prompt-engineer-at-qa-company-4449070248	QA Company	Prompt Engineer	Heel, Limburg, Netherlands	P2	4.8	2026-08-04 21:37
 e3bfc3f73b7b2dd5	https://uk.linkedin.com/jobs/view/microsoft-certified-azure-data-scientist-associate-dp-100-worth-it-for-it-pros%3F-at-zakitpro-4449065945	ZakITPro	Microsoft Certified: Azure Data Scientist Associate (DP-100) - Worth It for IT Pros?	Livingston, Scotland, United Kingdom	P1	5.8	2026-08-04 23:27
 bbdeb9a5cd967411	https://nl.linkedin.com/jobs/view/data-engineer-at-sterksen-4425795927	Sterksen	Data Engineer	Utrecht, Utrecht, Netherlands	P1	5.0	2026-08-04 23:27
-3cb7cc1a2aff5c6e	https://www.linkedin.com/jobs/view/it-analyst-ai-engineer-at-patrick-industries-inc-4448580538	Patrick Industries, Inc.	IT Analyst, AI Engineer	Elkhart, IN	P1	5.0	2026-08-04 23:27
-7b1ba637c2488271	https://www.linkedin.com/jobs/view/ai-ml-engineer-full-time-direct-hire-no-visa-sponsorship-4447304370	Client of Maven Companies Inc.	AI/ML Engineer - Full time / Direct Hire - (No Visa Sponsorship)	Plano, TX	P1	5.0	2026-08-04 23:27
-c4ecb47bd59ad036	https://www.linkedin.com/jobs/view/gen-ai-engineer-at-covetus-4449086128	Covetus	Gen AI Engineer	Irving, TX	P1	5.0	2026-08-04 23:27
 7206b2134d0c94d9	https://uk.linkedin.com/jobs/view/data-scientist-at-bss-lse-region-4449098142	BSS LSE Region	Data Scientist	Coventry, England, United Kingdom	P1	5.0	2026-08-04 23:27
 b1681344b4418e23	https://uk.linkedin.com/jobs/view/founding-research-engineer-post-training-evaluation-4449053955	Stealth Startup	Founding Research Engineer: Post-Training & Evaluation	London Area, United Kingdom	P2	4.8	2026-08-04 23:27
-d5db51fc93ce4e93	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4448596350	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-04 23:27
-a9408cd86a82197c	https://www.linkedin.com/jobs/view/label-compliance-specialist-at-innovasian-4448592137	InnovAsian	Label Compliance Specialist	Tukwila, WA	P2	4.7	2026-08-04 23:27
 aab11e9df9cc1f7f	https://de.linkedin.com/jobs/view/logop%C3%A4de-klinischer-linguist-m-w-div-at-median-unternehmensgruppe-b-v-co-kg-4447300425	MEDIAN Unternehmensgruppe B.V. & Co. KG	Logopäde / Klinischer Linguist (m/w/div)	Wilhelmshaven, Lower Saxony, Germany	P2	4.5	2026-08-04 23:27
 e335c60cb77a145f	https://uk.linkedin.com/jobs/view/graduate-applied-scientist-at-targetjobs-uk-4448926774	targetjobs UK	Graduate Applied Scientist	Cambridge, England, United Kingdom	P1	5.8	2026-08-05 03:34
-2afb33825ff8b61a	https://www.linkedin.com/jobs/view/compliance-applied-ai-ml-data-scientist-associate-at-jpmorganchase-4449443727	JPMorganChase	Compliance - Applied AI/ML Data Scientist - Associate	Jersey City, NJ	P1	5.8	2026-08-05 03:34
 bc1e4df4d73ffde0	https://nl.linkedin.com/jobs/view/data-science-engineer-at-f2f-com-4449426437	F2F.com	DATA SCIENCE ENGINEER	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-05 03:34
 f5ee6e379f2e10c6	https://nl.linkedin.com/jobs/view/data-engineer-at-octa-pharmacy-group-4449428469	OCTA Pharmacy Group	Data Engineer	Almere, Flevoland, Netherlands	P1	5.0	2026-08-05 03:34
 e26b33245ded68b9	https://nl.linkedin.com/jobs/view/ai-engineer-software-developer-at-innoworks-4447323674	Innoworks	AI Engineer / Software Developer	Enschede, Overijssel, Netherlands	P1	5.0	2026-08-05 03:34
@@ -1279,7 +1155,6 @@ f6393ccfef555e67	https://nl.linkedin.com/jobs/view/genai-engineer-assetization-t
 d961b122430c5563	https://nl.linkedin.com/jobs/view/data-analyst-at-nedap-beveiligingstechniek-b-v-4448006040	Nedap Beveiligingstechniek B.V.	Data Analyst	Groenlo, Gelderland, Netherlands	P1	5.0	2026-08-05 12:22
 ce322c01b48f4170	https://at.linkedin.com/jobs/view/research-scientist-genai-graph-mining-at-google-4439887978	Google	Research Scientist, GenAI, Graph Mining	Austria	P2	4.8	2026-08-05 12:22
 a505f2106667f0bd	https://ch.linkedin.com/jobs/view/clinical-research-scientist-at-flexsis-4448000350	Flexsis	Clinical Research Scientist	Basel, Switzerland	P2	4.8	2026-08-05 12:22
-e2f73384b3fd0390	https://www.linkedin.com/jobs/view/machine-learning-engineer-%E2%80%94-mlops-at-awake-solutions-4449629689	Awake Solutions	Machine Learning Engineer — MLOps	Benton House, IN	P1	6.0	2026-08-05 15:38
 b468f2c47f4570cf	https://nl.linkedin.com/jobs/view/junior-data-engineer-at-silverflow-4448022612	Silverflow	Junior Data Engineer	Amsterdam, North Holland, Netherlands	P1	5.8	2026-08-05 15:38
 6fbe2d48eda4930d	https://tr.linkedin.com/jobs/view/doktora-sonras%C4%B1-ara%C5%9Ft%C4%B1rmac%C4%B1-at-i%CC%87h%C3%BC-i%CC%87nsan-kaynaklar%C4%B1-daire-ba%C5%9Fkanl%C4%B1%C4%9F%C4%B1-4364549956	İHÜ İnsan Kaynakları Daire Başkanlığı	Doktora Sonrası Araştırmacı	Başakşehir, Istanbul, Türkiye	P2	5.8	2026-08-05 15:38
 0335c785beab2663	https://ie.linkedin.com/jobs/view/senior-research-scientist-ai-at-dexcom-ireland-athenry-4449121123	Dexcom Ireland - Athenry	Senior Research Scientist (AI)	Ireland	P2	5.5	2026-08-05 15:38
@@ -1299,10 +1174,7 @@ f13a2b532603d28b	https://nl.linkedin.com/jobs/view/data-scientist-kruidvat-at-as
 e4f55980dc3a3cf6	https://nl.linkedin.com/jobs/view/ai-engineer-innovatie-ai-at-apg-4449651351	APG	AI Engineer (Innovatie & AI)	Heerlen, Limburg, Netherlands	P1	5.0	2026-08-05 18:05
 b97971c7cae65006	https://nl.linkedin.com/jobs/view/ai-engineer-at-venquis-4449138262	Venquis	AI Engineer	Bussum, North Holland, Netherlands	P1	5.0	2026-08-05 18:05
 54709f5a4d0e1a15	https://nl.linkedin.com/jobs/view/data-engineer-%E2%80%93-gcp-terraform-dynatrace-at-us3-consulting-4449658536	Us3 Consulting	Data Engineer – GCP / Terraform / Dynatrace	Amsterdam Area	P1	5.0	2026-08-05 18:05
-81662d1910feda43	https://www.linkedin.com/jobs/view/supply-chain-applied-ai-engineer-at-stellantis-4440915345	Stellantis	Supply Chain Applied AI Engineer	Auburn Hills, MI	P1	5.0	2026-08-05 18:05
 94954e954c0d4335	https://ch.linkedin.com/jobs/view/ai-researcher-post-training-at-sonar-4449681241	Sonar	AI Researcher - Post-Training	Geneva, Geneva, Switzerland	P2	4.8	2026-08-05 18:05
-7940def4d4a833a2	https://www.linkedin.com/jobs/view/ai-prompt-engineer-full-time-at-gac-solutions-4449133250	GAC Solutions	AI Prompt Engineer - Full Time	Jersey City, NJ	P2	4.8	2026-08-05 18:05
-45587e796322ff48	https://www.linkedin.com/jobs/view/associate-ai-ml-engineer-at-top-gen-ai-jobs-4449674413	Top Gen AI Jobs	Associate AI/ML Engineer	Baltimore City County, MD	P1	5.8	2026-08-05 20:03
 e9e50d41d9b5b660	https://hr.linkedin.com/jobs/view/senior-ai-research-scientist-at-infobip-4422807291	Infobip	Senior AI Research Scientist	Split, Split-Dalmatia, Croatia	P2	5.5	2026-08-05 20:03
 aa6e5f309a5dabd8	https://uk.linkedin.com/jobs/view/multilingual-ai-quality-specialist-at-spotify-4440895666	Spotify	Multilingual AI Quality Specialist	London, England, United Kingdom	P2	5.4	2026-08-05 20:03
 b3a5a79592836fe7	https://se.linkedin.com/jobs/view/multilingual-ai-quality-specialist-at-spotify-4440910007	Spotify	Multilingual AI Quality Specialist	Stockholm, Stockholm County, Sweden	P2	5.4	2026-08-05 20:03
@@ -1312,13 +1184,11 @@ b3a5a79592836fe7	https://se.linkedin.com/jobs/view/multilingual-ai-quality-speci
 c5c4ed4b4435ec79	https://ch.linkedin.com/jobs/view/robotics-machine-learning-engineer-at-exclaim-robotics-4449060210	Exclaim Robotics	Robotics Machine Learning Engineer	Zurich, Zurich, Switzerland	P1	5.0	2026-08-05 20:03
 cbb8f947aa98a77c	https://uk.linkedin.com/jobs/view/data-scientist-artificial-intelligence-at-fti-consulting-4422407255	FTI Consulting	Data Scientist, Artificial Intelligence	London, England, United Kingdom	P1	5.0	2026-08-05 20:03
 89524c8c494edcbf	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4449190411	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-05 20:03
-90478488b10b0930	https://www.linkedin.com/jobs/view/data-and-ai-engineer-at-michigan-medicine-4449908459	Michigan Medicine	Data and AI Engineer	Ann Arbor, MI	P1	5.0	2026-08-05 21:37
 c210a56b23013900	https://uk.linkedin.com/jobs/view/machine-learning-engineer-%C2%A3100k-%C2%A3140k-%2B-equity-at-usepassionfruit-at-jack-jill-4449302226	Jack & Jill	Machine Learning Engineer (£100k-£140k + Equity) at Usepassionfruit	London, England, United Kingdom	P1	5.0	2026-08-05 21:37
 92cf5225866e014f	https://be.linkedin.com/jobs/view/data-scientist-at-robovision-4448065246	Robovision	Data Scientist	Ghent, Flemish Region, Belgium	P1	5.0	2026-08-05 21:37
 787c83eb2e3d3f21	https://uk.linkedin.com/jobs/view/data-scientist-at-mthree-4448080067	mthree	Data Scientist	Sheffield, England, United Kingdom	P1	5.0	2026-08-05 21:37
 6ca20e47bbdcd831	https://de.linkedin.com/jobs/view/data-scientist-at-sundayy-4449479295	Sundayy	Data Scientist	Bavaria, Germany	P1	5.0	2026-08-05 21:37
 b123e71f9349ef82	https://uk.linkedin.com/jobs/view/ai-research-scientist-phd-at-mercor-4449902467	Mercor	AI Research Scientist - PhD	United Kingdom	P2	4.8	2026-08-05 21:37
-169d303e531eaf0c	https://www.linkedin.com/jobs/view/principal-data-and-ontology-architect-ai-enablement-at-american-honda-motor-company-inc-4442151999	American Honda Motor Company, Inc.	Principal Data and Ontology Architect - AI Enablement	Marysville, OH	P2	4.7	2026-08-05 21:37
 15765c6e6cb171be	https://de.linkedin.com/jobs/view/junior-agentic-ai-engineer-f-m-x-limited-for-24-months-at-bmw-group-4448077287	BMW Group	Junior Agentic AI Engineer (f/m/x) - limited for 24 months	Munich, Bavaria, Germany	P1	5.8	2026-08-05 23:25
 cff39f97b128a3c9	https://nl.linkedin.com/jobs/view/pricing-and-business-analyst-at-merit-medical-systems-inc-4446665385	Merit Medical Systems, Inc.	Pricing and Business Analyst	Maastricht, Limburg, Netherlands	P1	5.0	2026-08-05 23:25
 20b02d5b513d0663	https://lu.linkedin.com/jobs/view/data-scientist-network-planning-optimization-world-wide-supply-chain-optimization-technology-at-amazon-science-4448081434	Amazon Science	Data Scientist, network planning optimization world wide, Supply Chain Optimization Technology	Echternach, Grevenmacher, Luxembourg	P1	5.0	2026-08-05 23:25
@@ -1328,36 +1198,25 @@ c9143daacd005d50	https://ro.linkedin.com/jobs/view/data-scientist-ii%0Abucharest
 753c00369fe7f390	https://be.linkedin.com/jobs/view/ai-ml-engineer-at-luminus-4447528465	Luminus	AI & ML Engineer	Brussels, Brussels Region, Belgium	P1	5.0	2026-08-05 23:25
 694e141fd8c210ab	https://de.linkedin.com/jobs/view/ai-ml-engineer-computer-vision-f%C3%BCr-microwave-imaging-m-w-d-at-rohde-schwarz-4449307477	Rohde & Schwarz	AI/ML Engineer Computer Vision für Microwave Imaging (m/w/d)	Munich, Bavaria, Germany	P1	5.0	2026-08-05 23:25
 2d25300138d86450	https://pl.linkedin.com/jobs/view/research-scientist-in-advanced-material-characterization-application-and-modeling-%E2%80%93-krakow-poland-at-hitachi-energy-4449934253	Hitachi Energy	Research Scientist in Advanced Material Characterization, Application and Modeling – Krakow, Poland	Cracow Metropolitan Area	P2	4.8	2026-08-05 23:25
-6cfbaad54f0b8e53	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4449315519	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-05 23:25
-3e1b06103500a2bb	https://www.linkedin.com/jobs/view/research-specialists-manager-ft-days-mhs-at-memorial-healthcare-system-4449325200	Memorial Healthcare System	Research Specialists Manager - FT - Days - MHS	Hollywood, FL	P2	4.7	2026-08-05 23:25
-bc1e000c5964402b	https://www.linkedin.com/jobs/view/research-specialists-manager-ft-days-mhs-at-memorial-healthcare-system-4449308557	Memorial Healthcare System	Research Specialists Manager - FT - Days - MHS	Hollywood, FL	P2	4.7	2026-08-05 23:25
 f0b7815717fe9004	https://gr.linkedin.com/jobs/view/ai-product-engineer-llm-fine-tuning-prompt-engineering-4449350032	Poudouleveis.gr	AI Product Engineer, LLM Fine-Tuning & Prompt Engineering	Athens, Attiki, Greece	P2	7.7	2026-08-06 03:36
-a98d6ddb81a9b201	https://www.linkedin.com/jobs/view/senior-research-scientist-nemotron-post-training-at-thomas-to-4449946372	Thomas To	Senior Research Scientist, Nemotron Post-training	Santa Clara, CA	P2	7.0	2026-08-06 03:36
 a84f2c8d5c957f1d	https://gr.linkedin.com/jobs/view/ai-engineer-prompt-engineering-llm-evaluation-frameworks-4449336305	Poudouleveis.gr	AI Engineer, Prompt Engineering & LLM Evaluation Frameworks	Lárisa, Thessalia, Greece	P2	7.0	2026-08-06 03:36
 076238449ea9ff39	https://fi.linkedin.com/jobs/view/data-scientist-ai-engineer-at-fluxion-4449325899	Fluxion	Data Scientist / AI Engineer	Helsinki, Uusimaa, Finland	P1	6.0	2026-08-06 03:36
 3796ab506d8ee071	https://gr.linkedin.com/jobs/view/machine-learning-engineer-nlp-large-language-models-4449334412	Poudouleveis.gr	Machine Learning Engineer, NLP & Large Language Models	Athens, Attiki, Greece	P2	6.0	2026-08-06 03:36
 6547214053436069	https://nl.linkedin.com/jobs/view/associate-data-engineer-bioindustrial-at-cargill-4448060776	Cargill	Associate Data Engineer - Bioindustrial	Gouda, South Holland, Netherlands	P1	5.8	2026-08-06 03:36
 4e7838e06af257a7	https://nl.linkedin.com/jobs/view/data-engineer-at-alstom-4441075270	Alstom	Data Engineer	Ridderkerk, South Holland, Netherlands	P1	5.0	2026-08-06 03:36
 ba022796dfb9d6b7	https://nl.linkedin.com/jobs/view/applied-ai-engineer-ml-infrastructure-engineer-devops-emea-at-mistral-4449978034	Mistral	Applied AI Engineer, ML Infrastructure Engineer / Devops - EMEA	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-06 03:36
-7c078a1a26f7c734	https://www.linkedin.com/jobs/view/data-scientist-at-red-drum-4449959258	Red Drum	Data Scientist	Annapolis Junction, MD	P1	5.0	2026-08-06 03:36
 1a10c21ab715688d	https://lu.linkedin.com/jobs/view/applied-scientist-scot-fo-science-and-tech-at-amazon-4449944124	Amazon	Applied Scientist, SCOT FO Science and Tech	Luxembourg, Luxembourg, Luxembourg	P1	5.0	2026-08-06 03:36
 c357af23f2ac1008	https://gr.linkedin.com/jobs/view/data-scientist-predictive-modeling-forecasting-4449351019	Poudouleveis.gr	Data Scientist, Predictive Modeling & Forecasting	Athens, Attiki, Greece	P1	5.0	2026-08-06 03:36
 9dd0eaaceeb73a22	https://nl.linkedin.com/jobs/view/junior-data-analytics-consultant-at-follo-dare-to-lead-4449373541	Follo - Dare to lead	Junior Data & Analytics Consultant	Dongen, North Brabant, Netherlands	P1	5.8	2026-08-06 06:55
 e6ad74f6ad23d912	https://nl.linkedin.com/jobs/view/junior-data-analytics-consultant-at-follo-dare-to-lead-4449368628	Follo - Dare to lead	Junior Data & Analytics Consultant	Utrecht, Utrecht, Netherlands	P1	5.8	2026-08-06 06:55
-45da70e071fe6863	https://www.linkedin.com/jobs/view/manager-large-language-model-inference-at-nvidia-ai-4448086227	NVIDIA AI	Manager, Large Language Model Inference	Santa Clara, CA	P2	5.3	2026-08-06 06:55
 305d162d51673350	https://nl.linkedin.com/jobs/view/ai-ml-engineer-remote-at-hire-feed-4450211262	Hire Feed	AI/ML Engineer (Remote)	Netherlands	P1	5.0	2026-08-06 06:55
 682d2586236dcfff	https://nl.linkedin.com/jobs/view/sap-data-engineer-nl-at-capgemini-4436528877	Capgemini	SAP Data Engineer - NL	Utrecht, Utrecht, Netherlands	P1	5.0	2026-08-06 06:55
 8c25d03b8e121893	https://nl.linkedin.com/jobs/view/ai-engineer-enablement-amsterdam-at-langchain-4449976981	LangChain	AI Engineer, Enablement (Amsterdam)	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-06 06:55
-b490fa4d08df1481	https://www.linkedin.com/jobs/view/ai-ml-engineer-hybrid-onsite-in-eden-prairie-mn-at-optum-4449971747	Optum	AI/ML Engineer - Hybrid Onsite In Eden Prairie, MN	Eden Prairie, MN	P1	5.0	2026-08-06 06:55
-964d217a3fdb1488	https://www.linkedin.com/jobs/view/ai-ml-engineer-remote-at-optum-4449987406	Optum	AI ML Engineer - Remote	Eden Prairie, MN	P1	5.0	2026-08-06 06:55
-9b3295d9762cbe65	https://www.linkedin.com/jobs/view/machine-learning-engineer-%E2%80%94-agentic-systems-at-lind-4449377360	Lind	Machine Learning Engineer — Agentic Systems	San Mateo, CA	P1	5.0	2026-08-06 06:55
-689b7d96e3828e5e	https://www.linkedin.com/jobs/view/ai-ml-engineer-remote-nationwide-or-hybrid-in-mn-dc-at-optum-4449988306	Optum	AI/ML Engineer Remote Nationwide or Hybrid in MN/DC	Minnetonka, MN	P1	5.0	2026-08-06 06:55
 18588e5f9d65ca70	https://uk.linkedin.com/jobs/view/data-scientist-python-remote-at-quik-hire-staffing-4449988315	Quik Hire Staffing	Data Scientist - Python (Remote)	United Kingdom	P1	5.0	2026-08-06 06:55
 826b776a6c4708d6	https://uk.linkedin.com/jobs/view/ai-research-scientist-remote-at-quik-hire-staffing-4449999228	Quik Hire Staffing	AI Research Scientist (Remote)	United Kingdom	P2	4.8	2026-08-06 06:55
 43f12902b3c1a394	https://uk.linkedin.com/jobs/view/ai-trainer-remote-at-quik-hire-staffing-4449966999	Quik Hire Staffing	AI Trainer (Remote)	United Kingdom	P2	4.8	2026-08-06 06:55
 b3109a4c2f25f969	https://tr.linkedin.com/jobs/view/ai-engineer-llm-generative-ai-at-enigra-software-4448091268	Enigra Software	AI Engineer (LLM / Generative AI)	Ankara, Ankara, Türkiye	P2	5.7	2026-08-06 10:02
 36db26a76e15e3c2	https://tr.linkedin.com/jobs/view/localization-specialist-at-sony-4448405186	Sony	Localization Specialist	Istanbul, Türkiye	P2	5.7	2026-08-06 10:02
-a0aebdd2e65e2e2c	https://www.linkedin.com/jobs/view/senior-research-scientist-hpc-and-ai-at-oak-ridge-national-laboratory-4440990742	Oak Ridge National Laboratory	Senior Research Scientist, HPC and AI	Oak Ridge, TN	P2	5.5	2026-08-06 10:02
 1b131d7f045f38c0	https://uk.linkedin.com/jobs/view/member-of-technical-staff-%E2%80%93-pre-training-%C2%A3150k-%C2%A3225k-%2B-equity-at-adexis-at-jack-jill-4449371777	Jack & Jill	Member of Technical Staff – Pre-Training (£150k-£225k + Equity) at Adexis	London, England, United Kingdom	P2	5.5	2026-08-06 10:02
 ccd1c52a5bd08f52	https://nl.linkedin.com/jobs/view/data-scientist-at-rubicon-cloud-advisor-4449382178	Rubicon Cloud Advisor	Data Scientist	The Randstad, Netherlands	P1	5.0	2026-08-06 10:02
 3ff0227217a55d90	https://nl.linkedin.com/jobs/view/data-scientist-at-samenwerking-beroepsonderwijs-bedrijfsleven-sbb-4408799208	Samenwerking Beroepsonderwijs Bedrijfsleven SBB	Data Scientist	Zoetermeer, South Holland, Netherlands	P1	5.0	2026-08-06 10:02
@@ -1388,33 +1247,22 @@ cd774a1fe8f5a0ae	https://de.linkedin.com/jobs/view/senior-research-scientist-m-f
 57bd6edf57113c15	https://nl.linkedin.com/jobs/view/data-ml-engineer-at-kaiko-ai-4438441801	kaiko.ai	Data ML Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-06 15:39
 864617e0e75df6e8	https://nl.linkedin.com/jobs/view/data-engineer-at-erasmustalent-4450245440	ErasmusTalent	Data Engineer	Utrecht, Utrecht, Netherlands	P1	5.0	2026-08-06 15:39
 a21abca40765ed1c	https://nl.linkedin.com/jobs/view/data-engineer-utrecht-at-haystack-people-4449744802	Haystack People	Data Engineer | Utrecht	Utrecht, Netherlands	P1	5.0	2026-08-06 15:39
-847e86a8277a28ed	https://www.linkedin.com/jobs/view/principal-ai-knowledge-graph-architect-at-asme-the-american-society-of-mechanical-engineers-4450681039	ASME (The American Society of Mechanical Engineers)	Principal AI & Knowledge Graph Architect	Livingston, NJ	P2	4.7	2026-08-07 00:26
-54bfdc3eaf239b57	https://www.linkedin.com/jobs/view/data-engineer-%E2%80%93-data-architecture-for-data-science-machine-learning-at-the-applied-research-laboratory-at-penn-state-university-4450010832	The Applied Research Laboratory at Penn State University	Data Engineer – Data Architecture for Data Science & Machine Learning	Reston, VA	P1	6.0	2026-08-07 04:12
-95bffbbacec35d9c	https://www.linkedin.com/jobs/view/feed-and-seed-labeling-specialist-at-land-o-lakes-inc-4450666862	Land O'Lakes, Inc.	Feed and Seed Labeling Specialist	Arden Hills, MN	P2	5.4	2026-08-07 04:12
 3b525315bc72d5d3	https://uk.linkedin.com/jobs/view/mid-level-nlp-specialist-at-intelligent-legal-solutions-ils-limited-at-jack-jill-4450013580	Jack & Jill	Mid-Level NLP Specialist at Intelligent Legal Solutions (ILS) Limited	United Kingdom	P2	5.2	2026-08-07 04:12
 855556eadb7b3437	https://nl.linkedin.com/jobs/view/machine-learning-engineer-at-sioux-technologies-4450694013	Sioux Technologies	Machine Learning Engineer	Eindhoven, North Brabant, Netherlands	P1	5.0	2026-08-07 04:12
-937a5a01d5847f68	https://www.linkedin.com/jobs/view/ai-engineer-at-zions-bancorporation-4450010383	Zions Bancorporation	AI Engineer	Midvale, UT	P1	5.0	2026-08-07 04:12
-733b98413b269ece	https://www.linkedin.com/jobs/view/python-ai-ml-engineer-at-liberty-it-technologies-solutions-4448469358	Liberty IT Technologies & Solutions	Python AI/ML Engineer	Plano, TX	P1	5.0	2026-08-07 04:12
-2967b62058371a54	https://www.linkedin.com/jobs/view/data-scientist-at-nextera-energy-resources-4448484537	NextEra Energy Resources	Data Scientist	Juno Beach, FL	P1	5.0	2026-08-07 04:12
 fd61bd081ba95a4c	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4450031094	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-07 04:12
 dda4d0811f316766	https://nl.linkedin.com/jobs/view/software-engineer-%E2%80%94-internal-systems-analytics-at-count-group-4450068068	COUNT Group	Software Engineer — Internal Systems & Analytics	Rotterdam, South Holland, Netherlands	P1	5.8	2026-08-07 06:04
 50f410767b2f9caa	https://ch.linkedin.com/jobs/view/staff-principal-research-scientist-at-inworld-ai-4360039074	Inworld AI	Staff / Principal Research Scientist	Switzerland	P2	5.5	2026-08-07 06:04
 24a5536b5f3b3438	https://rs.linkedin.com/jobs/view/senior-lead-research-scientist-at-inworld-ai-4415949674	Inworld AI	Senior / Lead Research Scientist	Serbia	P2	5.5	2026-08-07 06:04
 ff2b31a10c62e9a0	https://uk.linkedin.com/jobs/view/staff-principal-research-scientist-at-inworld-ai-4424488545	Inworld AI	Staff / Principal Research Scientist	United Kingdom	P2	5.5	2026-08-07 06:04
 beb7f3a5ba553ce5	https://nl.linkedin.com/jobs/view/ai-ml-engineer-remote-at-hired-4450058618	Hired	AI/ML Engineer (Remote)	Netherlands	P1	5.0	2026-08-07 06:04
-6832a3ddd53a1d95	https://www.linkedin.com/jobs/view/gen-ai-engineer-at-danta-technologies-4448710977	Danta Technologies	Gen AI Engineer	Hoboken, NJ	P1	5.0	2026-08-07 06:04
-6fa7f6fa21788e14	https://www.linkedin.com/jobs/view/gen-ai-engineer-at-danta-technologies-4448720657	Danta Technologies	Gen AI Engineer	New Brunswick, NJ	P1	5.0	2026-08-07 06:04
 0de589b4e110c3cb	https://no.linkedin.com/jobs/view/bioinformatician-data-scientist-%E2%80%93-ai-enabled-bead-design-proteomics-at-thermo-fisher-scientific-4450047753	Thermo Fisher Scientific	Bioinformatician/Data Scientist – AI-enabled Bead Design & Proteomics	Oslo, Oslo, Norway	P1	5.0	2026-08-07 06:04
 1c214c24f7eb91c2	https://pt.linkedin.com/jobs/view/data-scientist-m-f-d-at-testo-4450051599	Testo	Data Scientist (m/f/d)	Albergaria-a-Velha, Aveiro, Portugal	P1	5.0	2026-08-07 06:04
 41e5f124de2bee52	https://gr.linkedin.com/jobs/view/ai-genai-ml-engineer-at-quento-4448713452	Quento	AI/GenAI - ML Engineer	Athens, Attiki, Greece	P1	5.0	2026-08-07 06:04
 4e631acc00c08a13	https://tr.linkedin.com/jobs/view/business-analyst-job-opening-at-i2i-systems-4450064357	i2i Systems	Business Analyst Job Opening	Greater Istanbul	P1	5.0	2026-08-07 06:04
-52d765c927594c53	https://www.linkedin.com/jobs/view/research-scientist-at-rai-institute-4448714330	RAI Institute	Research Scientist	Cambridge, MA	P2	4.8	2026-08-07 06:04
 39aead32630b0376	https://nl.linkedin.com/jobs/view/data-scientist-advanced-analytics-at-carra-4448746118	Carra	Data Scientist - Advanced Analytics	Amsterdam, North Holland, Netherlands	P1	6.0	2026-08-07 07:54
 99053af23d4cabfe	https://tr.linkedin.com/jobs/view/agentic-ai-designer-prompt-engineer-at-jetlink-4448731438	Jetlink	Agentic AI Designer & Prompt Engineer	Greater Istanbul	P2	5.8	2026-08-07 07:54
 ffd9698ddb6c1936	https://nl.linkedin.com/jobs/view/in-house-data-engineer-microsoft-fabric-integraties-tot-%E2%82%AC7-000-at-careervalue-4448742011	CareerValue	In-house Data Engineer | Microsoft Fabric | Integraties | Tot €7.000,-	Ede, Gelderland, Netherlands	P1	5.0	2026-08-07 07:54
 2fcc21a49f8c2397	https://nl.linkedin.com/jobs/view/adviseur-m-amp-o-data-amp-analytics-at-amarant-4448727977	Amarant	Adviseur M&amp;O Data &amp; Analytics	Tilburg, North Brabant, Netherlands	P1	5.0	2026-08-07 07:54
-79153e83a5c5c6d7	https://www.linkedin.com/jobs/view/ai-ml-engineer-5768-at-nextpath-workforce-solutions-4442237970	NextPath Workforce Solutions	AI/ML Engineer (5768)	Tampa, FL	P1	5.0	2026-08-07 07:54
-1e227068c0f15f18	https://www.linkedin.com/jobs/view/machine-learning-engineer-iii-at-workday-4448744207	Workday	Machine Learning Engineer III	Pleasanton, CA	P1	5.0	2026-08-07 07:54
 d6ecab7624c2346e	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4450072759	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-07 07:54
 37e4a25e4bdcd3a1	https://es.linkedin.com/jobs/view/senior-ml-engineer-search-llm-ops-at-ravenpack-4448732579	RavenPack	Senior ML Engineer - Search & LLM Ops	Marbella, Andalusia, Spain	P2	4.7	2026-08-07 07:54
 00b4de38f44c0adb	https://it.linkedin.com/jobs/view/mediatrice-mediatore-linguistico-culturale-provincia-di-venezia-at-centro-studi-olivotti-4443262241	Centro Studi Olivotti	Mediatrice / mediatore linguistico-culturale | provincia di Venezia	Mira, Veneto, Italy	P2	5.2	2026-08-07 09:25
@@ -1431,13 +1279,11 @@ ff7cc5792d222524	https://nl.linkedin.com/jobs/view/data-scientist-at-intuition-i
 f4d3713ea9123063	https://nl.linkedin.com/jobs/view/onderzoeker-data-scientist-ai-bij-onbegrepen-gedrag-at-radboud-university-4441497553	Radboud University	Onderzoeker/Data scientist: AI bij onbegrepen gedrag	Nijmegen, Gelderland, Netherlands	P1	5.0	2026-08-07 11:17
 8cc08c74564f5c09	https://nl.linkedin.com/jobs/view/mlops-engineer-at-rubicon-cloud-advisor-4450093837	Rubicon Cloud Advisor	MLOps Engineer	The Randstad, Netherlands	P1	5.0	2026-08-07 11:17
 05962c4147df2ba3	https://nl.linkedin.com/jobs/view/logistics-data-engineer-at-arrow-electronics-4448755734	Arrow Electronics	Logistics Data Engineer	Sevenum, Limburg, Netherlands	P1	5.0	2026-08-07 11:17
-555959db43f36d32	https://www.linkedin.com/jobs/view/ai-engineer-at-netbrain-technologies-inc-4404854685	NetBrain Technologies Inc.	AI Engineer	Burlington, MA	P1	5.0	2026-08-07 11:17
 42ca4663997ce738	https://tr.linkedin.com/jobs/view/data-engineer-gcp-bigquery-at-adesso-turkey-4448758856	adesso Turkey	Data Engineer (GCP/BigQuery)	Türkiye	P1	5.0	2026-08-07 11:17
 e55d56082dab129b	https://nl.linkedin.com/jobs/view/machine-learning-engineer-applied-ml-research-at-super-4448771756	Super	Machine Learning Engineer - Applied ML & Research	Amsterdam Area	P1	5.0	2026-08-07 12:11
 5d7e09e459bcd18d	https://nl.linkedin.com/jobs/view/agentic-ai-engineer-at-xccelerated-part-of-xebia-4444341242	Xccelerated | Part of Xebia	Agentic AI engineer	The Randstad, Netherlands	P1	5.0	2026-08-07 12:11
 325b2bb0972773b6	https://nl.linkedin.com/jobs/view/business-intelligence-analyst-at-xccelerated-part-of-xebia-4449738513	Xccelerated | Part of Xebia	Business Intelligence Analyst	Utrecht, Netherlands	P1	5.0	2026-08-07 12:11
 0cdf2692e6c3cf32	https://nl.linkedin.com/jobs/view/gen-ai-engineer-nl-at-xccelerated-part-of-xebia-4444328998	Xccelerated | Part of Xebia	GEN AI engineer (NL)	The Randstad, Netherlands	P1	5.0	2026-08-07 12:11
-41afb56bc7681c9e	https://www.linkedin.com/jobs/view/ai-engineer-at-global-payments-inc-4441467903	Global Payments Inc.	AI Engineer	Oklahoma City, OK	P1	5.0	2026-08-07 12:11
 4c32f9bfeaae2b17	https://dk.linkedin.com/jobs/view/data-scientist-at-demant-4450314089	Demant	Data Scientist	Copenhagen Municipality, Capital Region of Denmark, Denmark	P1	5.0	2026-08-07 12:11
 802fba1959f7db28	https://se.linkedin.com/jobs/view/data-scientist-at-tenth-revolution-group-4448767738	Tenth Revolution Group	Data Scientist	Stockholm, Stockholm County, Sweden	P1	5.0	2026-08-07 12:11
 5534f999e1dec886	https://nl.linkedin.com/jobs/view/analytics-engineer-data-cloud-at-crystalloids-google-cloud-partner-4446540909	Crystalloids - Google Cloud Partner	Analytics Engineer (Data & Cloud)	Rotterdam, South Holland, Netherlands	P1	6.0	2026-08-07 13:36
@@ -1447,7 +1293,6 @@ e6d30601d8fed274	https://nl.linkedin.com/jobs/view/data-engineer-at-oakwell-hamp
 23422fddef20f271	https://nl.linkedin.com/jobs/view/ai-engineer-at-helloprint-4450699379	HelloPrint	AI Engineer	Rotterdam, South Holland, Netherlands	P1	5.0	2026-08-07 13:36
 68c90009721d8952	https://nl.linkedin.com/jobs/view/data-engineer-at-obss-4448776954	OBSS	Data Engineer	Amsterdam Area	P1	5.0	2026-08-07 13:36
 adc7c8f34ac9e8b2	https://de.linkedin.com/jobs/view/data-scientist-ai-d-f-m-at-dhl-data-ai-4450333274	DHL Data & AI	Data Scientist AI (d/f/m)	Bonn, North Rhine-Westphalia, Germany	P1	5.0	2026-08-07 13:36
-ce4b482014c151b0	https://www.linkedin.com/jobs/view/research-scientist-multimodal-alignment-safety-and-fairness-deepmind-at-google-deepmind-4440791447	Google DeepMind	Research Scientist, Multimodal Alignment, Safety and Fairness, DeepMind	Kirkland, WA	P2	4.8	2026-08-07 13:36
 9cb2de7b81631494	https://uk.linkedin.com/jobs/view/research-scientist-in-machine-learning-for-wearables-at-king-s-college-london-4448774836	King's College London	Research Scientist in Machine Learning for Wearables	London Area, United Kingdom	P2	4.8	2026-08-07 13:36
 a3b4999941045011	https://uk.linkedin.com/jobs/view/member-of-technical-staff-%E2%80%93-pre-training-%C2%A3150k-%C2%A3225k-%2B-equity-at-adexis-at-jack-jill-4450337045	Jack & Jill	Member of Technical Staff – Pre-Training (£150k-£225k + Equity) at Adexis	London, England, United Kingdom	P2	5.5	2026-08-07 15:18
 fa99adb8ddae2522	https://ie.linkedin.com/jobs/view/principal-research-scientist-i-at-abbvie-4440763382	AbbVie	Principal Research Scientist I	Westport, County Mayo, Ireland	P2	5.5	2026-08-07 15:18
@@ -1463,24 +1308,18 @@ c50e401656d35299	https://nl.linkedin.com/jobs/view/data-analyst-at-struon-444920
 acae0e996345df46	https://nl.linkedin.com/jobs/view/ai-engineer-at-medicore-4433820975	Medicore	AI engineer	Utrecht, Utrecht, Netherlands	P1	5.0	2026-08-07 16:23
 14e2b203e8086cdf	https://nl.linkedin.com/jobs/view/data-analyst-supply-chain-improvement-at-eriks-netherlands-4438730794	ERIKS Netherlands	Data Analyst - Supply Chain Improvement	Alkmaar, North Holland, Netherlands	P1	5.0	2026-08-07 16:23
 b0fd98ec81c47824	https://nl.linkedin.com/jobs/view/business-analyst-transport-solutions-at-dsv-global-transport-and-logistics-4440773191	DSV - Global Transport and Logistics	Business Analyst Transport Solutions	Venlo, Limburg, Netherlands	P1	5.0	2026-08-07 16:23
-a199f473870374a8	https://www.linkedin.com/jobs/view/ai-engineer-at-ford-motor-company-4450712837	Ford Motor Company	AI Engineer	Dearborn, MI	P1	5.0	2026-08-07 16:23
-bd11f7a6bf5f2f78	https://www.linkedin.com/jobs/view/applied-ai-and-ml-lead-generative-ai-at-jpmorganchase-4450724117	JPMorganChase	Applied AI and ML Lead - Generative AI	Jersey City, NJ	P2	4.7	2026-08-07 16:23
 d44d9c7bdc20f6bf	https://de.linkedin.com/jobs/view/samsung-linguist-bixby-ki-assistant-gn-at-grafton-recruitment-4430229056	Grafton Recruitment	SAMSUNG - LINGUIST Bixby KI-Assistant (gn)	Eschborn, Hesse, Germany	P2	4.5	2026-08-07 16:23
 309c6d11ecd5356d	https://nl.linkedin.com/jobs/view/junior-consultant-data-science-machine-learning-engineering-at-accenture-the-netherlands-4441124033	Accenture the Netherlands	Junior Consultant - Data Science & Machine Learning Engineering	Amsterdam, North Holland, Netherlands	P1	6.8	2026-08-07 18:11
 08ac541699fe32e7	https://it.linkedin.com/jobs/view/ai-large-language-model-llm-technology-architect-at-accenture-italia-4441105708	Accenture Italia	AI Large Language Model (LLM) Technology Architect	Milan, Lombardy, Italy	P2	6.0	2026-08-07 18:11
 e7eefb485ddcb200	https://nl.linkedin.com/jobs/view/data-scientist-at-kramp-4450747199	Kramp	Data Scientist	Varsseveld, Gelderland, Netherlands	P1	5.0	2026-08-07 18:11
 f4097eef8de5f9fc	https://nl.linkedin.com/jobs/view/data-scientist-at-kramp-4450738416	Kramp	Data Scientist	Utrecht, Utrecht, Netherlands	P1	5.0	2026-08-07 18:11
 636f8df7d503216e	https://nl.linkedin.com/jobs/view/data-scientist-at-university-of-amsterdam-4441607978	University of Amsterdam	Data Scientist	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-07 18:11
-e38554ab32229145	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-torch-technologies-inc-4450716958	Torch Technologies, Inc.	AI/ML Engineer	Redstone Arsenal, AL	P1	5.0	2026-08-07 18:11
-86cf7c6b7fae3ca9	https://www.linkedin.com/jobs/view/research-software-engineer-data-science-and-ai-institute-at-the-johns-hopkins-university-4449919844	The Johns Hopkins University	Research Software Engineer (Data Science and AI Institute)	Baltimore, MD	P1	5.0	2026-08-07 18:11
 445ca9eb9821857c	https://ch.linkedin.com/jobs/view/research-scientist-machine-learning-lausanne-at-isomorphic-labs-4162279909	Isomorphic Labs	Research Scientist (Machine Learning), Lausanne	Lausanne, Vaud, Switzerland	P2	4.8	2026-08-07 18:11
 51f99c8e5f2b2e40	https://uk.linkedin.com/jobs/view/specialist-english-transcription-theatrical-episodic-content-at-warner-bros-discovery-4441680339	Warner Bros. Discovery	Specialist, English Transcription, Theatrical & Episodic Content	London, England, United Kingdom	P2	4.7	2026-08-07 18:11
 e5c1d3140f63180c	https://nl.linkedin.com/jobs/view/data-engineer-i-payment-lifecycle-data-at-adyen-4450747781	Adyen	Data Engineer I - Payment Lifecycle Data	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-07 19:24
 13830d115b517b91	https://nl.linkedin.com/jobs/view/business-intelligence-consultant-asset-management-at-haskoning-4450367296	Haskoning	Business Intelligence Consultant Asset Management	Eindhoven, North Brabant, Netherlands	P1	5.0	2026-08-07 19:24
 24d7d49e5c9879d7	https://nl.linkedin.com/jobs/view/business-intelligence-consultant-asset-management-at-haskoning-4450376153	Haskoning	Business Intelligence Consultant Asset Management	Delft, South Holland, Netherlands	P1	5.0	2026-08-07 19:24
 af94cb7589d9424b	https://nl.linkedin.com/jobs/view/business-intelligence-consultant-asset-management-at-haskoning-4450364368	Haskoning	Business Intelligence Consultant Asset Management	Amersfoort, Utrecht, Netherlands	P1	5.0	2026-08-07 19:24
-d920501139a191d5	https://www.linkedin.com/jobs/view/applied-ai-engineer-generative-ai-at-cognizant-4441141625	Cognizant	Applied AI Engineer (Generative AI)	Sunrise, FL	P1	5.0	2026-08-07 19:24
-ecdc920192f4fd69	https://www.linkedin.com/jobs/view/ai-engineer-at-ctp-4449226088	CTP	AI Engineer	Orange County, CA	P1	5.0	2026-08-07 19:24
 110254769fd8efc9	https://ch.linkedin.com/jobs/view/data-scientist-at-procter-gamble-4439202633	Procter & Gamble	Data Scientist	Petit Lancy, Geneva, Switzerland	P1	5.0	2026-08-07 19:24
 1d8d615e20daca79	https://gr.linkedin.com/jobs/view/data-scientist-machine-learning-at-ey-4449219309	EY	Data scientist - Machine Learning	Patras, Western Greece, Greece	P1	5.0	2026-08-07 19:24
 ed0ed43eb36d2173	https://gr.linkedin.com/jobs/view/data-scientist-machine-learning-at-ey-4449212382	EY	Data scientist - Machine Learning	Iráklion, Crete, Greece	P1	5.0	2026-08-07 19:24
@@ -1490,70 +1329,42 @@ d5f37640cbe693c0	https://de.linkedin.com/jobs/view/research-scientist-cellular-f
 5dc878f3c123de3f	https://nl.linkedin.com/jobs/view/junior-data-ai-engineer-at-xomnia-4449219831	Xomnia	Junior Data & AI Engineer	Amsterdam, North Holland, Netherlands	P1	5.8	2026-08-07 21:08
 cd669e3b6d26a980	https://lu.linkedin.com/jobs/view/junior-ai-engineer-at-pwc-luxembourg-4449217811	PwC Luxembourg	Junior AI Engineer	Luxembourg, Luxembourg	P1	5.8	2026-08-07 21:08
 fdc87702648c0e0d	https://nl.linkedin.com/jobs/view/freelance-data-engineer-zzp-at-randstad-nederland-4450760232	Randstad Nederland	Freelance Data Engineer (ZZP)	Wormer, North Holland, Netherlands	P1	5.0	2026-08-07 21:08
-35c531fca87b8a9d	https://www.linkedin.com/jobs/view/ai-ml-engineer-precision-oncology-at-moffitt-cancer-center-4450758449	Moffitt Cancer Center	AI/ML Engineer Precision Oncology	Tampa, FL	P1	5.0	2026-08-07 21:08
 4cff3d854b1289ed	https://uk.linkedin.com/jobs/view/machine-learning-research-scientist-at-well-funded-ai-materials-discovery-startup-at-jack-jill-4450371412	Jack & Jill	Machine Learning Research Scientist at well-funded AI materials discovery startup	London, England, United Kingdom	P2	4.8	2026-08-07 21:08
 d8733aac40194032	https://uk.linkedin.com/jobs/view/ml-research-scientist-genai-at-microtech-global-ltd-4440038411	microTECH Global LTD	ML Research Scientist (GenAI)	Cambridge, England, United Kingdom	P2	4.8	2026-08-07 21:08
 8498d76220d3199f	https://es.linkedin.com/jobs/view/data-scientist-at-electronic-toll-collection-pty-ltd-4450770978	Electronic Toll Collection (Pty) Ltd	Data Scientist	Madrid, Community of Madrid, Spain	P1	5.0	2026-08-07 22:05
 1171eedb578fc647	https://uk.linkedin.com/jobs/view/machine-learning-engineer-early-career-uk-at-jobright-ai-4450371898	Jobright.ai	Machine Learning Engineer - Early Career (UK)	United Kingdom	P1	5.0	2026-08-07 22:05
-260b97b13d637807	https://www.linkedin.com/jobs/view/data-science-analyst-at-general-dynamics-information-technology-4450763992	General Dynamics Information Technology	Data Science Analyst	Springfield, VA	P1	5.0	2026-08-07 22:05
-55afac7b958631ca	https://www.linkedin.com/jobs/view/ai-operations-data-analyst-at-canon-usa-4450381471	Canon USA	AI Operations & Data Analyst	Melville, NY	P1	5.0	2026-08-07 22:05
-113ee6bc7543d1bf	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4450389033	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-07 22:05
 32b9020e515bb0f3	https://de.linkedin.com/jobs/view/data-scientist-music-disco-at-amazon-science-4449235446	Amazon Science	Data Scientist, Music DISCO	Berlin, Berlin, Germany	P1	5.0	2026-08-07 23:02
 8ecbe55bf10b56a4	https://de.linkedin.com/jobs/view/data-scientist-machine-learning-at-sundayy-4450307316	Sundayy	Data Scientist - Machine Learning	Germany	P1	5.0	2026-08-07 23:02
 530d54e90bf0879f	https://fr.linkedin.com/jobs/view/ml-engineer-at-sundayy-4450303705	Sundayy	ML Engineer	Paris, Île-de-France, France	P1	5.0	2026-08-07 23:02
 945e0c6cfc8e495b	https://uk.linkedin.com/jobs/view/full-stack-founding-ai-engineer-at-annwn-4450386232	Annwn	Full Stack Founding AI Engineer	London Area, United Kingdom	P1	5.0	2026-08-07 23:02
 a228c012dfd312d8	https://nl.linkedin.com/jobs/view/data-engineer-zzp-loondienst-jobbird-com-at-jobster-4450394465	Jobster	Data engineer (ZZP/Loondienst) - Jobbird.com	Wormer, North Holland, Netherlands	P1	5.0	2026-08-07 23:57
-37a4f893b1c10797	https://www.linkedin.com/jobs/view/data-scientist-at-flexton-inc-4450792391	Flexton Inc.	Data Scientist	Cincinnati, OH	P1	5.0	2026-08-07 23:57
 b35ba6e8ba4a7fdf	https://lu.linkedin.com/jobs/view/ai-engineer-f-m-d-at-plansee-group-4440244723	Plansee Group	AI Engineer (f/m/d)	Mamer, Luxembourg, Luxembourg	P1	5.0	2026-08-07 23:57
 f25b3078fae39a8c	https://fr.linkedin.com/jobs/view/data-science-analyst-at-visa-4433355360	Visa	Data Science Analyst	Paris, Île-de-France, France	P1	5.0	2026-08-07 23:57
-9ff5317747155e93	https://www.linkedin.com/jobs/view/data-analyst-at-fsa-4450789543	FSA	Data Analyst	Linthicum, MD	P1	5.0	2026-08-07 23:57
-51bd79dd78fbc020	https://www.linkedin.com/jobs/view/senior-applied-scientist-llm-code-agents-kiro-science-at-amazon-science-4449230747	Amazon Science	Senior Applied Scientist, LLM Code Agents, Kiro Science	Santa Clara, CA	P2	4.7	2026-08-07 23:57
-bf8c9c8848e0dcfd	https://www.linkedin.com/jobs/view/specialist-label-at-thistle-4451001219	Thistle	Specialist, Label	Burlington, NJ	P2	4.7	2026-08-07 23:57
 0820c3d9cf182502	https://es.linkedin.com/jobs/view/data-scientist-people-analytics-at-abb-4450510896	ABB	Data Scientist - People Analytics	Madrid, Community of Madrid, Spain	P1	6.0	2026-08-08 02:21
 37a0981098b945ca	https://uk.linkedin.com/jobs/view/mid-level-nlp-specialist-at-intelligent-legal-solutions-ils-limited-at-jack-jill-4450525431	Jack & Jill	Mid-Level NLP Specialist at Intelligent Legal Solutions (ILS) Limited	United Kingdom	P2	5.2	2026-08-08 02:21
-a54eb9bcd4963e07	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-peraton-labs-4450396586	Peraton Labs	AI/ML Engineer	Herndon, VA	P1	5.0	2026-08-08 02:21
-8a7162a87e04f11a	https://www.linkedin.com/jobs/view/ai-machine-learning-engineer-at-haystack-4451009757	Haystack	AI Machine Learning Engineer	Bloomington, IL	P1	5.0	2026-08-08 02:21
 9ade7c98b641a39b	https://es.linkedin.com/jobs/view/localization-ops-specialist-romanian-prime-video-localization-operations-at-prime-video-amazon-mgm-studios-4450790730	Prime Video & Amazon MGM Studios	Localization Ops Specialist ROMANIAN, Prime Video Localization Operations	Madrid, Community of Madrid, Spain	P2	4.7	2026-08-08 02:21
 79cee4a8f67622cc	https://es.linkedin.com/jobs/view/localization-ops-specialist-portuguese-prime-video-localization-operations-at-prime-video-amazon-mgm-studios-4450783924	Prime Video & Amazon MGM Studios	Localization Ops Specialist Portuguese, Prime Video Localization Operations	Madrid, Community of Madrid, Spain	P2	4.7	2026-08-08 02:21
-d7181360698f88b5	https://www.linkedin.com/jobs/view/research-analyst-expert-radar-at-expert-institute-4450512878	Expert Institute	Research Analyst, Expert Radar	Milwaukee, WI	P2	4.7	2026-08-08 02:21
-e170dc1dd1a35240	https://www.linkedin.com/jobs/view/ai-engineer-at-avid-bioservices-4450542893	Avid Bioservices	AI Engineer	Tustin, CA	P1	5.0	2026-08-08 04:33
-c0caabf093ea5c2b	https://www.linkedin.com/jobs/view/research-data-scientist-artificial-intelligence-in-medicine-research-center-at-cedars-sinai-4450573195	Cedars-Sinai	Research Data Scientist - Artificial Intelligence in Medicine Research Center	Beverly Hills, CA	P1	5.0	2026-08-08 04:33
 a9797611a9e3450f	https://uk.linkedin.com/jobs/view/data-scientist-at-university-of-southampton-4451018728	University of Southampton	Data Scientist	Southampton, England, United Kingdom	P1	5.0	2026-08-08 04:33
 4c929c121f52e2e2	https://uk.linkedin.com/jobs/view/ai-engineer-at-hyra-4449794686	Hyra	AI Engineer	London, England, United Kingdom	P1	5.0	2026-08-08 04:33
 008d5f69e3a4c51f	https://de.linkedin.com/jobs/view/optical-engineer-research-scientist-at-embl-4451027702	EMBL	Optical Engineer/Research Scientist	Heidelberg, Baden-Württemberg, Germany	P2	4.8	2026-08-08 04:33
-36d5aa66f507013f	https://www.linkedin.com/jobs/view/wem-aqm-prompt-engineer-at-talentally-4443485390	TalentAlly	WEM AQM Prompt Engineer	San Ramon, CA	P2	4.8	2026-08-08 04:33
 ffd537609c30c5fa	https://nl.linkedin.com/jobs/view/ai-engineer-at-booston-io-4450568785	Booston.io	AI Engineer	Eindhoven, North Brabant, Netherlands	P1	5.0	2026-08-08 06:04
-3cdaa95725aa823d	https://www.linkedin.com/jobs/view/ai-engineer-at-echelon-services-llc-4451037603	Echelon Services, LLC	AI Engineer	Herndon, VA	P1	5.0	2026-08-08 06:04
 be60a2de5188e4a6	https://uk.linkedin.com/jobs/view/ai-research-scientist-remote-at-quik-hire-staffing-4451050301	Quik Hire Staffing	AI Research Scientist (Remote)	United Kingdom	P2	4.8	2026-08-08 06:04
 bbd2de2df16bc578	https://uk.linkedin.com/jobs/view/ai-trainer-remote-at-quik-hire-staffing-4451037600	Quik Hire Staffing	AI Trainer (Remote)	United Kingdom	P2	4.8	2026-08-08 06:04
-c0a805480a8d21ea	https://www.linkedin.com/jobs/view/%EB%AA%A8%EC%A7%91-%EB%A7%88%EA%B0%90-analytics-data-engineer-at-datacurry-4451035938	DataCurry	[모집 마감] Analytics/Data Engineer	Greensboro, NC	P1	6.0	2026-08-08 07:21
-591c594f0dc06281	https://www.linkedin.com/jobs/view/applied-ai-engineer-ii-at-deloitte-4450591045	Deloitte	Applied AI Engineer II	Jersey City, NJ	P1	5.0	2026-08-08 07:21
 9d0607a9291ac43e	https://tr.linkedin.com/jobs/view/otomasyon-uzman%C4%B1-yapay-zeka-at-kbt-medtech-ltd-4451046705	KBT MedTech Ltd	otomasyon uzmanı(yapay zeka)	Türkiye	P1	5.0	2026-08-08 07:21
 6363b67bdd9caf81	https://de.linkedin.com/jobs/view/data-scientist-softwareentwickler-m-w-d-at-aitad-gmbh-4451048597	AITAD GmbH	Data Scientist / Softwareentwickler (m/w/d)	Offenburg, Baden-Württemberg, Germany	P1	5.0	2026-08-08 07:21
 fd94fd693df91200	https://uk.linkedin.com/jobs/view/ai-engineer-at-netrolynx-ai-4450584307	Netrolynx AI	AI Engineer	United Kingdom	P1	5.0	2026-08-08 07:21
-157e1a98245dcec5	https://www.linkedin.com/jobs/view/data-analyst-iii-at-fairfax-county-government-4447473265	Fairfax County Government	Data Analyst III	Fairfax, VA	P1	5.0	2026-08-08 07:21
 9ad76121be7e0026	https://lt.linkedin.com/jobs/view/lead-research-specialist-at-kernolab-4450582449	Kernolab	Lead Research Specialist	Vilnius, Vilniaus, Lithuania	P2	4.7	2026-08-08 07:21
 fd7d1dc1009187ba	https://nl.linkedin.com/jobs/view/analytics-engineer-l5-localization-at-localizationjobs-com-4451066245	LocalizationJobs.com	Analytics Engineer (L5) - Localization	Amsterdam, North Holland, Netherlands	P1	6.0	2026-08-08 09:08
 37aabecb517dfc20	https://nl.linkedin.com/jobs/view/data-analyst-at-haystack-4449233734	Haystack	Data Analyst	The Hague, South Holland, Netherlands	P1	5.0	2026-08-08 09:08
-d8f44ffa3928a1b4	https://www.linkedin.com/jobs/view/me00648-data-scientist-4-at-momentum-engineering-inc-4451066036	Momentum Engineering, Inc.	ME00648-Data Scientist 4	Fort George G. Meade, MD	P1	5.0	2026-08-08 09:08
-3b6f5daa5aeb4d3e	https://www.linkedin.com/jobs/view/me00647-data-scientist-3-at-momentum-engineering-inc-4451058248	Momentum Engineering, Inc.	ME00647-Data Scientist 3	Fort George G. Meade, MD	P1	5.0	2026-08-08 09:08
-4679cd61890cc264	https://www.linkedin.com/jobs/view/me00649-data-scientist-3-at-momentum-engineering-inc-4451051812	Momentum Engineering, Inc.	ME00649-Data Scientist 3	Fort George G. Meade, MD	P1	5.0	2026-08-08 09:08
 3338ed7f57eea303	https://uk.linkedin.com/jobs/view/data-scientist-at-harmonic-security-inc-at-jack-jill-4450583754	Jack & Jill	Data Scientist at Harmonic Security Inc.	United Kingdom	P1	5.0	2026-08-08 09:08
 65bbfe1afc18c0d3	https://uk.linkedin.com/jobs/view/founding-ai-engineer-researcher-at-presential-limited-at-jack-jill-4450599129	Jack & Jill	Founding AI Engineer / Researcher at Presential Limited	London, England, United Kingdom	P1	5.0	2026-08-08 09:08
 73ff864943acd9c6	https://uk.linkedin.com/jobs/view/applied-data-sciences-at-grokkers-4451052877	Grokkers	Applied Data Sciences	Over, England, United Kingdom	P1	5.0	2026-08-08 09:08
 db276ea6c329d680	https://de.linkedin.com/jobs/view/data-scientist-data-visualization-analyst-at-jangadeiro-t%C3%AAxtil-4450599165	Jangadeiro Têxtil	Data Scientist / Data Visualization Analyst	Munich, Bavaria, Germany	P1	5.0	2026-08-08 09:08
 1b4e9b23aaafce72	https://se.linkedin.com/jobs/view/data-engineer-at-verisure-4449250215	Verisure	Data engineer	Malmo, Skåne County, Sweden	P1	5.0	2026-08-08 09:08
 92a2eb7d1756247e	https://uk.linkedin.com/jobs/view/research-scientist-london-at-teli-labs-4450903147	Teli Labs	Research Scientist (London)	London, England, United Kingdom	P2	4.8	2026-08-08 09:08
-7852e5f6d7ee27c6	https://www.linkedin.com/jobs/view/ai-ml-engineer-and-data-scientist-at-booz-allen-hamilton-4442410701	Booz Allen Hamilton	AI/ML Engineer and Data Scientist	Fort Belvoir, VA	P1	6.0	2026-08-08 10:03
-0661e4b5bafc0038	https://www.linkedin.com/jobs/view/agentic-capability-ai-and-data-science-engineer-at-deloitte-4434206143	Deloitte	Agentic Capability AI and Data Science Engineer	Birmingham, AL	P1	5.0	2026-08-08 10:03
-010bf69152977258	https://www.linkedin.com/jobs/view/agentic-ai-machine-learning-engineer-at-booz-allen-hamilton-4423556895	Booz Allen Hamilton	Agentic AI Machine Learning Engineer	Alexandria, VA	P1	5.0	2026-08-08 10:03
-7bbe2d010fbc6073	https://www.linkedin.com/jobs/view/machine-learning-engineer-at-booz-allen-hamilton-4442165219	Booz Allen Hamilton	Machine Learning Engineer	El Segundo, CA	P1	5.0	2026-08-08 10:03
-46105e61b27703ad	https://www.linkedin.com/jobs/view/ai-engineer-at-johnson-controls-4439250387	Johnson Controls	Ai Engineer	Milwaukee, WI	P1	5.0	2026-08-08 10:03
 0b7f82b5c2477818	https://tr.linkedin.com/jobs/view/business-intelligence-analyst-at-esfa-grup-4449250348	ESFA Grup	Business Intelligence Analyst	Kartal, Istanbul, Türkiye	P1	5.0	2026-08-08 10:03
-78021dd79eba3759	https://www.linkedin.com/jobs/view/ai-engineer-ai%2Bcryoet-at-howard-hughes-medical-institute-hhmi-4411537204	Howard Hughes Medical Institute (HHMI)	AI Engineer - AI+CryoET	Ashburn, VA	P1	5.0	2026-08-08 10:03
 eb7e205c6f79d525	https://be.linkedin.com/jobs/view/data-scientist-mckinsey-transformation-at-mckinsey-company-4423517899	McKinsey & Company	Data Scientist - McKinsey Transformation	Brussels, Brussels Region, Belgium	P1	5.0	2026-08-08 10:03
 1a7247dce548b94a	https://bg.linkedin.com/jobs/view/machine-learning-engineer-at-experian-4441989726	Experian	Machine Learning Engineer	Sofia, Sofia City, Bulgaria	P1	5.0	2026-08-08 10:03
-ffae1db6ce3053fa	https://www.linkedin.com/jobs/view/research-scientist-computer-systems-researcher-mid-to-experienced-level-maryland-at-national-security-agency-4445924285	National Security Agency	Research Scientist / Computer Systems Researcher - Mid to Experienced Level (Maryland)	Fort Meade, MD	P2	4.8	2026-08-08 10:03
 cf73bcc5f39ae1ab	https://ie.linkedin.com/jobs/view/senior-research-scientist-oligoneucleotides-at-thermo-fisher-scientific-4449242660	Thermo Fisher Scientific	Senior Research Scientist - Oligoneucleotides	Athlone, Ireland	P2	5.5	2026-08-08 10:58
 872fa039b411a7e6	https://uk.linkedin.com/jobs/view/principal-research-scientist-machine-learning-at-imc-trading-4433233331	IMC Trading	Principal Research Scientist - Machine Learning	London, England, United Kingdom	P2	5.5	2026-08-08 10:58
 daef591ff8fba625	https://tr.linkedin.com/jobs/view/data-science-engineer-remote-at-hire-feed-4451074285	Hire Feed	Data Science engineer (Remote)	Türkiye	P1	5.0	2026-08-08 10:58
@@ -1561,9 +1372,6 @@ f06dc638bf6e5a44	https://uk.linkedin.com/jobs/view/ml-engineer-%E2%80%93-generat
 404035aeaac38bc1	https://uk.linkedin.com/jobs/view/ml-engineer-%E2%80%93-generative-ai-at-dnv-4439261173	DNV	ML Engineer – Generative AI	London, England, United Kingdom	P1	5.0	2026-08-08 10:58
 6dfdb6c2c8e1939f	https://lt.linkedin.com/jobs/view/chemikas-%C4%97-%E2%80%93-analitikas-%C4%97-at-thermo-fisher-scientific-4449239686	Thermo Fisher Scientific	Chemikas (-ė) – analitikas (-ė)	Vilnius, Vilniaus, Lithuania	P1	5.0	2026-08-08 10:58
 37787904d3a3a6ac	https://es.linkedin.com/jobs/view/ai-engineer-at-sanofi-4441965670	Sanofi	AI Engineer	Barcelona, Catalonia, Spain	P1	5.0	2026-08-08 10:58
-29909a7452e95a44	https://www.linkedin.com/jobs/view/data-scientist-at-booz-allen-hamilton-4413277963	Booz Allen Hamilton	Data Scientist	Edgewood, MD	P1	5.0	2026-08-08 10:58
-79d6dff8aa6a4663	https://www.linkedin.com/jobs/view/applied-ai-engineer-ii-at-deloitte-4442197460	Deloitte	Applied AI Engineer II	Fort Worth, TX	P1	5.0	2026-08-08 10:58
-10ba231b2ca4391c	https://www.linkedin.com/jobs/view/data-engineer-at-booz-allen-hamilton-4414919456	Booz Allen Hamilton	Data Engineer	Honolulu, HI	P1	5.0	2026-08-08 10:58
 955992624b3353a4	https://pt.linkedin.com/jobs/view/data-scientist-nlp-deep-learning-engineer-at-revolut-4372584866	Revolut	Data Scientist (NLP Deep Learning Engineer)	Porto, Porto, Portugal	P1	5.0	2026-08-08 11:53
 78cdd583a34ee756	https://uk.linkedin.com/jobs/view/ml-engineer-at-sundayy-4451058708	Sundayy	ML Engineer	England, United Kingdom	P1	5.0	2026-08-08 11:53
 abd08312afe67d02	https://uk.linkedin.com/jobs/view/data-scientist-at-sundayy-4451055813	Sundayy	Data Scientist	England, United Kingdom	P1	5.0	2026-08-08 11:53
@@ -1571,7 +1379,6 @@ abd08312afe67d02	https://uk.linkedin.com/jobs/view/data-scientist-at-sundayy-445
 14eaca79520d032d	https://dk.linkedin.com/jobs/view/business-analyst-danish-language-remote-at-hire-feed-4451056884	Hire Feed	Business Analyst - Danish Language (Remote)	Denmark	P1	5.0	2026-08-08 11:53
 6c5d67f0c5a0da40	https://fr.linkedin.com/jobs/view/research-engineer-scientist-post-training-paris-at-h-company-4366349297	H Company	Research Engineer / Scientist, Post-training - Paris	Paris, Île-de-France, France	P2	4.8	2026-08-08 11:53
 18607fd63df9a03c	https://nl.linkedin.com/jobs/view/ai-engineer-at-abn-amro-bank-n-v-4413993285	ABN AMRO Bank N.V.	AI Engineer	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-08 13:19
-d9968731e827e074	https://www.linkedin.com/jobs/view/full-stack-ai-engineer-at-kla-4420193125	KLA	Full Stack AI Engineer	Ann Arbor, MI	P1	5.0	2026-08-08 13:19
 2b14c4f3420975b6	https://uk.linkedin.com/jobs/view/machine-learning-engineer-at-graham-capital-management-l-p-4414558092	Graham Capital Management, L.P.	Machine Learning Engineer	London, England, United Kingdom	P1	5.0	2026-08-08 13:19
 377243505f421d22	https://ro.linkedin.com/jobs/view/data-scientist-nlp-deep-learning-engineer-at-revolut-4372591284	Revolut	Data Scientist (NLP Deep Learning Engineer)	Romania	P1	5.0	2026-08-08 13:19
 356d195b2ae0db66	https://fr.linkedin.com/jobs/view/data-scientist-f-h-x-at-socomec-group-4432664702	Socomec Group	Data scientist F/H/X	Benfeld, Grand Est, France	P1	5.0	2026-08-08 13:19
@@ -1579,22 +1386,16 @@ d9968731e827e074	https://www.linkedin.com/jobs/view/full-stack-ai-engineer-at-kl
 3650e23d34903a48	https://nl.linkedin.com/jobs/view/data-engineer-snowflake-dbt-%E2%80%93-data-science-ai-producten-at-pggm-4404937121	PGGM	Data Engineer (Snowflake & Dbt) – Data Science & AI Producten	Zeist, Utrecht, Netherlands	P1	6.0	2026-08-08 14:56
 c43ba6a1aeec513a	https://uk.linkedin.com/jobs/view/research-scientist-applied-llms-london-at-isomorphic-labs-4335396752	Isomorphic Labs	Research Scientist (Applied LLMs), London	London, England, United Kingdom	P2	5.5	2026-08-08 14:56
 175b334434c71a54	https://uk.linkedin.com/jobs/view/member-of-technical-staff-pre-training-data-at-cohere-4256122532	Cohere	Member of Technical Staff, Pre-Training Data	London, England, United Kingdom	P2	5.5	2026-08-08 14:56
-711911c35bf5c353	https://www.linkedin.com/jobs/view/senior-labeling-specialist-at-edwards-lifesciences-4439263922	Edwards Lifesciences	Senior Labeling Specialist	Irvine, CA	P2	5.4	2026-08-08 14:56
 9f40ea952d09bd23	https://uk.linkedin.com/jobs/view/mid-level-nlp-specialist-at-intelligent-legal-solutions-ils-limited-at-jack-jill-4450598784	Jack & Jill	Mid-Level NLP Specialist at Intelligent Legal Solutions (ILS) Limited	United Kingdom	P2	5.2	2026-08-08 14:56
 17e032125198c39d	https://nl.linkedin.com/jobs/view/esg-data-analyst-at-nyrstar-4424444061	Nyrstar	ESG Data Analyst	Budel, North Brabant, Netherlands	P1	5.0	2026-08-08 14:56
-63ea54d6f7171dc6	https://www.linkedin.com/jobs/view/ai-engineer-full-stack-at-fortegra-4401965832	Fortegra	AI Engineer - Full Stack	Jacksonville, TX	P1	5.0	2026-08-08 14:56
-ba3f36e9aa653a75	https://www.linkedin.com/jobs/view/genai-data-scientist-commercial-supply-chain-trading-at-exxonmobil-4421251683	ExxonMobil	GenAI Data Scientist, Commercial, Supply Chain & Trading	Spring, TX	P1	5.0	2026-08-08 14:56
 28bfa79731c02329	https://dk.linkedin.com/jobs/view/ai-engineer-at-neurons-4451079277	Neurons	AI Engineer	Copenhagen, Capital Region of Denmark, Denmark	P1	5.0	2026-08-08 14:56
 f3bbe35221ca5e0a	https://fr.linkedin.com/jobs/view/data-scientist-h-f-nb-at-ubisoft-paris-studio-4430239024	Ubisoft Paris Studio	Data Scientist - H/F/NB	Paris, Île-de-France, France	P1	5.0	2026-08-08 14:56
 a3c14a5993740981	https://pt.linkedin.com/jobs/view/data-scientist-nlp-deep-learning-engineer-at-revolut-4372593163	Revolut	Data Scientist (NLP Deep Learning Engineer)	Portugal	P1	5.0	2026-08-08 14:56
 17e01e03f39a149c	https://uk.linkedin.com/jobs/view/data-scientist-at-harmonic-security-inc-at-jack-jill-4450901665	Jack & Jill	Data Scientist at Harmonic Security Inc.	United Kingdom	P1	5.0	2026-08-08 14:56
-adf61a3365f7670c	https://www.linkedin.com/jobs/view/compliance-applied-ai-ml-data-scientist-associate-at-hackajob-4450596966	hackajob	Compliance - Applied AI/ML Data Scientist - Associate	Jersey City, NJ	P1	5.8	2026-08-08 15:54
-ececaa3bce74f54a	https://www.linkedin.com/jobs/view/ai-ml-engineer-software-programmer-at-magna-international-4423523792	Magna International	AI/ML Engineer/Software Programmer	Auburn Hills, MI	P1	5.0	2026-08-08 15:54
 2ce50b9083e417f4	https://uk.linkedin.com/jobs/view/data-scientist-ai-managing-consultant-at-ibm-4408870455	IBM	Data Scientist - AI - Managing Consultant	London, England, United Kingdom	P1	5.0	2026-08-08 15:54
 0fcac5cc0321e880	https://de.linkedin.com/jobs/view/study-engineer-data-scientist-d-f-m-ai-operations-research-at-airbus-defence-and-space-4291462238	Airbus Defence and Space	Study Engineer / Data Scientist (d/f/m) - AI & Operations Research	Immenstaad am Bodensee, Baden-Württemberg, Germany	P1	5.0	2026-08-08 15:54
 0b40c2f5c35c7c9c	https://uk.linkedin.com/jobs/view/data-scientist-at-gamma-4395865649	Gamma	Data Scientist	Newbury, England, United Kingdom	P1	5.0	2026-08-08 15:54
 71e2f1a0ba881646	https://es.linkedin.com/jobs/view/ml-engineer-at-aristocrat-4441712002	Aristocrat	ML Engineer	Barcelona, Catalonia, Spain	P1	5.0	2026-08-08 15:54
-69e9b062bc7973e4	https://www.linkedin.com/jobs/view/transportation-data-scientist-ai-solutions-at-leidos-4434063835	Leidos	Transportation Data Scientist (AI Solutions)	McLean, VA	P1	5.0	2026-08-08 15:54
 334da69c9b5996fa	https://uk.linkedin.com/jobs/view/research-scientist-provenance-deepmind-at-hackajob-4450912186	hackajob	Research Scientist, Provenance, DeepMind	London, England, United Kingdom	P2	4.8	2026-08-08 15:54
 a977b971f67511dc	https://rs.linkedin.com/jobs/view/senior-nlp-llm-engineer-at-social-discovery-group-4420131972	Social Discovery Group	Senior NLP/LLM Engineer	Serbia	P2	5.9	2026-08-08 16:59
 3f44b80e025569a6	https://pl.linkedin.com/jobs/view/senior-nlp-llm-engineer-at-social-discovery-group-4420139869	Social Discovery Group	Senior NLP/LLM Engineer	Poland	P2	5.9	2026-08-08 16:59
@@ -1603,16 +1404,12 @@ d819925a427bde10	https://lv.linkedin.com/jobs/view/llm-genai-engineer-at-accentu
 2188bd21420c3039	https://de.linkedin.com/jobs/view/machine-learning-engineer-all-genders-at-nfon-ag-4449264250	NFON AG	Machine Learning Engineer (all genders)	Bremen, Bremen, Germany	P1	5.0	2026-08-08 16:59
 9c2e9c1e20fd7a0d	https://ie.linkedin.com/jobs/view/machine-learning-engineer-at-astreya-4441328295	Astreya	Machine Learning Engineer	Greater Dublin	P1	5.0	2026-08-08 16:59
 b72ce09320948e07	https://de.linkedin.com/jobs/view/voice-ai-engineer-all-genders-at-nfon-ag-4449255659	NFON AG	Voice AI Engineer (all genders)	Bremen, Bremen, Germany	P1	5.0	2026-08-08 16:59
-0c276296d6065e97	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4450913329	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-08 16:59
-245f2add32e3559a	https://www.linkedin.com/jobs/view/lead-generative-ai-engineer-vp-at-citi-4450905766	Citi	Lead Generative AI Engineer, VP	Irving, TX	P2	4.7	2026-08-08 16:59
 1770bdea803a78c5	https://nl.linkedin.com/jobs/view/model-developer-predictive-analytics-at-ing-nederland-4449259495	ING Nederland	Model Developer Predictive Analytics	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-08 17:54
 b91065ef947fb514	https://nl.linkedin.com/jobs/view/business-analyst-distribution-at-kuehne%2Bnagel-4442188174	Kuehne+Nagel	Business Analyst - Distribution	Veghel, North Brabant, Netherlands	P1	5.0	2026-08-08 17:54
-9270a212a4d1746e	https://www.linkedin.com/jobs/view/ai-engineer-at-massmutual-4433467370	MassMutual	AI Engineer	Springfield, MA	P1	5.0	2026-08-08 17:54
 bfcae4a71bf8eaa0	https://at.linkedin.com/jobs/view/ai-engineer-at-radancy-4404540584	Radancy	AI Engineer	Vienna, Vienna, Austria	P1	5.0	2026-08-08 17:54
 e8b59be6e9a0025a	https://es.linkedin.com/jobs/view/data-scientist-at-bizaway-4432678853	BizAway	Data Scientist	Barcelona, Catalonia, Spain	P1	5.0	2026-08-08 17:54
 9c68f3374fc38389	https://es.linkedin.com/jobs/view/voice-ai-engineer-at-aethexai-4449252910	AethexAI	Voice AI Engineer	Greater Ciudad Real Metropolitan Area	P1	5.0	2026-08-08 17:54
 d351c271e6cfb767	https://hu.linkedin.com/jobs/view/ai-engineer-at-betsson-group-4395297645	Betsson Group	AI Engineer	Budapest, Budapest, Hungary	P1	5.0	2026-08-08 17:54
-d4f7ae303add59cb	https://www.linkedin.com/jobs/view/data-scientist-at-saic-4383362563	SAIC	Data Scientist	Chantilly, VA	P1	5.0	2026-08-08 17:54
 be7ace136fa00afc	https://nl.linkedin.com/jobs/view/analytics-consultant-at-dept%C2%AE-4394670537	DEPT®	Analytics Consultant	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-08 19:06
 303b90aeda5d94f8	https://ch.linkedin.com/jobs/view/agentic-ai-data-scientist-engineer-at-procter-gamble-4430277220	Procter & Gamble	Agentic AI Data Scientist/Engineer	Petit Lancy, Geneva, Switzerland	P1	5.0	2026-08-08 19:06
 3ef052d4ab7d7dba	https://lt.linkedin.com/jobs/view/data-scientist-at-euromonitor-international-4368092764	Euromonitor International	Data Scientist	Vilnius, Vilniaus, Lithuania	P1	5.0	2026-08-08 19:06
@@ -1622,24 +1419,13 @@ d0b32a16947af8cf	https://it.linkedin.com/jobs/view/data-scientist-at-iprel-proge
 b555cc5a73d2e803	https://uk.linkedin.com/jobs/view/ai-engineer-entry-level-uk-at-jobright-ai-4450913664	Jobright.ai	AI Engineer, Entry Level (UK)	United Kingdom	P1	5.8	2026-08-08 19:53
 747fd59330899c08	https://nl.linkedin.com/jobs/view/data-engineer-at-valueminds-4451096542	Valueminds	Data engineer	Randstad, Netherlands	P1	5.0	2026-08-08 19:53
 cc13a75aae8e8d04	https://nl.linkedin.com/jobs/view/ai-engineer-at-valueminds-4451093719	Valueminds	AI engineer	Randstad, Netherlands	P1	5.0	2026-08-08 19:53
-b73f63cc59f1b5bb	https://www.linkedin.com/jobs/view/artificial-intelligence-machine-learning-engineer-at-dese-research-inc-4451093726	DESE Research, Inc.	Artificial Intelligence / Machine Learning Engineer	Huntsville, AL	P1	5.0	2026-08-08 19:53
 005c11d9615ad316	https://pl.linkedin.com/jobs/view/data-scientist-deep-learning-forecasting-at-fetcherr-4449269432	Fetcherr	Data Scientist - Deep Learning Forecasting	Wrocław, Dolnośląskie, Poland	P1	5.0	2026-08-08 19:53
 f25d18c74a7d5d4e	https://uk.linkedin.com/jobs/view/people-analytics-insights-officer-mixed-methods-at-hm-revenue-customs-4449257787	HM Revenue & Customs	People Analytics & Insights Officer (Mixed Methods)	Tyne And Wear, England, United Kingdom	P1	5.0	2026-08-08 19:53
 325f9d8fd1db9809	https://uk.linkedin.com/jobs/view/people-analytics-insights-officer-mixed-methods-at-hm-revenue-customs-4449274194	HM Revenue & Customs	People Analytics & Insights Officer (Mixed Methods)	Liverpool, England, United Kingdom	P1	5.0	2026-08-08 19:53
 59bc0c4d0f517e41	https://uk.linkedin.com/jobs/view/people-analytics-insights-officer-mixed-methods-at-hm-revenue-customs-4449255856	HM Revenue & Customs	People Analytics & Insights Officer (Mixed Methods)	Nottingham, England, United Kingdom	P1	5.0	2026-08-08 19:53
-ea68e031f3b5d56e	https://www.linkedin.com/jobs/view/lead-ai-engineer-ai-foundations-llm-customization-and-finetuning-at-capital-one-4411390330	Capital One	Lead AI Engineer (AI Foundations, LLM Customization and Finetuning)	McLean, VA	P2	4.7	2026-08-08 19:53
-735aa5d56fd745e7	https://www.linkedin.com/jobs/view/machine-learning-engineer-at-genius-business-solutions-gbsi-4451086900	Genius Business Solutions (GBSI)	Machine Learning Engineer	Cleveland, OH	P1	5.0	2026-08-08 20:55
-e5c9228a35887636	https://www.linkedin.com/jobs/view/ai-engineer-at-jobright-ai-4450928244	Jobright.ai	AI Engineer	Santa Clara County, CA	P1	5.0	2026-08-08 20:55
 501c777f01c3ce80	https://uk.linkedin.com/jobs/view/data-scientist-early-career-uk-at-jobright-ai-4450926285	Jobright.ai	Data Scientist, Early Career (UK)	United Kingdom	P1	5.0	2026-08-08 20:55
-50c8cb787a0c7a98	https://www.linkedin.com/jobs/view/data-analyst-at-rep-ai-4451098687	Rep AI	Data Analyst	Location, WV	P1	5.0	2026-08-08 20:55
-1c68b79b8c5c23d7	https://www.linkedin.com/jobs/view/ai-engineer-at-innoveusit-4449258838	InnoveusIT	AI Engineer	Grand Prairie, TX	P1	5.0	2026-08-08 22:54
 fd74409ef8787124	https://it.linkedin.com/jobs/view/ai-engineer-at-autoinvest-4450796038	Autoinvest	AI Engineer	Turin, Piedmont, Italy	P1	5.0	2026-08-08 22:54
 8b1e7c4c83c69092	https://uk.linkedin.com/jobs/view/machine-learning-engineer-early-career-uk-at-jobright-ai-4450933095	Jobright.ai	Machine Learning Engineer - Early Career (UK)	United Kingdom	P1	5.0	2026-08-08 22:54
-53fa33ee04ae19f0	https://www.linkedin.com/jobs/view/applied-scientist-safe-rl-robotics-saf-lab-at-amazon-science-4449274393	Amazon Science	Applied Scientist, Safe RL, Robotics, SAF Lab	Pasadena, CA	P1	5.0	2026-08-08 22:54
-831674392ea81227	https://www.linkedin.com/jobs/view/data-engineer-remote-at-unitedhealthcare-4451309119	UnitedHealthcare	Data Engineer - Remote	Minnetonka, MN	P1	5.0	2026-08-08 22:54
-cfe2bfb9fc0e70d9	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4450919666	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-08 22:54
-e52bf1ae4bc52c16	https://www.linkedin.com/jobs/view/audio-ai-engineer-at-gainrep-4451314093	Gainrep	Audio AI Engineer	Reston, VA	P1	5.0	2026-08-08 23:53
-c08cdcd6b1213cf3	https://www.linkedin.com/jobs/view/data-scientist-at-careerzen-4451306373	CareerZen	Data Scientist	Jersey City, NJ	P1	5.0	2026-08-08 23:53
 a9bd3e9561229a70	https://hu.linkedin.com/jobs/view/business-analyst-data-design-at-morgan-stanley-4322848032	Morgan Stanley	Business Analyst (Data Design)	Budapest, Budapest, Hungary	P1	5.0	2026-08-08 23:53
 01ed9fb667727176	https://fr.linkedin.com/jobs/view/junior-ai-engineer-at-station-f-4450937008	STATION F	JUNIOR AI ENGINEER	Paris, Île-de-France, France	P1	5.8	2026-08-09 02:29
 4954394ffdcc7d40	https://fr.linkedin.com/jobs/view/data-scientist-research-innovation-at-station-f-4450931343	STATION F	DATA SCIENTIST - RESEARCH & INNOVATION	Saint-Ouen, Centre-Val de Loire, France	P1	5.0	2026-08-09 02:29
@@ -1648,9 +1434,7 @@ aab516410fcaf30a	https://cz.linkedin.com/jobs/view/junior-full-stack-ai-engineer
 f01c4505a446e464	https://uk.linkedin.com/jobs/view/member-of-technical-staff-%E2%80%93-post-training-%C2%A3150k-%C2%A3225k-%2B-equity-at-adexis-at-jack-jill-4450926672	Jack & Jill	Member of Technical Staff – Post-Training (£150k-£225k + Equity) at Adexis	London, England, United Kingdom	P2	5.5	2026-08-09 04:41
 3d165e19ada9db68	https://uk.linkedin.com/jobs/view/mid-level-nlp-specialist-at-intelligent-legal-solutions-ils-limited-at-jack-jill-4450933381	Jack & Jill	Mid-Level NLP Specialist at Intelligent Legal Solutions (ILS) Limited	United Kingdom	P2	5.2	2026-08-09 04:41
 be0f4c89dd7f4baf	https://ch.linkedin.com/jobs/view/ai-engineer-at-skysec-defence-4451310815	Skysec Defence	AI Engineer	Aadorf, Thurgau, Switzerland	P1	5.0	2026-08-09 04:41
-98d9d3c191322468	https://www.linkedin.com/jobs/view/data-engineer-at-hyra-4444823743	Hyra	Data Engineer	Niagara Falls, NY	P1	5.0	2026-08-09 04:41
 4deff858e2fbd316	https://uk.linkedin.com/jobs/view/ai-research-scientist-remote-at-quik-hire-staffing-4451323672	Quik Hire Staffing	AI Research Scientist (Remote)	United Kingdom	P2	4.8	2026-08-09 04:41
-4f4abfc2f232639a	https://www.linkedin.com/jobs/view/ai-engineer-%E2%80%93-entry-level-at-centennial-technologies-4451327405	Centennial Technologies	AI Engineer – Entry Level	Tysons Corner, VA	P1	5.8	2026-08-09 06:09
 6b8d1b39187c4bcb	https://it.linkedin.com/jobs/view/tech-architect-ml-ai-engineer-advanced-analytics-at-avanade-4420994580	Avanade	Tech Architect - ML & AI Engineer | Advanced Analytics	Milan, Lombardy, Italy	P1	6.0	2026-08-09 07:24
 ced92bff8976735c	https://nl.linkedin.com/jobs/view/junior-analytics-analyst-at-tech-pipeline-4450934508	Tech Pipeline	Junior Analytics Analyst	Amsterdam, North Holland, Netherlands	P1	5.8	2026-08-09 07:24
 e2b1759249718d8d	https://es.linkedin.com/jobs/view/graduate-data-scientist-at-bending-spoons-4450932774	Bending Spoons	Graduate data scientist	Barcelona, Catalonia, Spain	P1	5.8	2026-08-09 07:24
@@ -1662,20 +1446,12 @@ d6806a9b64333e78	https://de.linkedin.com/jobs/view/full-stack-ai-engineer-at-zal
 7bd583d818ea9c84	https://fr.linkedin.com/jobs/view/data-engineer-f-h-synergie-toulouse-tertiaire-at-aerocontact-4447784936	AEROCONTACT	Data Engineer F/H - Synergie Toulouse Tertiaire	Toulouse, Occitanie, France	P1	5.0	2026-08-09 07:24
 79671944d7258a16	https://uk.linkedin.com/jobs/view/ai-trainer-remote-at-quik-hire-staffing-4451326497	Quik Hire Staffing	AI Trainer (Remote)	United Kingdom	P2	4.8	2026-08-09 07:24
 30c021a7a93d3d4c	https://es.linkedin.com/jobs/view/data-scientist-people-analytics-at-abb-4451348100	ABB	Data Scientist - People Analytics	Madrid, Community of Madrid, Spain	P1	6.0	2026-08-09 09:10
-91975c5c794aadc9	https://www.linkedin.com/jobs/view/data-scientist-at-toyota-north-america-4433238360	Toyota North America	Data Scientist	Plano, TX	P1	5.0	2026-08-09 09:10
 9488413a70c82120	https://de.linkedin.com/jobs/view/machine-learning-engineer-at-agilegrid-solutions-4451338343	AgileGrid Solutions	Machine Learning Engineer	Germany	P1	5.0	2026-08-09 09:10
 a71c6bd51e04b757	https://lt.linkedin.com/jobs/view/mlops-engineer-at-accenture-4443158266	Accenture	MLOps Engineer	Vilniaus, Lithuania	P1	5.0	2026-08-09 09:10
 3e3ff4ccde2f15ce	https://uk.linkedin.com/jobs/view/ai-engineer-at-agilegrid-solutions-4451329597	AgileGrid Solutions	Ai Engineer	United Kingdom	P1	5.0	2026-08-09 09:10
 b0414e787e19e65e	https://es.linkedin.com/jobs/view/staff-research-engineer-llm-pre-training-at-jetbrains-4397562990	JetBrains	Staff Research Engineer (LLM Pre-Training)	Madrid, Community of Madrid, Spain	P2	6.2	2026-08-09 10:06
 f2296109769d3054	https://be.linkedin.com/jobs/view/data-scientist-agriculture-nature-analytics-at-mckinsey-company-4382946680	McKinsey & Company	Data Scientist - Agriculture & Nature Analytics	Brussels, Brussels Region, Belgium	P1	6.0	2026-08-09 10:06
-9bbd1ad4b418eeac	https://www.linkedin.com/jobs/view/agentic-capability-ai-and-data-science-engineer-at-deloitte-4434202211	Deloitte	Agentic Capability AI and Data Science Engineer	Memphis, TN	P1	5.0	2026-08-09 10:06
-acb972a278c7dcbc	https://www.linkedin.com/jobs/view/agentic-capability-ai-and-data-science-engineer-at-deloitte-4434096434	Deloitte	Agentic Capability AI and Data Science Engineer	Dayton, OH	P1	5.0	2026-08-09 10:06
-0f83ed946e687f30	https://www.linkedin.com/jobs/view/agentic-ai-machine-learning-engineer-at-booz-allen-hamilton-4423569127	Booz Allen Hamilton	Agentic AI Machine Learning Engineer	Annapolis Junction, MD	P1	5.0	2026-08-09 10:06
-cf9ccac3173f8569	https://www.linkedin.com/jobs/view/machine-learning-engineer-ii-at-milwaukee-tool-4414641516	Milwaukee Tool	Machine Learning Engineer II	Brookfield, WI	P1	5.0	2026-08-09 10:06
-61b032a8a4c8e1cb	https://www.linkedin.com/jobs/view/ai-data-scientist-at-general-dynamics-information-technology-4432957832	General Dynamics Information Technology	AI Data Scientist	Bossier City, LA	P1	5.0	2026-08-09 10:06
-6f09e3107599519c	https://www.linkedin.com/jobs/view/agentic-capability-ai-and-data-science-engineer-at-deloitte-4434098378	Deloitte	Agentic Capability AI and Data Science Engineer	Greater Sacramento	P1	5.0	2026-08-09 10:06
 db600a689db2b6eb	https://rs.linkedin.com/jobs/view/machine-learning-engineer-at-incode-4314088329	Incode	Machine Learning Engineer	Serbia	P1	5.0	2026-08-09 10:06
-ebe10d7f10f10400	https://www.linkedin.com/jobs/view/applied-ai-engineer-at-booz-allen-hamilton-4415555054	Booz Allen Hamilton	Applied AI Engineer	Fort Belvoir, VA	P1	5.0	2026-08-09 10:06
 adc85d0fe252338e	https://uk.linkedin.com/jobs/view/research-scientist-in-vivo-at-barrington-james-4447285890	Barrington James	Research Scientist - In vivo	Loughborough, England, United Kingdom	P2	4.8	2026-08-09 10:06
 3eae7cbff3f64ecb	https://www.glassdoor.nl/job-listing/data-analytics-engineer-ilionx-JV_IC3057038_KO0,23_KE24,30.htm?jl=1010088262668	Ilionx	Data Analytics Engineer	Zwolle	P1	6.0	2026-08-09 10:15
 d7156c48bdb3d2e9	https://www.glassdoor.nl/job-listing/analytics-engineer-ijsvogel-retail-JV_IC3046144_KO0,18_KE19,34.htm?jl=1010180780507	IJsvogel Retail	Analytics Engineer	Ede	P1	6.0	2026-08-09 10:15
@@ -1692,23 +1468,15 @@ c91262bd18b20778	https://www.glassdoor.nl/job-listing/splunk-data-engineer-umbri
 34868c1e9a13bdf0	https://nl.linkedin.com/jobs/view/data-analyst-at-haystack-4450942645	Haystack	Data Analyst	Amsterdam Area	P1	5.0	2026-08-09 10:59
 6822810a99897812	https://nl.linkedin.com/jobs/view/data-analyst-at-haystack-4450942646	Haystack	Data Analyst	Amsterdam Area	P1	5.0	2026-08-09 10:59
 d32c53325bc33976	https://de.linkedin.com/jobs/view/data-scientist-at-sundayy-4451334725	Sundayy	Data Scientist	Bavaria, Germany	P1	5.0	2026-08-09 10:59
-56c7cdf2a74b4c6d	https://www.linkedin.com/jobs/view/agentic-capability-ai-and-data-science-engineer-at-deloitte-4434099333	Deloitte	Agentic Capability AI and Data Science Engineer	Mechanicsburg, PA	P1	5.0	2026-08-09 10:59
-1c82573140692944	https://www.linkedin.com/jobs/view/agentic-capability-ai-and-data-science-engineer-at-deloitte-4434206149	Deloitte	Agentic Capability AI and Data Science Engineer	Richmond, VA	P1	5.0	2026-08-09 10:59
 42c1f650f54dbe67	https://rs.linkedin.com/jobs/view/founding-ml-engineer-spectrum-at-jetbrains-4373110093	JetBrains	Founding ML Engineer (Spectrum)	Belgrade, Serbia	P1	5.0	2026-08-09 10:59
-c034b0131f226242	https://www.linkedin.com/jobs/view/data-scientist-at-booz-allen-hamilton-4424131303	Booz Allen Hamilton	Data Scientist	Alexandria, VA	P1	5.0	2026-08-09 10:59
 f8b74eb1ef4e5f0b	https://nl.linkedin.com/jobs/view/data-scientist-at-city-of-amsterdam-4441758459	City of Amsterdam	Data Scientist	Amsterdam, North Holland, Netherlands	P1	5.0	2026-08-09 11:54
 f184444b81ef1415	https://it.linkedin.com/jobs/view/ai-engineer-at-lexroom-4421154073	Lexroom	AI Engineer	Milan, Lombardy, Italy	P1	5.0	2026-08-09 11:54
 e954c074888bd97f	https://fr.linkedin.com/jobs/view/machine-learning-engineer-at-sundayy-4451069422	Sundayy	Machine Learning Engineer	Levallois-Perret, Île-de-France, France	P1	5.0	2026-08-09 11:54
-c6440dae64b85830	https://www.linkedin.com/jobs/view/senior-manager-engineering-knowledge-graph-at-learning-commons-4424793115	Learning Commons	Senior Manager, Engineering, Knowledge Graph	Redwood City, CA	P2	4.7	2026-08-09 11:54
-27e5960d5ca0684c	https://www.linkedin.com/jobs/view/distinguished-data-scientist-associate-ai-experience-at-walmart-4403706050	Walmart	Distinguished Data Scientist: Associate AI Experience	Bentonville, AR	P1	5.8	2026-08-09 13:22
-6e753b34af20c896	https://www.linkedin.com/jobs/view/ai-engineer-at-jobright-ai-4450946589	Jobright.ai	AI Engineer	Santa Clara County, CA	P1	5.0	2026-08-09 13:22
 1daa92bb06867538	https://uk.linkedin.com/jobs/view/data-scientist-defence-at-c3-ai-4430625472	C3 AI	Data Scientist - Defence	London, England, United Kingdom	P1	5.0	2026-08-09 13:22
 16c58a53802c73b5	https://de.linkedin.com/jobs/view/machine-learning-engineer-w-m-d-at-wetteronline-gmbh-4382099411	WetterOnline GmbH	Machine Learning Engineer (w/m/d)	Bornheim, North Rhine-Westphalia, Germany	P1	5.0	2026-08-09 13:22
 8547d2e2aa92e95f	https://es.linkedin.com/jobs/view/data-scientist-nlp-deep-learning-engineer-at-revolut-4372583967	Revolut	Data Scientist (NLP Deep Learning Engineer)	Spain	P1	5.0	2026-08-09 13:22
 bf04fd80ad9c830a	https://it.linkedin.com/jobs/view/data-scientist-ssr-at-globant-4433249062	Globant	Data Scientist Ssr	Biella, Piedmont, Italy	P1	5.0	2026-08-09 13:22
 cf3ee2e45e453409	https://pt.linkedin.com/jobs/view/machine-learning-engineer-at-fyld-4451351293	Fyld	Machine Learning Engineer	Lisbon, Lisbon, Portugal	P1	5.0	2026-08-09 13:22
-ff7a1f38a0e2bc4a	https://www.linkedin.com/jobs/view/data-scientist-at-mantech-4356111071	MANTECH	Data Scientist	Aiea, HI	P1	5.0	2026-08-09 13:22
-417a294563a34f9d	https://www.linkedin.com/jobs/view/research-scientist-rl-for-dexterous-manipulation-atlas-at-boston-dynamics-4414926665	Boston Dynamics	Research Scientist, RL for Dexterous Manipulation, Atlas	Waltham, MA	P2	4.8	2026-08-09 13:22
 827437e5bac94d5c	https://de.linkedin.com/jobs/view/dipl-sprachheilp%C3%A4dagogen-klin-linguisten-bzw-logop%C3%A4den-rehabilitationswissenschaftler-sprachtherapeuten-oder-staatlich-gepr%C3%BCfte-atem-stimm-und-sprachlehrer-m-w-d-at-katholisches-krankenhaus-hagen-gem-gmbh-4451345683	Katholisches Krankenhaus Hagen gem. GmbH	DIPL.-SPRACHHEILPÄDAGOGEN, KLIN. LINGUISTEN BZW. LOGOPÄDEN, REHABILITATIONSWISSENSCHAFTLER, SPRACHTHERAPEUTEN ODER STAATLICH GEPRÜFTE ATEM-, STIMM- UND SPRACHLEHRER (M/W/D)	Hagen, North Rhine-Westphalia, Germany	P2	4.5	2026-08-09 13:22
 9286ecc23fa5b949	https://de.linkedin.com/jobs/view/consultant-ai-data-analytics-data-science-m-w-d-in-hamburg-at-deloitte-4243063283	Deloitte	Consultant AI & Data Analytics / Data Science (m/w/d) in Hamburg	Hamburg, Hamburg, Germany	P1	6.0	2026-08-09 14:59
 6610e1272b6bb8db	https://uk.linkedin.com/jobs/view/member-of-technical-staff-%E2%80%93-post-training-%C2%A3150k-%C2%A3225k-%2B-equity-at-adexis-at-jack-jill-4450951569	Jack & Jill	Member of Technical Staff – Post-Training (£150k-£225k + Equity) at Adexis	London, England, United Kingdom	P2	5.5	2026-08-09 14:59
@@ -1719,9 +1487,6 @@ d8cef86428828130	https://pt.linkedin.com/jobs/view/ai-generative-ai-engineer-llm
 2a832866840f020d	https://uk.linkedin.com/jobs/view/data-scientist-at-coreweave-4382781558	CoreWeave	Data Scientist	London, England, United Kingdom	P1	5.0	2026-08-09 14:59
 e16f86b098a5127c	https://uk.linkedin.com/jobs/view/ml-data-science-founding-engineer-at-joinkyber-at-jack-jill-4450934937	Jack & Jill	ML/Data Science Founding Engineer at Joinkyber	London, England, United Kingdom	P1	5.0	2026-08-09 14:59
 9078d89fb8234802	https://fr.linkedin.com/jobs/view/data-scientist-%E2%80%93-machine-deep-learning-h-f-at-davidson-consulting-4084395034	Davidson consulting	Data Scientist – Machine Deep learning (H/F)	Bordeaux, Nouvelle-Aquitaine, France	P1	5.0	2026-08-09 14:59
-8f73fc34ec7de131	https://www.linkedin.com/jobs/view/associate-professor-data-science-institute-at-medical-college-of-wisconsin-4414696895	Medical College of Wisconsin	Associate Professor - Data Science Institute	Milwaukee, WI	P1	5.8	2026-08-09 15:56
-27dad86b79e5c2a1	https://www.linkedin.com/jobs/view/power-systems-ai-ml-engineer-at-etap-software-4425124288	ETAP Software	Power Systems AI/ML Engineer	Irvine, CA	P1	5.0	2026-08-09 15:56
-b716315acafcd397	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-grvty-4424112012	GRVTY	AI/ML Engineer	McLean, VA	P1	5.0	2026-08-09 15:56
 72e58b94826dd6bf	https://fi.linkedin.com/jobs/view/data-scientist-at-elo-4449502854	Elo	Data Scientist	Helsinki Metropolitan Area	P1	5.0	2026-08-09 15:56
 9cce3cdc769351ef	https://uk.linkedin.com/jobs/view/applied-ai-engineer-at-trafigura-4343705610	Trafigura	Applied AI Engineer	London, England, United Kingdom	P1	5.0	2026-08-09 15:56
 697967d7ca6e9048	https://es.linkedin.com/jobs/view/agentic-ai-engineer-at-mango-4315855270	MANGO	Agentic AI Engineer	Palau-solità i Plegamans, Catalonia, Spain	P1	5.0	2026-08-09 15:56
@@ -1729,24 +1494,17 @@ b716315acafcd397	https://www.linkedin.com/jobs/view/ai-ml-engineer-at-grvty-4424
 cd4356ed2f6ebf31	https://cz.linkedin.com/jobs/view/ai-engineer-at-avenga-4394953681	Avenga	AI Engineer	Praha 8, Prague, Czechia	P1	5.0	2026-08-09 15:56
 292ea521bcb249df	https://uk.linkedin.com/jobs/view/conversational-ai-engineer-at-hackajob-4419139858	hackajob	Conversational AI Engineer	London, England, United Kingdom	P1	5.0	2026-08-09 15:56
 9ec148c6c2916dfc	https://cz.linkedin.com/jobs/view/genai-engineer-at-capco-4232928012	Capco	GenAI Engineer	Brno, South Moravia, Czechia	P1	5.0	2026-08-09 15:56
-7859fe9ff4aa9310	https://www.linkedin.com/jobs/view/prompt-engineer-at-jobright-ai-4450960059	Jobright.ai	Prompt Engineer	Cayce, SC	P2	4.8	2026-08-09 15:56
 398a4c189f86c558	https://dk.linkedin.com/jobs/view/unsolicited-business-intelligence-data-science-at-systematic-4395329902	Systematic	Unsolicited: Business Intelligence & Data Science	Aarhus, Central Denmark Region, Denmark	P1	6.0	2026-08-09 17:01
 21c9151869f165ee	https://uk.linkedin.com/jobs/view/research-scientist-wayve-labs-at-wayve-4412046390	Wayve	Research Scientist, Wayve Labs	London, England, United Kingdom	P2	4.8	2026-08-09 17:01
-a21f3bcea051c6db	https://www.linkedin.com/jobs/view/senior-software-engineer-rl-post-training-frameworks-at-nvidia-4405047530	NVIDIA	Senior Software Engineer, RL Post-Training Frameworks	Santa Clara, CA	P2	5.5	2026-08-09 17:55
-d1c23ecbc1e1b2a1	https://www.linkedin.com/jobs/view/associate-professor-data-science-institute-at-medical-college-of-wisconsin-4414900802	Medical College of Wisconsin	Associate Professor - Data Science Institute	Milwaukee, WI	P1	5.8	2026-08-09 19:09
 7a2b0d9f73002c3e	https://it.linkedin.com/jobs/view/ai-machine-learning-engineer-at-dhynet-4451066578	Dhynet	AI Machine Learning Engineer	Perugia, Umbria, Italy	P1	5.0	2026-08-09 19:09
-2a1c3d064361ddb7	https://www.linkedin.com/jobs/view/director-generative-ai-intelligent-automation-at-cgi-4412464087	CGI	Director, Generative AI & Intelligent Automation	Sacramento, CA	P2	4.7	2026-08-09 19:09
-2b9a84a0934da2ab	https://www.linkedin.com/jobs/view/conversational-ai-and-agentic-ai-senior-manager-at-pwc-4433468741	PwC	Conversational AI and Agentic AI - Senior Manager	Tampa, FL	P2	4.7	2026-08-09 19:09
 b853158b6d70fdfc	https://uk.linkedin.com/jobs/view/ai-engineer-entry-level-uk-at-jobright-ai-4450985453	Jobright.ai	AI Engineer, Entry Level (UK)	United Kingdom	P1	5.8	2026-08-09 19:57
 e9bd0e28b9e8a60e	https://uk.linkedin.com/jobs/view/mid-level-nlp-specialist-at-intelligent-legal-solutions-ils-limited-at-jack-jill-4450991493	Jack & Jill	Mid-Level NLP Specialist at Intelligent Legal Solutions (ILS) Limited	United Kingdom	P2	5.2	2026-08-09 19:57
 a52b3dbb9c3b3122	https://uk.linkedin.com/jobs/view/ml-engineer-%C2%A3100k-%C2%A3180k-%2B-equity-at-artificial-societies-ltd-at-jack-jill-4450987501	Jack & Jill	ML Engineer (£100k-£180k + Equity) at Artificial Societies Ltd	London, England, United Kingdom	P1	5.0	2026-08-09 19:57
 c37f022146583c3e	https://uk.linkedin.com/jobs/view/ml-data-science-founding-engineer-at-joinkyber-at-jack-jill-4450984516	Jack & Jill	ML/Data Science Founding Engineer at Joinkyber	London, England, United Kingdom	P1	5.0	2026-08-09 19:57
 3fab8bbd6dc15d5f	https://fr.linkedin.com/jobs/view/data-scientist-at-sundayy-4451071281	Sundayy	Data Scientist	Châteauroux, Provence-Alpes-Côte d'Azur, France	P1	5.0	2026-08-09 19:57
 90fd53a47f951177	https://uk.linkedin.com/jobs/view/machine-learning-engineer-at-sundayy-4451332734	Sundayy	Machine Learning Engineer	England, United Kingdom	P1	5.0	2026-08-09 19:57
-49a45b819cf713d4	https://www.linkedin.com/jobs/view/ai-engineer-at-jobright-ai-4450987487	Jobright.ai	AI Engineer	Santa Clara County, CA	P1	5.0	2026-08-09 19:57
 f5acfde41efe29c7	https://es.linkedin.com/jobs/view/data-scientist-people-analytics-at-abb-4451355698	ABB	Data Scientist - People Analytics	Madrid, Community of Madrid, Spain	P1	6.0	2026-08-09 20:59
 45acb0b1eb9972c0	https://tr.linkedin.com/jobs/view/yenu-mezun-yapay-zeka-m%C3%BChendisi-at-skyloop-4449526102	Skyloop	Yenu Mezun Yapay Zeka Mühendisi	Istanbul, Istanbul, Türkiye	P1	5.0	2026-08-09 20:59
-c4e9ae1f45d323ef	https://www.linkedin.com/jobs/view/genai-engineer-product-marketing-adoption-at-impact-com-4434539926	impact.com	GenAI Engineer - Product Marketing & Adoption	Capetown, CA	P1	5.0	2026-08-09 20:59
 09d84da6fd204ecd	https://be.linkedin.com/jobs/view/data-scientist-at-sparagus-4451366460	Sparagus	Data Scientist	Brussels, Brussels Region, Belgium	P1	5.0	2026-08-09 20:59
 f51fc5e36b9f78ce	https://pt.linkedin.com/jobs/view/machine-learning-engineer-at-iss-tech-team-4411677306	ISS Tech Team	Machine Learning Engineer	Porto, Portugal	P1	5.0	2026-08-09 20:59
 739015ce9af8864b	https://uk.linkedin.com/jobs/view/data-scientist-early-career-uk-at-jobright-ai-4450982493	Jobright.ai	Data Scientist, Early Career (UK)	United Kingdom	P1	5.0	2026-08-09 20:59
@@ -1759,5 +1517,4 @@ fd17032d38f18c0e	https://nl.linkedin.com/jobs/view/automotive-data-engineer-ai-a
 66c26fef68230f3f	https://nl.linkedin.com/jobs/view/middle-marketing-data-analyst-at-jobgether-4451104190	Jobgether	Middle Marketing Data Analyst	Netherlands	P1	5.0	2026-08-10 10:14
 699b5dd84b4f176e	https://tr.linkedin.com/jobs/view/data-analyst-at-bold-games-4449525914	Bold Games	Data Analyst	Istanbul, Türkiye	P1	5.0	2026-08-10 10:14
 422879a8dd8a88d9	https://www.glassdoor.nl/job-listing/data-engineer-asr-JV_IC3045310_KO0,13_KE14,17.htm?jl=1010221857147	a.s.r.	Data Engineer	Utrecht	P1	5.0	2026-08-10 10:14
-da4e944e55d4b0f5	https://boomi.com/boomi-jobs/?gh_jid=6135436004	Boomi	Endpoint management and IT Automation - Advisor i7 - IT Infrastructure	India	P2	4.8	2026-08-10 10:14
 c5c695d29c04c1b1	https://gr.linkedin.com/jobs/view/localization-translation-specialist-4449519778	Poudouleveis.gr	Localization & Translation Specialist	Athens, Attiki, Greece	P2	4.7	2026-08-10 10:14

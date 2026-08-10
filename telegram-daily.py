@@ -81,6 +81,14 @@ except ImportError:
     RUN_STATE_AVAILABLE = False
     print("⚠️  run_state.py bulunamadı — sabit pencere kullanılacak", flush=True)
 
+try:
+    import geo_gate
+    from geo_gate import resolve as geo_resolve
+    GEO_GATE_AVAILABLE = True
+except ImportError:
+    GEO_GATE_AVAILABLE = False
+    print("⚠️  geo_gate.py bulunamadı — statik konum filtresine düşülüyor", flush=True)
+
 # ─── CONFIG ──────────────────────────────────────────────────────────────────
 BASE_DIR  = Path(__file__).parent
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -446,47 +454,60 @@ MEDIOR_KW = ["medior","mid-level","mid level","intermediate","midlevel"]
 
 def market_gate(job: dict) -> str | None:
     """
-    Pazar filtresi. Bloklanma sebebini döner, temizse None.
+    Pazar filtresi — BEYAZ LİSTE modeli.
 
-    Kontrol yüzeyi: başlık + konum + şirket + (varsa) açıklama/etiketler.
-    Sıfır tolerans: tek eşleşme ilanı düşürür.
+    Kabul: coğrafi Avrupa + Türkiye. Diğer HER ŞEY düşer.
+    Kıdem: intern/trainee/student/apprentice hard-block.
+
+    Bloklanma sebebini döner, temizse None. Karar geo_gate kaskadına
+    (T0-T5) devredilir; ülke kodu ACCEPTED_CC dışındaysa DROP.
     """
-    title = str(job.get("title", ""))
-    loc   = str(job.get("location", ""))
-    tags  = job.get("tags") or []
+    title  = str(job.get("title", ""))
+    loc    = str(job.get("location", ""))
+    tags   = job.get("tags") or []
     tags_s = " ".join(map(str, tags)) if isinstance(tags, (list, tuple)) else str(tags)
-    desc  = str(job.get("description", ""))
+    desc   = str(job.get("description", ""))
 
-    # Stajyer/öğrenci: başlık + açıklama + etiket
+    # 1. Stajyer/öğrenci: başlık + açıklama + etiket
     for field, label in ((title, "title"), (tags_s, "tags"), (desc, "desc")):
         if field and _INTERN_RE.search(field.lower()):
             return f"INTERN/{label}"
 
-    # ABD konumu: konum + başlık (bazı portallar konumu başlığa gömer)
-    for field, label in ((loc, "location"), (title, "title")):
-        if field and _US_LOCATION_RE.search(field.lower()):
-            return f"US/{label}"
-
-    # ABD çalışma izni: açıklama + etiketler
+    # 2. ABD çalışma izni — coğrafyadan bağımsız diskalifiye edici
     for field, label in ((desc, "desc"), (tags_s, "tags")):
         if field and _US_AUTH_RE.search(field.lower()):
             return f"US_AUTH/{label}"
 
+    # 3. Coğrafi beyaz liste (T0-T5 kaskadı)
+    if GEO_GATE_AVAILABLE:
+        verdict = geo_resolve(loc, context=f"{title} {tags_s} {desc[:400]}")
+        job["geo_cc"] = verdict.cc
+        job["geo_w"]  = verdict.weight
+        if verdict.verdict == geo_gate.DROP:
+            return f"GEO/{verdict.cc}"
+        return None
+
+    # geo_gate yoksa: yalnızca statik ABD regex'i (bozulmadan çalışsın)
+    for field, label in ((loc, "location"), (title, "title")):
+        if field and _US_LOCATION_RE.search(field.lower()):
+            return f"US/{label}"
     return None
 
 
 def geo_weight(location: str) -> float:
-    """Avrupa önceliği — puanlamaya eklenen görünürlük ağırlığı."""
+    """Coğrafi görünürlük ağırlığı — geo_gate kaskadından türetilir."""
+    if GEO_GATE_AVAILABLE:
+        return geo_resolve(location).weight
     loc = (location or "").lower()
     if any(kw in loc for kw in EU_CORE_KW):
-        return 1.5      # Avrupa çekirdeği: maksimum görünürlük
+        return 1.5
     if any(kw in loc for kw in EU_WIDE_KW):
-        return 1.2      # EU geneli / DACH / EMEA / Avrupa remote
+        return 1.2
     if any(kw in loc for kw in TR_KW):
-        return 0.8      # Türkiye: P2 dil verisi ekseni için stratejik
+        return 0.8
     if any(kw in loc for kw in REMOTE_KW):
-        return 0.4      # Coğrafyası belirsiz remote
-    return 0.0          # Avrupa dışı (ABD zaten market_gate'te düşürüldü)
+        return 0.4
+    return 0.0
 
 # ── Kıdem Kapısı (Seniority Gate) ────────────────────────────────────────────
 # P1 (Junior Data/AI) için başlık bazlı sert engel.
@@ -1345,6 +1366,13 @@ def main():
     # ── 8. Arşive kaydet ──────────────────────────────────────────────────────
     if ready:
         save_sent(ready)
+
+    # ── 8b. Coğrafi çözüm önbelleğini diske yaz (T1 katmanı) ────────────────
+    if GEO_GATE_AVAILABLE:
+        try:
+            geo_gate.save_cache()
+        except OSError as exc:
+            print(f"⚠️  geo-cache yazılamadı: {exc}", flush=True)
 
     # ── 9. Çalışma durumunu kaydet (bir sonraki pencerenin dayanağı) ─────────
     if RUN_STATE_AVAILABLE:
