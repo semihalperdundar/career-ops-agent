@@ -23,6 +23,7 @@ Bağımlılıklar:
 
 import io
 import json
+import os
 import re
 import sys
 import time
@@ -464,6 +465,8 @@ def fetch_kariyer(fetch_fn: FetchFn, max_queries: int = 6) -> list[_JOB]:
     seen: set[str] = set()
 
     for query in KARIYER_QUERIES[:max_queries]:
+        if budget_expired():
+            break
         r = fetch_fn(
             KARIYER_SEARCH,
             params={"q": query},
@@ -603,6 +606,8 @@ def fetch_indeed_tr(fetch_fn: FetchFn, max_queries: int = 5) -> list[_JOB]:
     seen: set[str] = set()
 
     for query in INDEED_TR_QUERIES[:max_queries]:
+        if budget_expired():
+            break
         r = fetch_fn(
             INDEED_TR_SEARCH,
             params={"q": query, "l": "", "sort": "date", "fromage": "14"},
@@ -661,6 +666,8 @@ def fetch_academictransfer(fetch_fn: FetchFn, max_queries: int = 8) -> list[_JOB
     seen: set[str] = set()
 
     for query in AT_QUERIES[:max_queries]:
+        if budget_expired():
+            break
         r = fetch_fn(
             _AT_SEARCH,
             params={"q": query},
@@ -708,6 +715,30 @@ def fetch_academictransfer(fetch_fn: FetchFn, max_queries: int = 8) -> list[_JOB
 # ─────────────────────────────────────────────────────────────────────────────
 # 7. ANA TOPLAMA FONKSİYONU
 # ─────────────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Kaynak başına zaman bütçesi
+# ─────────────────────────────────────────────────────────────────────────────
+# API kaynakları fut.result(timeout=60) ile korunuyordu; sıralı HTML kaynakları
+# (Kariyer.net / Indeed TR / AcademicTransfer) HİÇBİR korumaya sahip değildi.
+# 17 sorgu × 4 deneme × (8-18s 403 beklemesi) = 30+ dakika tek kaynakta.
+# GitHub Actions varsayılan iş zaman aşımı 360 dk olduğu için asılı bir run
+# saatlerce dakika yakıyordu. Bütçe, sorgu döngülerinin başında kontrol edilir;
+# thread öldürmek yerine iş gerçekten durur ve kısmi sonuç döner.
+
+SOURCE_BUDGET_SEC = int(os.environ.get("SOURCE_BUDGET_SEC", "150"))
+_deadline: float | None = None
+
+
+def set_source_deadline(seconds: float | None = None) -> None:
+    """Bir kaynak için geri sayımı başlatır. None → sınırsız."""
+    global _deadline
+    _deadline = None if seconds is None else time.time() + seconds
+
+
+def budget_expired() -> bool:
+    return _deadline is not None and time.time() > _deadline
+
 
 def fetch_all_extra(
     fetch_fn: FetchFn,
@@ -764,8 +795,13 @@ def fetch_all_extra(
                     print(f"   ✗ {name}: hata ({e})", flush=True)
 
     for name, fn in html_sources.items():
+        set_source_deadline(SOURCE_BUDGET_SEC)
+        started = time.time()
         try:
             results = fn()
+            if budget_expired() and verbose:
+                print(f"   ⏱  {name}: {SOURCE_BUDGET_SEC}s bütçesi doldu — "
+                      f"kısmi sonuç ({time.time() - started:.0f}s)", flush=True)
             if verbose:
                 print(f"   ✓ {name}: {len(results)} ilan", flush=True)
             all_jobs.extend(results)
@@ -773,6 +809,7 @@ def fetch_all_extra(
             if verbose:
                 print(f"   ✗ {name}: hata ({e})", flush=True)
 
+    set_source_deadline(None)
     if verbose:
         print(f"   📦 Ek kaynaklardan toplam: {len(all_jobs)} ilan", flush=True)
 

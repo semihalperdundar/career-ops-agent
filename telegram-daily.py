@@ -18,6 +18,7 @@ import io
 import json
 import os
 import sys
+import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
@@ -48,7 +49,7 @@ except ImportError:
     print("⚠️  portal_scrapers.py bulunamadı — yalnızca Greenhouse/Lever taranacak", flush=True)
 
 try:
-    from playwright_scrapers import fetch_all_playwright
+    from playwright_scrapers import fetch_all_playwright, fetch_linkedin
     PW_SCRAPERS_AVAILABLE = True
 except ImportError:
     PW_SCRAPERS_AVAILABLE = False
@@ -131,6 +132,11 @@ USE_CAVEMAN_PROMPTS   = True   # caveman_compress → ~%40 token tasarrufu
 LLM_MAX_JOBS          = 10     # run başına LLM çağrı tavanı (free tier koruması)
 LLM_MAX_DESC_CHARS    = 2800   # JD payload bütçesi (~700 token, caveman sınırı)
 LLM_MAX_OUTPUT_TOKENS = 900    # yapılandırılmış JSON yanıt için yeterli
+
+# Global çalışma süresi tavanı. Asılı bir tarama GitHub Actions'ın 360 dk'lık
+# varsayılan iş zaman aşımına kadar dakika yakıyordu; bu tavan taramayı erken
+# keser ve eldeki ilanlarla gönderime geçer.
+RUN_BUDGET_SEC = int(os.environ.get("RUN_BUDGET_SEC", "600"))
 
 # RLHF Feedback
 RLHF_LOG     = BASE_DIR / "data" / "rlhf_feedback.json"
@@ -805,10 +811,12 @@ def _make_fetch(pool):
 def fetch_greenhouse(slug, company, pool=None):
     url = f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs"
     try:
-        if pool and PROXY_AVAILABLE:
+        # Açık JSON API — proxy gerekmez. Ücretsiz havuz (medyan ~7s gecikme)
+        # üzerinden geçirmek run süresini katlıyordu. Yalnızca doğrudan
+        # istek başarısız olursa havuza düşülür.
+        r = requests.get(url, timeout=15)
+        if (not r or r.status_code != 200) and pool and PROXY_AVAILABLE:
             r = safe_get(url, pool, timeout=15)
-        else:
-            r = requests.get(url, timeout=15)
         if not r or r.status_code != 200:
             return []
         jobs = []
@@ -831,10 +839,10 @@ def fetch_greenhouse(slug, company, pool=None):
 def fetch_lever(slug, company, pool=None):
     url = f"https://api.lever.co/v0/postings/{slug}?mode=json"
     try:
-        if pool and PROXY_AVAILABLE:
+        # Açık JSON API — bkz. fetch_greenhouse notu
+        r = requests.get(url, timeout=15)
+        if (not r or r.status_code != 200) and pool and PROXY_AVAILABLE:
             r = safe_get(url, pool, timeout=15)
-        else:
-            r = requests.get(url, timeout=15)
         if not r or r.status_code != 200:
             return []
         jobs = []
@@ -1191,6 +1199,7 @@ def broadcast(jobs: list, date_str: str):
 # ─── MAIN ────────────────────────────────────────────────────────────────────
 
 def main():
+    run_started = time.monotonic()
     now      = datetime.now()
     date_str = f"{now.day} {TURKISH_MONTHS[now.month]} {now.year}"
     print(f"[{now:%Y-%m-%d %H:%M}] CareerOps başlıyor — {date_str}", flush=True)
@@ -1232,9 +1241,30 @@ def main():
     sent_urls = load_sent_urls()
     print(f"📋 Arşiv: {len(sent_urls)} önceden gönderilmiş URL", flush=True)
 
+    # ── 2b. LinkedIn — İLK SIRADA ────────────────────────────────────────────
+    # LinkedIn en yüksek verimli kaynak ve requests tabanlı (Playwright/proxy
+    # gerektirmez). Daha önce 5. aşamadaydı, yani bütçe aşımında atlanan
+    # aşamadaydı — asılan her run'da hiç çalışmıyordu. Artık en başta ve
+    # bütçe kapısının DIŞINDA.
+    raw: list[dict] = []
+    if PW_SCRAPERS_AVAILABLE and ENABLE_LINKEDIN:
+        print("🔗 LinkedIn taranıyor (ilk kaynak)...", flush=True)
+        try:
+            li_started = time.monotonic()
+            li_raw = fetch_linkedin(
+                verbose=True,
+                max_age_minutes=window,
+                extra_queries=P2_SEARCH_QUERIES,
+            )
+            raw.extend(li_raw)
+            print(f"   ✓ LinkedIn: {len(li_raw)} ilan "
+                  f"({time.monotonic() - li_started:.0f}s)", flush=True)
+        except Exception as exc:
+            print(f"   ✗ LinkedIn hatası: {exc}", flush=True)
+
     # ── 3. Greenhouse + Lever paralel çek ────────────────────────────────────
     print("🌱 Greenhouse + Lever taranıyor...", flush=True)
-    raw: list[dict] = []
+    gh_start = len(raw)
     with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
         futs = (
             [ex.submit(fetch_greenhouse, s, n, pool) for s, n in GREENHOUSE_BOARDS] +
@@ -1242,7 +1272,7 @@ def main():
         )
         for fut in as_completed(futs):
             raw.extend(fut.result())
-    print(f"   Greenhouse/Lever: {len(raw)} ham ilan", flush=True)
+    print(f"   Greenhouse/Lever: {len(raw) - gh_start} ham ilan", flush=True)
 
     # ── 4. Ek portallar (Ashby, Remotive, WWR, Kariyer.net, Indeed TR) ───────
     extra_raw: list[dict] = []
@@ -1261,19 +1291,42 @@ def main():
         except Exception as e:
             print(f"⚠️  Ek portal hatası: {e}", flush=True)
 
+    # Ucuz yolun (curl_cffi/requests) TR portallarında sonuç üretip üretmediği
+    # — Playwright yedeğinin gerekip gerekmediğini bu belirler
+    _extra_srcs = Counter(str(j.get("source", "")).split("/")[0] for j in extra_raw)
+    kariyer_empty   = _extra_srcs.get("kariyer.net", 0) == 0
+    indeed_tr_empty = _extra_srcs.get("indeed.tr", 0) == 0
+    if not kariyer_empty:
+        print(f"   ↳ Kariyer.net ucuz yoldan {_extra_srcs['kariyer.net']} ilan "
+              f"— Playwright yedeği atlanacak", flush=True)
+    if not indeed_tr_empty:
+        print(f"   ↳ Indeed TR ucuz yoldan {_extra_srcs['indeed.tr']} ilan "
+              f"— Playwright yedeği atlanacak", flush=True)
+
     raw.extend(extra_raw)
 
     # ── 5. Playwright kaynakları (LinkedIn, Kariyer PW, Indeed PW, Glassdoor) ─
+    # Global bütçe aşıldıysa en pahalı aşama atlanır; eldeki ilanlarla devam.
     pw_raw: list[dict] = []
-    if PW_SCRAPERS_AVAILABLE:
+    elapsed = time.monotonic() - run_started
+    if elapsed > RUN_BUDGET_SEC:
+        print(f"⏱  Çalışma bütçesi doldu ({elapsed:.0f}s > {RUN_BUDGET_SEC}s) — "
+              f"Playwright aşaması atlandı", flush=True)
+        PW_ENABLED = False
+    else:
+        PW_ENABLED = True
+    if PW_SCRAPERS_AVAILABLE and PW_ENABLED:
         try:
             pw_raw = fetch_all_playwright(
-                enable_linkedin=ENABLE_LINKEDIN,
+                enable_linkedin=False,   # 2b'de zaten çalıştı
+                # Kariyer/Indeed TR: ucuz yol (curl_cffi) sonuç verdiyse
+                # Playwright'ı hiç açma — aynı siteyi iki kez taramak proxy
+                # bant genişliğini ikiye katlar ve PerimeterX limitini tetikler
+                enable_kariyer=ENABLE_KARIYER_PW and kariyer_empty,
+                enable_indeed_tr=ENABLE_INDEED_PW and indeed_tr_empty,
                 enable_indeed_nl=ENABLE_INDEED_NL,
                 enable_glassdoor=ENABLE_GLASSDOOR,
                 enable_academic_positions=ENABLE_ACADEMIC_POSITIONS,
-                enable_kariyer=ENABLE_KARIYER_PW,
-                enable_indeed_tr=ENABLE_INDEED_PW,
                 verbose=True,
                 max_age_minutes=window,        # kaynak tarafında tazelik filtresi
                 extra_queries=P2_SEARCH_QUERIES,  # config/profile.yml P2 sorguları
@@ -1398,6 +1451,90 @@ def run_scheduler():
         time.sleep(SCHEDULE_INTERVAL_HOURS * 3600)
 
 
+def check_proxy() -> int:
+    """
+    PREMIUM_PROXY_URL sağlık kontrolü.
+
+    Sırayla doğrular:
+      1. Değişken tanımlı ve ayrıştırılabilir mi
+      2. Gateway üzerinden çıkış IP'si ve ülkesi (geo hedefleme çalışıyor mu)
+      3. Kariyer.net ve Indeed TR gerçekten açılıyor mu (TR exit ile)
+
+    Dönüş: 0 = sağlıklı, 1 = sorunlu. CI'da adım olarak kullanılabilir.
+    """
+    raw = os.environ.get("PREMIUM_PROXY_URL", "").strip()
+    print("═" * 58)
+    print("PREMIUM PROXY SAĞLIK KONTROLÜ")
+    print("═" * 58)
+    if not raw:
+        print("✗ PREMIUM_PROXY_URL tanımlı değil.")
+        print("  Yerel:  export PREMIUM_PROXY_URL='http://kullanici:parola@gateway:port'")
+        print("  CI:     Settings → Secrets and variables → Actions → New secret")
+        return 1
+
+    try:
+        import net_policy
+    except ImportError:
+        print("✗ net_policy.py bulunamadı.")
+        return 1
+
+    print(f"✓ Değişken tanımlı: {net_policy.mask(raw)}")
+
+    failures = 0
+    for cc in ("tr", "nl", None):
+        proxy = net_policy.premium_proxy(cc)
+        label = (cc or "geo yok").upper()
+        if not proxy:
+            print(f"✗ {label}: proxy URL üretilemedi (format hatalı)")
+            failures += 1
+            continue
+        try:
+            r = requests.get(
+                "http://ip-api.com/json/?fields=query,countryCode,city,isp",
+                proxies={"http": proxy, "https": proxy},
+                timeout=25,
+            )
+            d = r.json()
+            got = d.get("countryCode", "?")
+            ok = (cc is None) or (got.lower() == cc)
+            print(f"{'✓' if ok else '⚠'} {label:7s} çıkış IP {d.get('query','?'):15s} "
+                  f"→ {got} / {d.get('city','?')} ({d.get('isp','?')[:28]})")
+            if not ok:
+                print(f"    beklenen {cc.upper()}, gelen {got} — geo hedefleme "
+                      f"kullanıcı adı sonekiyle çalışmıyor olabilir")
+                failures += 1
+        except Exception as exc:
+            print(f"✗ {label}: bağlantı hatası — {type(exc).__name__}: {str(exc)[:70]}")
+            failures += 1
+
+    print("─" * 58)
+    print("HEDEF SİTE ERİŞİMİ (TR exit üzerinden)")
+    try:
+        from cf_scraper import safe_cf_get
+        for name, url in (("Kariyer.net", "https://www.kariyer.net/is-ilanlari"),
+                          ("Indeed TR", "https://tr.indeed.com/is?q=veri+bilimci")):
+            resp = safe_cf_get(url, retries=2, timeout=25, delay=False,
+                               verbose=False, country="tr")
+            if resp is None:
+                print(f"✗ {name:12s} yanıt yok (tüm denemeler başarısız)")
+                failures += 1
+            else:
+                size = len(getattr(resp, "text", "") or "")
+                blocked = detect_block(getattr(resp, "text", "") or "")
+                flag = "✓" if resp.status_code == 200 and not blocked else "✗"
+                print(f"{flag} {name:12s} HTTP {resp.status_code}  {size:>7,} bayt"
+                      f"{'  BLOK: ' + blocked if blocked else ''}")
+                if resp.status_code != 200 or blocked:
+                    failures += 1
+    except ImportError:
+        print("⚠ cf_scraper.py yok — site erişim testi atlandı")
+
+    print("═" * 58)
+    print("SONUÇ: " + ("SAĞLIKLI — proxy kullanıma hazır" if not failures
+                       else f"{failures} SORUN — yukarıdaki satırlara bak"))
+    return 1 if failures else 0
+
+
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser(description="CareerOps Telegram Notifier")
@@ -1405,8 +1542,14 @@ if __name__ == "__main__":
         "--daemon", action="store_true",
         help=f"Saatlik döngüde çalıştır (her {SCHEDULE_INTERVAL_HOURS}h)",
     )
+    ap.add_argument(
+        "--check-proxy", action="store_true",
+        help="PREMIUM_PROXY_URL sağlık kontrolü yap ve çık",
+    )
     args = ap.parse_args()
-    if args.daemon:
+    if args.check_proxy:
+        sys.exit(check_proxy())
+    elif args.daemon:
         run_scheduler()
     else:
         main()

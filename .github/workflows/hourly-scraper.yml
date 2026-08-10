@@ -16,6 +16,9 @@ jobs:
       group: hourly-scraper # üst üste binen run'lar state'i ezmesin
       cancel-in-progress: false
 
+    # Asılı bir tarama GitHub'ın 360 dk'lık varsayılanına kadar dakika yakıyordu
+    timeout-minutes: 20
+
     steps:
     - name: Repo'yu Klonla
       uses: actions/checkout@v4
@@ -40,6 +43,8 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         PREMIUM_PROXY_URL: ${{ secrets.PREMIUM_PROXY_URL }}
+        RUN_BUDGET_SEC: "600"
+        SOURCE_BUDGET_SEC: "150"
       run: |
         python telegram-daily.py
 
@@ -48,7 +53,7 @@ jobs:
       run: |
         git config user.name  "career-ops-bot"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add data/telegram-sent.tsv data/telegram-archive.tsv data/scraper-state.json
+        git add data/telegram-sent.tsv data/telegram-archive.tsv data/scraper-state.json data/geo-cache.json
         # Değişiklik yoksa sessizce çık (workflow'u kırmadan)
         git diff --staged --quiet && echo "state değişmedi" && exit 0
         git commit -m "chore(state): telegram arşivi + tarama durumu güncellendi [skip ci]"

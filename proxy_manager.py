@@ -219,11 +219,19 @@ class ProxyPool:
         self._lock:    Lock       = Lock()
         self._verbose: bool       = verbose
         self._load_cache()
-        if auto_refresh and len(self._pool) < MIN_POOL:
+        # Ücretsiz kaynaklar pratikte MIN_POOL kadar çalışan proxy üretmiyor
+        # (tipik sonuç ~10). Koşul yalnızca boyuta bakarsa eşik hiçbir zaman
+        # sağlanamaz ve ~5000 proxy HER çalıştırmada yeniden doğrulanır —
+        # geçerli önbellek dururken bile. Bu, run başına ~90 saniyelik sabit
+        # bir vergiydi. Artık geçerli önbellek varsa yenileme yapılmaz.
+        if auto_refresh and not self._pool:
             new = refresh_pool(verbose=verbose)
             with self._lock:
                 self._pool = new
                 self._idx  = 0
+        elif auto_refresh and len(self._pool) < MIN_POOL and verbose:
+            print(f"   ℹ️  Havuz {len(self._pool)}/{MIN_POOL} — geçerli önbellek "
+                  f"kullanılıyor, yenileme atlandı", flush=True)
 
     # ── iç yardımcılar ──────────────────────────────────────────────────────
 
