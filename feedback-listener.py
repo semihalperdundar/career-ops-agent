@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import io
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -45,8 +46,13 @@ if sys.stderr.encoding != "utf-8":
 
 # ── Config (must match telegram-daily.py) ─────────────────────────────────────
 BASE_DIR     = Path(__file__).parent
-BOT_TOKEN    = "8766700487:AAHtlSJf_F1PIUuxQzh-uRdPsxLwm6--KOM"
+# Token ASLA koda gömülmez — telegram-daily.py ile aynı ortam değişkeni
+BOT_TOKEN    = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 API_BASE     = f"https://api.telegram.org/bot{BOT_TOKEN}"
+
+if not BOT_TOKEN:
+    print("HATA: TELEGRAM_BOT_TOKEN ortam değişkeni tanımlı değil.", flush=True)
+    sys.exit(1)
 
 PENDING_JOBS = BASE_DIR / "data" / "telegram-pending.json"
 RLHF_LOG     = BASE_DIR / "data" / "rlhf_feedback.json"
