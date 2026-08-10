@@ -13,6 +13,7 @@ Kullanım:
 
 import csv
 import hashlib
+import re as _re
 import io
 import json
 import os
@@ -343,24 +344,149 @@ NEGATIVE_KEYWORDS = [
 NEGATIVE_KEYWORDS = _merge_keywords(NEGATIVE_KEYWORDS, _MATCHING_CFG.get("negative"))
 
 # ─── SCORING ─────────────────────────────────────────────────────────────────
+# Pazar ekseni: Avrupa öncelikli, ABD tamamen bloklu, stajyer/öğrenci bloklu.
 NL_TR_KW = ["netherlands","nederland","amsterdam","rotterdam","tilburg","utrecht","eindhoven","the hague","turkey","türkiye","istanbul","ankara","izmir"]
 REMOTE_KW = ["remote","worldwide","global","anywhere","fully remote"]
-# UK / USA / Canada / Australia dahil tüm hedef ülkeler eşit ağırlıkta
-INTL_KW  = [
-    "germany","berlin","munich","hamburg","belgium","brussels","france","paris",
-    "sweden","stockholm","norway","oslo","denmark","copenhagen","finland","helsinki",
-    "austria","vienna","switzerland","zurich","spain","barcelona","madrid",
-    "portugal","lisbon","ireland","dublin","italy","milan","emea","europe",
-    "uk","united kingdom","london","cambridge","edinburgh",
-    "usa","united states","new york","san francisco","seattle","boston","chicago",
-    "canada","toronto","vancouver","montreal",
-    "australia","sydney","melbourne","brisbane",
+
+# ── Avrupa çekirdeği (maksimum görünürlük ağırlığı) ──────────────────────────
+EU_CORE_KW = [
+    "netherlands","nederland","amsterdam","rotterdam","tilburg","utrecht","eindhoven",
+    "the hague","den haag","groningen","delft",
+    "germany","deutschland","berlin","munich","münchen","hamburg","frankfurt","cologne",
+    "köln","stuttgart","düsseldorf",
+    "united kingdom","england","scotland","london","cambridge","oxford","manchester",
+    "edinburgh","bristol","glasgow",
+    "france","paris","lyon","toulouse","nantes","bordeaux","lille",
+    "spain","españa","madrid","barcelona","valencia","sevilla","málaga",
+    "belgium","belgië","brussels","brussel","antwerp","ghent","leuven",
+    "austria","österreich","vienna","wien","graz",
+    "switzerland","schweiz","zurich","zürich","geneva","basel","lausanne",
+    "ireland","dublin","cork",
+    "italy","italia","milan","milano","rome","roma","turin","bologna",
+    "portugal","lisbon","lisboa","porto",
+    "sweden","stockholm","gothenburg","malmö",
+    "denmark","copenhagen","københavn","aarhus",
+    "norway","oslo","bergen",
+    "finland","helsinki","espoo","tampere",
+    "poland","warsaw","warszawa","krakow","kraków","wroclaw",
+    "czech","prague","praha","brno",
+    "luxembourg","estonia","tallinn","latvia","riga","lithuania","vilnius",
+    "greece","athens","romania","bucharest","hungary","budapest",
+    "bulgaria","sofia","croatia","zagreb","slovenia","ljubljana","slovakia","bratislava",
+    "iceland","reykjavik","malta","cyprus",
 ]
+# Avrupa geneli / bölgesel etiketler
+EU_WIDE_KW = [
+    "europe","european","eu-wide","emea","dach","benelux","nordic","nordics",
+    "scandinavia","baltics","eea","cet","cest","gmt","eu remote","europe remote",
+    "remote europe","remote (europe)","remote - europe","anywhere in europe",
+]
+# Türkiye — P2 dil verisi ekseni için stratejik, Avrupa dışı ama korunuyor
+TR_KW = ["turkey","türkiye","turkiye","istanbul","ankara","izmir","bursa","antalya"]
+
 GULF_KW  = ["uae","dubai","abu dhabi","saudi","riyadh","qatar","doha","kuwait","bahrain","oman"]
 
+# ── HARD BLOCK: ABD ──────────────────────────────────────────────────────────
+# Kelime sınırı ZORUNLU: "us" alt-dize olarak "Austria", "Belarus", "Prussia"
+# içinde geçer; "ma"/"ca" gibi eyalet kısaltmaları da tek başına güvensizdir.
+_US_LOCATION_RE = _re.compile(
+    r"\b("
+    r"usa|u\.s\.a\.?|u\.s\.|united states(?: of america)?|america|american|"
+    r"new york|nyc|brooklyn|manhattan|san francisco|sf bay|bay area|silicon valley|"
+    r"seattle|boston|chicago|austin|denver|atlanta|dallas|houston|miami|phoenix|"
+    r"los angeles|san diego|san jose|palo alto|mountain view|menlo park|sunnyvale|"
+    r"redmond|bellevue|portland|philadelphia|washington,? d\.?c\.?|arlington|"
+    r"pittsburgh|detroit|minneapolis|nashville|charlotte|raleigh|durham|"
+    r"salt lake city|las vegas|san antonio|columbus|indianapolis|kansas city|"
+    r"california|texas|florida|virginia|massachusetts|illinois|colorado|georgia|"
+    r"washington state|new jersey|pennsylvania|north carolina|arizona|oregon|"
+    r"remote[ ,\-]*(?:us|usa|united states)|us[ \-]remote|"
+    r"united states[ \-]remote"
+    r")\b"
+)
+# ABD çalışma izni / vatandaşlık gerektiren ifadeler (açıklama + etiketlerde)
+_US_AUTH_RE = _re.compile(
+    r"\b("
+    r"(?:legally )?authorized to work in the (?:us|u\.s\.|united states)|"
+    r"work authorization in the (?:us|united states)|"
+    r"us work authorization|u\.s\. work authorization|"
+    r"us citizen(?:ship)?|u\.s\. citizen(?:ship)?|green card|permanent resident|"
+    r"security clearance|ts/sci|public trust clearance|"
+    r"h-?1b|opt/cpt|e-?verify|"
+    r"must reside in the (?:us|united states)|"
+    r"(?:us|united states)[ \-]based(?: only)?"
+    r")\b"
+)
+
+# ── HARD BLOCK: Stajyer / öğrenci / çırak ────────────────────────────────────
+# Kelime sınırı ZORUNLU: "intern" alt-dize olarak "international", "internal"
+# içinde geçer — sınırsız eşleşme meşru ilanları siler.
+_INTERN_RE = _re.compile(
+    r"\b("
+    r"intern|interns|internship|internships|"
+    r"trainee|trainees|traineeship|"
+    r"student|students|studentship|working student|"
+    r"apprentice|apprentices|apprenticeship|"
+    r"werkstudent|werkstudentin|praktikum|praktikant|praktikantin|"
+    r"stagiair|stagiaire|stage[ \-]?intern|"
+    r"alternance|alternant|apprenti|"
+    r"becario|becaria|prácticas|practicas|"
+    r"tirocinio|estágio|estagiário|"
+    r"öğrenci staj|stajyer|staj programı|"
+    r"co-?op student|summer analyst|campus hire|new grad program"
+    r")\b"
+)
+
 SENIOR_KW = ["senior","lead","staff","principal","head","director","expert","specialist"]
-JUNIOR_KW = ["junior","entry","associate","graduate","intern","trainee","jr."]
+# "intern" ve "trainee" JUNIOR_KW'den ÇIKARILDI: artık hard-block, kıdem bonusu
+# alacak bir kategori değil. Kalsalardı bloklanan ilanlar +1.8 puan kazanırdı.
+JUNIOR_KW = ["junior","entry","associate","graduate","jr."]
 MEDIOR_KW = ["medior","mid-level","mid level","intermediate","midlevel"]
+
+
+def market_gate(job: dict) -> str | None:
+    """
+    Pazar filtresi. Bloklanma sebebini döner, temizse None.
+
+    Kontrol yüzeyi: başlık + konum + şirket + (varsa) açıklama/etiketler.
+    Sıfır tolerans: tek eşleşme ilanı düşürür.
+    """
+    title = str(job.get("title", ""))
+    loc   = str(job.get("location", ""))
+    tags  = job.get("tags") or []
+    tags_s = " ".join(map(str, tags)) if isinstance(tags, (list, tuple)) else str(tags)
+    desc  = str(job.get("description", ""))
+
+    # Stajyer/öğrenci: başlık + açıklama + etiket
+    for field, label in ((title, "title"), (tags_s, "tags"), (desc, "desc")):
+        if field and _INTERN_RE.search(field.lower()):
+            return f"INTERN/{label}"
+
+    # ABD konumu: konum + başlık (bazı portallar konumu başlığa gömer)
+    for field, label in ((loc, "location"), (title, "title")):
+        if field and _US_LOCATION_RE.search(field.lower()):
+            return f"US/{label}"
+
+    # ABD çalışma izni: açıklama + etiketler
+    for field, label in ((desc, "desc"), (tags_s, "tags")):
+        if field and _US_AUTH_RE.search(field.lower()):
+            return f"US_AUTH/{label}"
+
+    return None
+
+
+def geo_weight(location: str) -> float:
+    """Avrupa önceliği — puanlamaya eklenen görünürlük ağırlığı."""
+    loc = (location or "").lower()
+    if any(kw in loc for kw in EU_CORE_KW):
+        return 1.5      # Avrupa çekirdeği: maksimum görünürlük
+    if any(kw in loc for kw in EU_WIDE_KW):
+        return 1.2      # EU geneli / DACH / EMEA / Avrupa remote
+    if any(kw in loc for kw in TR_KW):
+        return 0.8      # Türkiye: P2 dil verisi ekseni için stratejik
+    if any(kw in loc for kw in REMOTE_KW):
+        return 0.4      # Coğrafyası belirsiz remote
+    return 0.0          # Avrupa dışı (ABD zaten market_gate'te düşürüldü)
 
 # ── Kıdem Kapısı (Seniority Gate) ────────────────────────────────────────────
 # P1 (Junior Data/AI) için başlık bazlı sert engel.
@@ -377,7 +503,6 @@ _P1_SENIOR_WORDS = frozenset({
     "vp",                    # "VP of Data", "VP Analytics"
 })
 
-import re as _re
 
 def _is_senior_for_p1(title: str) -> bool:
     """
@@ -574,7 +699,10 @@ def score_job(title: str, location: str, profile: str) -> float:
         elif any(kw in t for kw in ["nlp","linguist","annotator","language model","rlhf"]):
             nlp_bonus = 0.5
 
-    return min(10.0, round(base + sen_bonus + nlp_bonus, 1))
+    # ── Coğrafi öncelik — Avrupa pazarı ağırlığı ────────────────────────────
+    geo_bonus = geo_weight(location)
+
+    return min(10.0, round(base + sen_bonus + nlp_bonus + geo_bonus, 1))
 
 
 # ─── LLM ENRICHMENT ──────────────────────────────────────────────────────────
@@ -810,7 +938,7 @@ def save_pending_jobs(jobs: list):
     }
     PENDING_JOBS.parent.mkdir(parents=True, exist_ok=True)
     with open(PENDING_JOBS, "w", encoding="utf-8") as f:
-        json.dump(pending, f, ensure_ascii=False, indent=2)
+        json.dump(pending, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def log_rlhf_feedback(job_id: str, decision: str):
@@ -833,7 +961,7 @@ def log_rlhf_feedback(job_id: str, decision: str):
     feedback.append(entry)
     RLHF_LOG.parent.mkdir(parents=True, exist_ok=True)
     with open(RLHF_LOG, "w", encoding="utf-8") as f:
-        json.dump(feedback, f, ensure_ascii=False, indent=2)
+        json.dump(feedback, f, ensure_ascii=False, separators=(",", ":"))
     print(f"📝 RLHF: '{decision}' → {job['title']} @ {job['company']}", flush=True)
 
 
@@ -1140,6 +1268,7 @@ def main():
     ready: list[dict] = []
     blocked_count = 0
     stale_count   = 0
+    gate_counts: Counter = Counter()   # US / US_AUTH / INTERN sayaçları
     for job in raw:
         url = job.get("url", "").strip()
         jid = job_id(job)
@@ -1147,6 +1276,11 @@ def main():
             continue
         seen.add(jid)
         job["id"] = jid
+        # Pazar kapısı: ABD + stajyer/öğrenci sıfır tolerans (puanlamadan ÖNCE)
+        gate = market_gate(job)
+        if gate:
+            gate_counts[gate.split("/")[0]] += 1
+            continue
         # Scout: block detection on raw_html field if present
         raw_html = job.pop("raw_html", None)
         if raw_html:
@@ -1173,6 +1307,8 @@ def main():
         print(f"🚨 Sentinel: {blocked_count} ilan altyapı bloğu nedeniyle atlandı", flush=True)
     if stale_count:
         print(f"⏱  Scout: {stale_count} ilan pencere dışında ({window}dk)", flush=True)
+    if gate_counts:
+        print(f"⛔ Pazar kapısı: {dict(gate_counts)} (ABD + stajyer sıfır tolerans)", flush=True)
 
     # Profil kotası: P2 ilanları P1 kalabalığına ezdirilmesin
     ready.sort(key=lambda x: x["score"], reverse=True)

@@ -80,23 +80,23 @@ LINKEDIN_QUERIES = [
     ("analytics engineer",       "Netherlands"),
     ("machine learning engineer","Netherlands"),
     ("data analyst",             "Netherlands"),
-    ("ai engineer",              ""),
+    ("ai engineer",              "European Union"),
     ("data scientist",           "Turkey"),
     ("veri bilimci",             "Türkiye"),
     # ── P2 (R&D / NLP / dil verisi) ─────────────────────────────────────────
     # Önceki listede P2'yi yalnızca "nlp researcher" ve "research scientist"
     # temsil ediyordu; anotasyon/RLHF/dil uzmanı sorguları hiç yoktu.
-    ("nlp researcher",           ""),
+    ("nlp researcher",           "European Union"),
     ("applied scientist",        "Europe"),
     ("research scientist",       "Europe"),
-    ("computational linguist",   ""),
+    ("computational linguist",   "European Union"),
     ("linguist",                 "Europe"),
-    ("data annotation",          ""),
-    ("ai trainer",               ""),
-    ("rlhf",                     ""),
+    ("data annotation",          "European Union"),
+    ("ai trainer",               "European Union"),
+    ("rlhf",                     "European Union"),
     ("language model",           "Europe"),
-    ("turkish",                  ""),
-    ("annotation specialist",    ""),
+    ("turkish",                  "European Union"),
+    ("annotation specialist",    "European Union"),
     ("dil uzmanı",               "Türkiye"),
     ("veri etiketleme",          "Türkiye"),
     ("araştırmacı",              "Türkiye"),
@@ -186,7 +186,7 @@ def fetch_linkedin(
     # sınırlanır: her sorgu ~3sn gecikme + bir HTTP isteği demek.
     queries = list(LINKEDIN_QUERIES)
     for q in (extra_queries or [])[:max_extra]:
-        pair = (str(q).strip().lower(), "")
+        pair = (str(q).strip().lower(), "European Union")
         if pair[0] and pair not in queries:
             queries.append(pair)
 
