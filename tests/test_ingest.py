@@ -275,6 +275,21 @@ def test_handoff_into_score_gate():
 # 6. ÜRETİM KAYIT DEFTERİ — mock'lanmış modüllerle
 # ─────────────────────────────────────────────────────────────────────────────
 
+def test_kariyer_source_uses_fixed_scraper_not_broken_parser():
+    """
+    P2 kaynağı kariyer_scraper'ı çağırmalı. Eski portal_scrapers.fetch_kariyer
+    __NEXT_DATA__/JSON-LD arıyor; site Nuxt olduğu için her zaman 0 döner.
+    Yanlış modüle bağlanırsa bu test canlı HTTPS isteği yapmadan yakalar.
+    """
+    with patch("kariyer_scraper.fetch_kariyer_jobs") as mock_k:
+        mock_k.return_value = [job()]
+        srcs = build_default_sources(fetch_fn=MagicMock())
+        kariyer = next(s for s in srcs if s.name == "kariyer.net")
+        kariyer.fn()
+
+    mock_k.assert_called_once_with(verbose=False)
+
+
 def test_build_default_sources_assigns_correct_priorities():
     srcs = {s.name: s for s in build_default_sources(fetch_fn=MagicMock())}
 
@@ -320,7 +335,7 @@ def test_full_order_with_production_registry():
         return fn
 
     with patch("playwright_scrapers.fetch_linkedin", side_effect=spy("linkedin")), \
-         patch("portal_scrapers.fetch_kariyer", side_effect=spy("kariyer.net")), \
+         patch("kariyer_scraper.fetch_kariyer_jobs", side_effect=spy("kariyer.net")), \
          patch("portal_scrapers.fetch_all_ashby", side_effect=spy("ashby")), \
          patch("portal_scrapers.fetch_remotive", side_effect=spy("remotive")), \
          patch("portal_scrapers.fetch_weworkremotely", side_effect=spy("wwr")), \

@@ -47,10 +47,10 @@ GEO_HOSTS: tuple[tuple[str, str], ...] = (
     ("linkedin.com",   None),   # guest API hafif — proxy gerekmez
 )
 
-# Host → curl_cffi impersonation profili. Kariyer.net'in PerimeterX kurulumu
-# chrome110 TLS parmak izinde belirgin biçimde daha yüksek geçiş oranı veriyor.
+# Host → curl_cffi impersonation profili. ÖLÇÜMLE seçildi: kariyer.net'te
+# chrome110/116/120 → 403, chrome124/131 → 200. chrome110 eskimiş.
 HOST_PROFILE: dict[str, str] = {
-    "kariyer.net":   "chrome110",
+    "kariyer.net":   "chrome131",
     "indeed.com":    "chrome120",
     "glassdoor.com": "chrome120",
 }

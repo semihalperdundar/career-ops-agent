@@ -132,6 +132,7 @@ _warm_lock = threading.Lock()
 
 # curl_cffi'nin desteklediği impersonation etiketleri (en güncel önce)
 BROWSER_PROFILES: list[str] = [
+    "chrome131",
     "chrome124",
     "chrome120",
     "chrome116",
@@ -143,6 +144,10 @@ BROWSER_PROFILES: list[str] = [
 
 # Her profile karşılık gelen User-Agent
 _UA: dict[str, str] = {
+    "chrome131": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    ),
     "chrome124": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
@@ -175,6 +180,7 @@ _UA: dict[str, str] = {
 
 # Chrome sec-ch-ua header'ları (Firefox bu header'ı göndermez)
 _SEC_CH_UA: dict[str, str | None] = {
+    "chrome131": '"Chromium";v="131", "Google Chrome";v="131", "Not-A.Brand";v="99"',
     "chrome124": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
     "chrome120": '"Chromium";v="120", "Google Chrome";v="120", "Not-A.Brand";v="99"',
     "chrome116": '"Chromium";v="116", "Google Chrome";v="116", "Not-A.Brand";v="99"',
@@ -234,8 +240,12 @@ def _build_headers(
     lang      = random.choice(_ACCEPT_LANGUAGES)
     is_chrome = profile.startswith("chrome")
 
+    # curl_cffi impersonation aktifken kendi UA'mızı YAZMAYIZ: profil zaten
+    # TLS parmak izine uygun UA'yı gönderir. Üstüne yazmak ikisini çelişkiye
+    # düşürüyor ve koruma katmanları tam olarak bunu yakalıyor (ölçüldü:
+    # kariyer.net chrome1xx + UA override → 403, override yok → 200).
     headers: dict[str, str] = {
-        "User-Agent":               ua,
+        **({} if _CF_AVAILABLE else {"User-Agent": ua}),
         "Accept":                   (
             "text/html,application/xhtml+xml,application/xml;"
             "q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"

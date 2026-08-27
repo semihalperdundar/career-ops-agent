@@ -249,18 +249,32 @@ def build_default_sources(
         pass
 
     # ── P2: Kariyer.net ─────────────────────────────────────────────────────
+    # kariyer_scraper (Nuxt kart attribute'ları) tercih edilir; eski
+    # portal_scrapers.fetch_kariyer __NEXT_DATA__/JSON-LD arıyordu ve site
+    # Nuxt olduğu için her zaman 0 ilan dönüyordu.
     try:
-        from portal_scrapers import fetch_kariyer
+        from kariyer_scraper import fetch_kariyer_jobs
 
         srcs.append(Source(
             name="kariyer.net",
             priority=P2_KARIYER,
-            fn=lambda: fetch_kariyer(fetch_fn),
+            fn=lambda: fetch_kariyer_jobs(verbose=False),
             enabled=flags.get("kariyer", True),
             concurrent=False,
         ))
     except ImportError:
-        pass
+        try:
+            from portal_scrapers import fetch_kariyer
+
+            srcs.append(Source(
+                name="kariyer.net",
+                priority=P2_KARIYER,
+                fn=lambda: fetch_kariyer(fetch_fn),
+                enabled=flags.get("kariyer", True),
+                concurrent=False,
+            ))
+        except ImportError:
+            pass
 
     # ── P3: Kalan kaynaklar ─────────────────────────────────────────────────
     # Greenhouse + Lever: 78 board'a paralel fan-out; orkestratör açısından
