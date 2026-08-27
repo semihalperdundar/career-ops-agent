@@ -83,6 +83,13 @@ except ImportError:
     print("⚠️  run_state.py bulunamadı — sabit pencere kullanılacak", flush=True)
 
 try:
+    from ingest import build_default_sources, run_ingestion
+    INGEST_AVAILABLE = True
+except ImportError:
+    INGEST_AVAILABLE = False
+    print("⚠️  ingest.py bulunamadı — toplama sırası garanti edilemiyor", flush=True)
+
+try:
     from tr_portals import fetch_all_tr
     TR_PORTALS_AVAILABLE = True
 except ImportError:
@@ -143,6 +150,7 @@ LLM_MAX_OUTPUT_TOKENS = 900    # yapılandırılmış JSON yanıt için yeterli
 # varsayılan iş zaman aşımına kadar dakika yakıyordu; bu tavan taramayı erken
 # keser ve eldeki ilanlarla gönderime geçer.
 RUN_BUDGET_SEC = int(os.environ.get("RUN_BUDGET_SEC", "600"))
+SOURCE_BUDGET_SEC = int(os.environ.get("SOURCE_BUDGET_SEC", "150"))
 
 # RLHF Feedback
 RLHF_LOG     = BASE_DIR / "data" / "rlhf_feedback.json"
@@ -1251,77 +1259,49 @@ def main():
     sent_urls = load_sent_urls()
     print(f"📋 Arşiv: {len(sent_urls)} önceden gönderilmiş URL", flush=True)
 
-    # ── 2b. LinkedIn — İLK SIRADA ────────────────────────────────────────────
-    # LinkedIn en yüksek verimli kaynak ve requests tabanlı (Playwright/proxy
-    # gerektirmez). Daha önce 5. aşamadaydı, yani bütçe aşımında atlanan
-    # aşamadaydı — asılan her run'da hiç çalışmıyordu. Artık en başta ve
-    # bütçe kapısının DIŞINDA.
+    # ── 2b-4. TOPLAMA ORKESTRATÖRÜ (ingest.py) ───────────────────────────────
+    # Kesin öncelik sırası:  P1 LinkedIn → P2 Kariyer.net → P3 kalan kaynaklar
+    # LinkedIn P1 ve bütçeden muaf: en yüksek verimli kaynak, requests tabanlı,
+    # proxy/Playwright gerektirmiyor. Kariyer.net P2 (T1 yurt içi pazarın
+    # omurgası). Greenhouse/Lever ve diğerleri P3'te eş zamanlı.
     raw: list[dict] = []
-    if PW_SCRAPERS_AVAILABLE and ENABLE_LINKEDIN:
-        print("🔗 LinkedIn taranıyor (ilk kaynak)...", flush=True)
-        try:
-            li_started = time.monotonic()
-            li_raw = fetch_linkedin(
-                verbose=True,
-                max_age_minutes=window,
-                extra_queries=P2_SEARCH_QUERIES,
-            )
-            raw.extend(li_raw)
-            print(f"   ✓ LinkedIn: {len(li_raw)} ilan "
-                  f"({time.monotonic() - li_started:.0f}s)", flush=True)
-        except Exception as exc:
-            print(f"   ✗ LinkedIn hatası: {exc}", flush=True)
+    kariyer_empty = indeed_tr_empty = True
 
-    # ── 3. Greenhouse + Lever paralel çek ────────────────────────────────────
-    print("🌱 Greenhouse + Lever taranıyor...", flush=True)
-    gh_start = len(raw)
-    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
-        futs = (
-            [ex.submit(fetch_greenhouse, s, n, pool) for s, n in GREENHOUSE_BOARDS] +
-            [ex.submit(fetch_lever,      s, n, pool) for s, n in LEVER_COMPANIES]
+    if INGEST_AVAILABLE:
+        sources = build_default_sources(
+            fetch_fn=fetch_fn,
+            pool=pool,
+            window=window,
+            extra_queries=P2_SEARCH_QUERIES,
+            flags={
+                "linkedin": ENABLE_LINKEDIN,
+                "kariyer": ENABLE_KARIYER,
+                "ashby": ENABLE_ASHBY,
+                "remotive": ENABLE_REMOTIVE,
+                "wwr": ENABLE_WWR,
+                "academictransfer": ENABLE_ACADEMICTRANSFER,
+                "indeed_tr": ENABLE_INDEED_TR,
+                "_boards": (GREENHOUSE_BOARDS, LEVER_COMPANIES,
+                            fetch_greenhouse, fetch_lever, FETCH_WORKERS),
+            },
         )
-        for fut in as_completed(futs):
-            raw.extend(fut.result())
-    print(f"   Greenhouse/Lever: {len(raw) - gh_start} ham ilan", flush=True)
-
-    # ── 4. Ek portallar (Ashby, Remotive, WWR, Kariyer.net, Indeed TR) ───────
-    extra_raw: list[dict] = []
-    if SCRAPERS_AVAILABLE:
-        try:
-            extra_raw = fetch_all_extra(
-                fetch_fn=fetch_fn,
-                enable_ashby=ENABLE_ASHBY,
-                enable_remotive=ENABLE_REMOTIVE,
-                enable_wwr=ENABLE_WWR,
-                enable_kariyer=ENABLE_KARIYER,
-                enable_indeed_tr=ENABLE_INDEED_TR,
-                enable_academictransfer=ENABLE_ACADEMICTRANSFER,
-                verbose=True,
-            )
-        except Exception as e:
-            print(f"⚠️  Ek portal hatası: {e}", flush=True)
-
-    # Ucuz yolun (curl_cffi/requests) TR portallarında sonuç üretip üretmediği
-    # — Playwright yedeğinin gerekip gerekmediğini bu belirler
-    _extra_srcs = Counter(str(j.get("source", "")).split("/")[0] for j in extra_raw)
-    kariyer_empty   = _extra_srcs.get("kariyer.net", 0) == 0
-    indeed_tr_empty = _extra_srcs.get("indeed.tr", 0) == 0
-    if not kariyer_empty:
-        print(f"   ↳ Kariyer.net ucuz yoldan {_extra_srcs['kariyer.net']} ilan "
-              f"— Playwright yedeği atlanacak", flush=True)
-    if not indeed_tr_empty:
-        print(f"   ↳ Indeed TR ucuz yoldan {_extra_srcs['indeed.tr']} ilan "
-              f"— Playwright yedeği atlanacak", flush=True)
-
-    raw.extend(extra_raw)
-
-    # ── 4b. TR portal ekosistemi (T1 yurt içi — mutlak öncelik) ─────────────
-    if TR_PORTALS_AVAILABLE:
-        try:
-            tr_raw = fetch_all_tr(fetch_fn, verbose=True)
-            raw.extend(tr_raw)
-        except Exception as exc:
-            print(f"⚠️  TR portal hatası: {exc}", flush=True)
+        print(f"\n📥 Toplama başlıyor ({len(sources)} kaynak, P1→P2→P3)...",
+              flush=True)
+        ingest_res = run_ingestion(
+            sources,
+            total_budget=RUN_BUDGET_SEC,
+            source_budget=SOURCE_BUDGET_SEC,
+            max_workers=4,
+            verbose=True,
+        )
+        raw.extend(ingest_res.jobs)
+        counts = ingest_res.by_source()
+        # Ucuz yol TR portallarında sonuç verdiyse Playwright yedeği gereksiz
+        kariyer_empty = counts.get("kariyer.net", 0) == 0
+        indeed_tr_empty = counts.get("indeed.tr", 0) == 0
+        if ingest_res.failures():
+            print(f"   ⚠️  başarısız kaynak: "
+                  f"{[o.name for o in ingest_res.failures()]}", flush=True)
 
     # ── 5. Playwright kaynakları (LinkedIn, Kariyer PW, Indeed PW, Glassdoor) ─
     # Global bütçe aşıldıysa en pahalı aşama atlanır; eldeki ilanlarla devam.
