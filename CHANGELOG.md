@@ -1,5 +1,67 @@
 # Changelog
 
+## [1.8.0](https://github.com/semihalperdundar/career-ops-agent/compare/career-ops-v1.7.1...career-ops-v1.8.0) (2026-08-27)
+
+
+### Features
+
+* add {{PHONE}} placeholder to CV template ([#287](https://github.com/semihalperdundar/career-ops-agent/issues/287)) ([e71595f](https://github.com/semihalperdundar/career-ops-agent/commit/e71595f8ba134971ecf1cc3c3420d9caf21eed43))
+* add Claude Code plugin manifests (path-stable) ([62b767d](https://github.com/semihalperdundar/career-ops-agent/commit/62b767dcc56e4c875ed70bf4fe799c254ecf8eea))
+* add Gemini CLI native integration and evaluator script  ([#349](https://github.com/semihalperdundar/career-ops-agent/issues/349)) ([0853486](https://github.com/semihalperdundar/career-ops-agent/commit/0853486d2c01a35adafea2cc6b6d8c429b843588))
+* add Gemini CLI native integration and evaluator script (closes [#344](https://github.com/semihalperdundar/career-ops-agent/issues/344)) ([0853486](https://github.com/semihalperdundar/career-ops-agent/commit/0853486d2c01a35adafea2cc6b6d8c429b843588))
+* add LaTeX/Overleaf CV export mode with pdflatex compilation ([#362](https://github.com/semihalperdundar/career-ops-agent/issues/362)) ([b824953](https://github.com/semihalperdundar/career-ops-agent/commit/b824953d0e3b7f8c6105dfcce7e17257c95ce6cd))
+* add LaTeX/Overleaf CV export mode with pdflatex compilation (closes [#47](https://github.com/semihalperdundar/career-ops-agent/issues/47)) ([b824953](https://github.com/semihalperdundar/career-ops-agent/commit/b824953d0e3b7f8c6105dfcce7e17257c95ce6cd))
+* add writing-samples folder for AI-detection-evading voice calibration ([9ae201d](https://github.com/semihalperdundar/career-ops-agent/commit/9ae201d0682a17e7006ed7902b42db8234212e97))
+* **cv:** add cv.output_format to route between html and latex generation ([b82bb5f](https://github.com/semihalperdundar/career-ops-agent/commit/b82bb5fb7c86ab3074a54eaf0f3186f81d41f417))
+* **dashboard:** add manual refresh shortcut ([#246](https://github.com/semihalperdundar/career-ops-agent/issues/246)) ([4b5093a](https://github.com/semihalperdundar/career-ops-agent/commit/4b5093a8ef1733c449ec0821f722f996625fcb84))
+* **dashboard:** add rejected and discarded pipeline tabs ([7d05967](https://github.com/semihalperdundar/career-ops-agent/commit/7d05967389fb6185f0d6e566a4ba583ee3824e1e))
+* **dashboard:** local web dashboard + npm scriptleri ([810259f](https://github.com/semihalperdundar/career-ops-agent/commit/810259f592679e7a5a31e27f05f284bd869b7d63))
+* **dashboard:** show tracker IDs in pipeline list ([8d289c6](https://github.com/semihalperdundar/career-ops-agent/commit/8d289c64e31f81cf447f75105b500d1feca21058))
+* **geo:** kati beyaz liste — yalnizca cografi Avrupa + Turkiye ([2eef442](https://github.com/semihalperdundar/career-ops-agent/commit/2eef4428799fd35d73a84b9ccab6d8889a8bb2dd))
+* **geo:** skor kapili katmanli pazar modeli (T1 TR &gt; 5.0 / T2 AB-US-AU &gt; 7.0) ([3cee9ea](https://github.com/semihalperdundar/career-ops-agent/commit/3cee9ea7fc9d52aba6ce624f07d1374c02988c63))
+* **ingest:** kesin oncelikli toplama orkestratoru + pytest paketi ([355a574](https://github.com/semihalperdundar/career-ops-agent/commit/355a5741123cd66230014b56ac17146e447c21cf))
+* **latex:** add tectonic engine auto-detect with pdflatex fallback ([4b71b2c](https://github.com/semihalperdundar/career-ops-agent/commit/4b71b2cbf4fd49d3882cdd8767e31727337fab34))
+* llm degerlendirme ve ekstra portal scraper modulleri eklendi ([e643a6d](https://github.com/semihalperdundar/career-ops-agent/commit/e643a6d9d2b211615d1dff3ef55f987dd4c0e08e))
+* **llm:** dinamik model cozumleyici — sabit model adi kaldirildi ([ce63234](https://github.com/semihalperdundar/career-ops-agent/commit/ce6323496361940cb7292affd875de1a084fc863))
+* **market:** AB odakli pivot — ABD ve stajyer sifir tolerans ([7e4223d](https://github.com/semihalperdundar/career-ops-agent/commit/7e4223d4451699b7a0aebd445bc014c10dfbf5bf))
+* multi-CLI support via open agent skill standard ([#572](https://github.com/semihalperdundar/career-ops-agent/issues/572)) ([7605a5e](https://github.com/semihalperdundar/career-ops-agent/commit/7605a5ed68d0fd559374afec1cd8798c487e3ead))
+* **p2:** LLM alignment rolleri config'e tasindi + caveman token butcesi ([8c757be](https://github.com/semihalperdundar/career-ops-agent/commit/8c757bee220f9995f496d6a62109440975585266))
+* **portals:** add Canada/Vancouver and automation companies to example template ([590ba6e](https://github.com/semihalperdundar/career-ops-agent/commit/590ba6e1b4b9d2d9d03893b7f5fdae920d4f9a0b))
+* **scan:** optional location_filter in portals.yml + persist location to scan-history ([#570](https://github.com/semihalperdundar/career-ops-agent/issues/570)) ([d692647](https://github.com/semihalperdundar/career-ops-agent/commit/d692647c253a0bf92a4f9f3b8043afe2c8161853))
+* **scrapers:** playwright/cf/rlhf modullerini repoya ekle ([84fc36d](https://github.com/semihalperdundar/career-ops-agent/commit/84fc36d92d5ad6b477973cd594df40bfca8c6517))
+
+
+### Bug Fixes
+
+* **ci:** correct first-interaction@v3 input names ([c5196a8](https://github.com/semihalperdundar/career-ops-agent/commit/c5196a8dd8ff05da51c72ea151f67e481f12c329))
+* **ci:** gracefully handle missing dependency graph in dependency-review ([#343](https://github.com/semihalperdundar/career-ops-agent/issues/343)) ([7c5fecb](https://github.com/semihalperdundar/career-ops-agent/commit/7c5fecb00d60521f77b33724eb345a28257d8832))
+* **ci:** gracefully handle missing dependency graph in dependency-review workflow ([#352](https://github.com/semihalperdundar/career-ops-agent/issues/352)) ([7c5fecb](https://github.com/semihalperdundar/career-ops-agent/commit/7c5fecb00d60521f77b33724eb345a28257d8832))
+* **config:** eslestirme kelimelerini CI'da da okunabilir dosyaya tasi ([f3909df](https://github.com/semihalperdundar/career-ops-agent/commit/f3909df26cac0860eb3d105fe08c310d36540494))
+* **dashboard:** show dates in pipeline list ([#298](https://github.com/semihalperdundar/career-ops-agent/issues/298)) ([e5e2a6c](https://github.com/semihalperdundar/career-ops-agent/commit/e5e2a6cffe9a5b9f3cec862df25410d02ecc9aa4))
+* dedup butunlugu, kati zaman penceresi, akilli proxy ve P2 kurtarma ([e4f69a4](https://github.com/semihalperdundar/career-ops-agent/commit/e4f69a4337825be43546ddaea93831c766bda63a))
+* **dedup:** ilan kimligini query string'i atmadan hesapla ([843b52a](https://github.com/semihalperdundar/career-ops-agent/commit/843b52a2d852f37711d3c29b0cd13cd162e9de92))
+* **kariyer:** 0 ilan sorunu ayristiricidaydi, anti-bot degil ([0a4a087](https://github.com/semihalperdundar/career-ops-agent/commit/0a4a087d4ceb3e289cfa1d16264b381224f5b938))
+* **liveness:** detect closed postings with applications-closed banner variants ([7f8217e](https://github.com/semihalperdundar/career-ops-agent/commit/7f8217e057b327980a797a682c4f01d3318edbbe))
+* **merge-tracker:** filter seniority and location stopwords + require overlap ratio in roleFuzzyMatch ([7821113](https://github.com/semihalperdundar/career-ops-agent/commit/7821113261eeb32f99639ff076651ab2e7757209))
+* **modes:** make /career-ops deep respect user language, not JD language ([#568](https://github.com/semihalperdundar/career-ops-agent/issues/568)) ([e5f0508](https://github.com/semihalperdundar/career-ops-agent/commit/e5f0508b94299a0e6b46918ecca2f483de0a58c6))
+* **pipeline:** asilma sebeplerini kapat, LinkedIn'i basa al, premium proxy tanisi ([d7a47d4](https://github.com/semihalperdundar/career-ops-agent/commit/d7a47d469ef4811434fc778a5b1c6d1c92b44cd7))
+* **pt:** restore diacritical marks in PT-BR modes ([#358](https://github.com/semihalperdundar/career-ops-agent/issues/358)) ([3a4c596](https://github.com/semihalperdundar/career-ops-agent/commit/3a4c596cb0a522f562ba38b35c210facaf38a503))
+* **pt:** restore diacritical marks in PT-BR modes ([#359](https://github.com/semihalperdundar/career-ops-agent/issues/359)) ([3a4c596](https://github.com/semihalperdundar/career-ops-agent/commit/3a4c596cb0a522f562ba38b35c210facaf38a503))
+* **release:** sync VERSION and package.json via release-please-config ([6a3dc22](https://github.com/semihalperdundar/career-ops-agent/commit/6a3dc224337a1942bf2ebf18b9b275d94fc06e7a))
+* **release:** sync VERSION file to 1.7.0 ([8e554cc](https://github.com/semihalperdundar/career-ops-agent/commit/8e554cc4437c3a58e813378abb9b35e2e08a007e))
+* **release:** sync VERSION file to 1.7.1 ([2ebfcab](https://github.com/semihalperdundar/career-ops-agent/commit/2ebfcabdb4cf7973e279e56f8eae001a8dadc5ed))
+* remove wellfound, lever and remotefront from portals.example.yml ([#286](https://github.com/semihalperdundar/career-ops-agent/issues/286)) ([ecd013c](https://github.com/semihalperdundar/career-ops-agent/commit/ecd013cc6f59e3a1a8ef77d34e7abc15e8075ed3))
+* **state:** CI'da dedup sifirlanmasini ve Telegram spam'ini onle ([5ed3721](https://github.com/semihalperdundar/career-ops-agent/commit/5ed3721eeb8a4a9a8e1c221558e14bca83aa8344))
+* **update-system:** allow writing-samples/README.md as system-owned file ([#562](https://github.com/semihalperdundar/career-ops-agent/issues/562)) ([207fd07](https://github.com/semihalperdundar/career-ops-agent/commit/207fd076da3b2a30f0384fdb19312078ebdcf71f))
+* **update-system:** cross-check GitHub Releases API when VERSION file is stale ([b0ee6eb](https://github.com/semihalperdundar/career-ops-agent/commit/b0ee6ebfcec7920ea7590ada61f3c39324d22ebc))
+* **update-system:** expand SYSTEM_PATHS to cover all language modes and current scripts ([34fe3fb](https://github.com/semihalperdundar/career-ops-agent/commit/34fe3fbd5782f7f57faf8ef4a245fbee6275a040))
+* **update-system:** include .agents/ in SYSTEM_PATHS ([#600](https://github.com/semihalperdundar/career-ops-agent/issues/600)) ([3a71469](https://github.com/semihalperdundar/career-ops-agent/commit/3a714695c63ca01a6581b4307885be2055319784))
+
+
+### Performance Improvements
+
+* bant genisligi + token verimliligi ve google-genai SDK gecisi ([ee6530b](https://github.com/semihalperdundar/career-ops-agent/commit/ee6530b36686e2aa58f4a2ac19c24f8ebe204762))
+
 ## [1.7.1](https://github.com/santifer/career-ops/compare/career-ops-v1.7.0...career-ops-v1.7.1) (2026-05-12)
 
 
