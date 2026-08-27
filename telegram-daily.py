@@ -83,6 +83,12 @@ except ImportError:
     print("⚠️  run_state.py bulunamadı — sabit pencere kullanılacak", flush=True)
 
 try:
+    from tr_portals import fetch_all_tr
+    TR_PORTALS_AVAILABLE = True
+except ImportError:
+    TR_PORTALS_AVAILABLE = False
+
+try:
     import geo_gate
     from geo_gate import resolve as geo_resolve
     GEO_GATE_AVAILABLE = True
@@ -566,6 +572,10 @@ FRESHNESS_GATE_MINUTES = 60    # taban pencere; run_state gecikmeye göre geniş
 # damgasız ilan ELENİR (katı mod).
 FRESHNESS_EXEMPT_SOURCES = {
     "glassdoor", "academicpositions", "academictransfer", "indeed.tr",
+    # T1 yurt içi: techcareer liste görünümünde tarih vermiyor. TR mutlak
+    # öncelikli olduğu için damgasız diye elemek yerine muaf tutuluyor;
+    # tekrar gönderimi zaten arşiv dedup'ı engelliyor.
+    "techcareer", "isinolsun", "kariyer.net",
 }
 
 
@@ -1305,6 +1315,14 @@ def main():
 
     raw.extend(extra_raw)
 
+    # ── 4b. TR portal ekosistemi (T1 yurt içi — mutlak öncelik) ─────────────
+    if TR_PORTALS_AVAILABLE:
+        try:
+            tr_raw = fetch_all_tr(fetch_fn, verbose=True)
+            raw.extend(tr_raw)
+        except Exception as exc:
+            print(f"⚠️  TR portal hatası: {exc}", flush=True)
+
     # ── 5. Playwright kaynakları (LinkedIn, Kariyer PW, Indeed PW, Glassdoor) ─
     # Global bütçe aşıldıysa en pahalı aşama atlanır; eldeki ilanlarla devam.
     pw_raw: list[dict] = []
@@ -1342,7 +1360,10 @@ def main():
     ready: list[dict] = []
     blocked_count = 0
     stale_count   = 0
-    gate_counts: Counter = Counter()   # US / US_AUTH / INTERN sayaçları
+    gate_counts: Counter = Counter()   # US_AUTH / INTERN / GEO sayaçları
+    tier_counts: Counter = Counter()   # T1_TR / T2_INTL dağılımı
+    gate_rejects: Counter = Counter()  # skor kapısında düşenler
+    below_gate: list = []              # (skor, kapı, katman, başlık, konum)
     for job in raw:
         url = job.get("url", "").strip()
         jid = job_id(job)
@@ -1373,16 +1394,38 @@ def main():
         job["profile"] = profile
         job["score"]   = score_job(job["title"], job.get("location", ""), profile)
         job["age_min"] = job_age_minutes(job) if FRESHNESS_AVAILABLE else None
-        # Eşik profil bazlı: P2 havuzu yapısal olarak daha küçük ve puanlaması
-        # daha muhafazakâr — P1 eşiğiyle tamamen eleniyordu
-        if job["score"] >= MIN_SCORE_BY_PROFILE.get(profile, MIN_SCORE):
+
+        # ── Skor kapılı coğrafi katman ──────────────────────────────────────
+        # T1 TR > 5.0 | T2 AB/US/AU > 7.0 | T3 kara liste (market_gate'te düştü)
+        # Katman kapısı profil eşiğinin YERİNE geçer: ikisi de uygulanırsa
+        # daha katı olan zaten katman kapısı oluyor.
+        if GEO_GATE_AVAILABLE:
+            detail = geo_gate.gate_details(job, job["score"])
+            job["market_tier"] = detail["market_tier"]
+            tier_counts[detail["market_tier"]] += 1
+            if not detail["accepted"]:
+                gate_rejects[detail["market_tier"]] += 1
+                below_gate.append((job["score"], detail["gate"],
+                                   detail["market_tier"], job["title"][:44],
+                                   str(job.get("location", ""))[:24]))
+                continue
+            ready.append(job)
+        elif job["score"] >= MIN_SCORE_BY_PROFILE.get(profile, MIN_SCORE):
             ready.append(job)
     if blocked_count:
         print(f"🚨 Sentinel: {blocked_count} ilan altyapı bloğu nedeniyle atlandı", flush=True)
     if stale_count:
         print(f"⏱  Scout: {stale_count} ilan pencere dışında ({window}dk)", flush=True)
     if gate_counts:
-        print(f"⛔ Pazar kapısı: {dict(gate_counts)} (ABD + stajyer sıfır tolerans)", flush=True)
+        print(f"⛔ Pazar kapısı: {dict(gate_counts)}", flush=True)
+    if tier_counts:
+        print(f"🌍 Katman: {dict(tier_counts)} | skor kapısında düşen: "
+              f"{dict(gate_rejects)}", flush=True)
+        if below_gate:
+            near = sorted(below_gate, reverse=True)[:5]
+            print("   kapıya en yakın elenenler:", flush=True)
+            for sc, gt, mt, ti, lo in near:
+                print(f"     {sc:4} / {gt}  {mt:9s} {ti:46s} {lo}", flush=True)
 
     # Profil kotası: P2 ilanları P1 kalabalığına ezdirilmesin
     ready.sort(key=lambda x: x["score"], reverse=True)

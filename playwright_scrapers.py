@@ -81,8 +81,23 @@ LINKEDIN_QUERIES = [
     ("machine learning engineer","Netherlands"),
     ("data analyst",             "Netherlands"),
     ("ai engineer",              "European Union"),
+    # ── T1 Türkiye — mutlak öncelik, geniş sorgu yelpazesi ──────────────────
     ("data scientist",           "Turkey"),
     ("veri bilimci",             "Türkiye"),
+    ("veri analisti",            "Türkiye"),
+    ("veri mühendisi",           "Türkiye"),
+    ("yapay zeka",               "Türkiye"),
+    ("makine öğrenmesi",         "Türkiye"),
+    ("data analyst",             "Turkey"),
+    ("data engineer",            "Turkey"),
+    ("machine learning",         "Turkey"),
+    ("ai engineer",              "Turkey"),
+    ("nlp",                      "Turkey"),
+    ("iş analisti",              "Türkiye"),
+    ("data scientist",           "Istanbul"),
+    ("data engineer",            "Istanbul"),
+    ("yapay zeka",               "Ankara"),
+    ("veri bilimci",             "İzmir"),
     # ── P2 (R&D / NLP / dil verisi) ─────────────────────────────────────────
     # Önceki listede P2'yi yalnızca "nlp researcher" ve "research scientist"
     # temsil ediyordu; anotasyon/RLHF/dil uzmanı sorguları hiç yoktu.

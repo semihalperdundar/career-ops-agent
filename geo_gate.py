@@ -57,16 +57,52 @@ EUROPE_GEO: frozenset[str] = frozenset({
 # Açmak için: EXCLUDED_MARKETS = frozenset()
 EXCLUDED_MARKETS: frozenset[str] = frozenset({"RU", "BY"})
 
-ACCEPTED_CC: frozenset[str] = (EUROPE_GEO | {"TR"}) - EXCLUDED_MARKETS
+# ── Skor kapılı coğrafi katmanlar ────────────────────────────────────────────
+# T1 Yurt içi (TR)          : mutlak öncelik, eşik > 5.0
+# T2 Seçili uluslararası    : coğrafi Avrupa + US + AU, eşik > 7.0
+# T3 Kara liste             : geri kalan her yer → puanlanmadan düşürülür
+TIER_DOMESTIC = "T1_TR"
+TIER_INTL = "T2_INTL"
+TIER_BLOCKED = "T3_BLOCKED"
+
+DOMESTIC_CC: frozenset[str] = frozenset({"TR"})
+INTL_CC: frozenset[str] = (EUROPE_GEO | {"US", "AU"}) - EXCLUDED_MARKETS
+ACCEPTED_CC: frozenset[str] = DOMESTIC_CC | INTL_CC
+
+# Katman başına skor kapısı — KESİN BÜYÜKTÜR (>), eşitlik geçmez
+SCORE_GATE: dict[str, float] = {
+    TIER_DOMESTIC: 5.0,
+    TIER_INTL: 7.0,
+}
 
 # ── Ağırlıklar (score_job'a eklenir) ─────────────────────────────────────────
-W_CORE = 1.5      # birincil hedef pazarlar
-W_EU_WIDE = 1.2   # ülke belirsiz ama Avrupa kesin (EMEA, DACH, EU remote)
-W_TR = 0.8        # Türkiye
-W_REVIEW = 0.3    # coğrafyası çözülemedi, AB/TR dışı sinyal yok
+# TR "mutlak maksimum öncelik" olduğu için en yüksek ağırlığı alır; bu hem
+# sıralamayı hem de kendi kapısını (>5.0) geçme olasılığını yükseltir.
+W_TR = 2.0        # Türkiye — T1, mutlak öncelik
+W_CORE = 1.0      # Avrupa çekirdek pazarları
+W_EU_WIDE = 0.8   # ülke belirsiz ama Avrupa kesin (EMEA, DACH, EU remote)
+W_INTL_FAR = 0.5  # US / AU — izinli ama teşvik edilmiyor
+W_REVIEW = 0.3    # coğrafyası çözülemedi, kabul edilmeyen sinyal yok
 CORE_MARKETS: frozenset[str] = frozenset({"NL", "DE", "GB", "BE", "FR", "ES",
                                           "AT", "CH", "IE", "SE", "DK", "NO",
                                           "FI", "IT", "PT", "PL", "LU", "CZ"})
+
+
+def tier_for_cc(cc: str) -> str:
+    """Ülke kodunu katmana eşler. 'EU' = ülke belirsiz Avrupa bloğu."""
+    if not cc:
+        return TIER_BLOCKED
+    cc = cc.upper()
+    if cc in DOMESTIC_CC:
+        return TIER_DOMESTIC
+    if cc == "EU" or cc in INTL_CC:
+        return TIER_INTL
+    return TIER_BLOCKED
+
+
+def gate_for_tier(tier: str) -> float:
+    """Katmanın geçme eşiği. Bilinmeyen katman → erişilemez eşik."""
+    return SCORE_GATE.get(tier, float("inf"))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -97,8 +133,18 @@ _PAREN = re.compile(r"\((?:hybrid|remote|on-?site|f/m/d|m/w/d|h/f)\)", re.I)
 _WS = re.compile(r"\s{2,}")
 
 
+# Türkçe'ye özgü harfler NFKD ile ayrışmaz: 'ı' ve 'İ' ayrı temel harflerdir,
+# birleşen (combining) işaret taşımazlar. Eşlemesiz bırakılırsa "Kadıköy"
+# gazetteer'daki "kadikoy" ile eşleşmez.
+_TR_MAP = str.maketrans({
+    "ı": "i", "İ": "i", "I": "i", "ş": "s", "Ş": "s", "ğ": "g", "Ğ": "g",
+    "ç": "c", "Ç": "c", "ö": "o", "Ö": "o", "ü": "u", "Ü": "u",
+})
+
+
 def strip_accents(text: str) -> str:
     """Diakritikleri kaldırır — 'München' ve 'Munchen' aynı anahtara düşsün."""
+    text = text.translate(_TR_MAP)
     return "".join(
         c for c in unicodedata.normalize("NFKD", text)
         if not unicodedata.combining(c)
@@ -462,21 +508,89 @@ class GeoVerdict:
     verdict: str          # ACCEPT | REVIEW | DROP
     cc: str               # ISO-3166-1 alpha-2, "EU" (ülke belirsiz) veya "XX"
     weight: float         # score_job'a eklenecek coğrafi ağırlık
-    tier: str             # çözümü yapan katman (T0..T5)
+    tier: str             # çözümü yapan kaskad katmanı (T0..T5)
     reason: str = ""
     normalized: str = field(default="", repr=False)
+    market_tier: str = TIER_BLOCKED   # T1_TR | T2_INTL | T3_BLOCKED
+    gate: float = float("inf")        # bu ilanın geçmesi gereken skor eşiği
 
 
 def _verdict_for(cc: str, tier: str, reason: str = "", norm: str = "") -> GeoVerdict:
-    """Ülke kodundan nihai kararı ve ağırlığı türetir."""
-    if cc == "EU":
-        return GeoVerdict(ACCEPT, "EU", W_EU_WIDE, tier, reason or "eu-bloc", norm)
+    """Ülke kodundan karar, ağırlık, pazar katmanı ve skor kapısını türetir."""
+    mt = tier_for_cc(cc)
+    gate = gate_for_tier(mt)
+
+    if mt == TIER_BLOCKED:
+        return GeoVerdict(DROP, cc, 0.0, tier, reason or f"not-accepted:{cc}",
+                          norm, TIER_BLOCKED, float("inf"))
+
     if cc == "TR":
-        return GeoVerdict(ACCEPT, "TR", W_TR, tier, reason or "turkey", norm)
-    if cc in ACCEPTED_CC:
-        w = W_CORE if cc in CORE_MARKETS else W_EU_WIDE
-        return GeoVerdict(ACCEPT, cc, w, tier, reason or "accepted-cc", norm)
-    return GeoVerdict(DROP, cc, 0.0, tier, reason or f"not-accepted:{cc}", norm)
+        w = W_TR
+    elif cc == "EU":
+        w = W_EU_WIDE
+    elif cc in ("US", "AU"):
+        w = W_INTL_FAR
+    elif cc in CORE_MARKETS:
+        w = W_CORE
+    else:
+        w = W_EU_WIDE
+
+    return GeoVerdict(ACCEPT, cc, w, tier, reason or f"tier:{mt}", norm, mt, gate)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Skor kapısı — üretim API'si
+# ─────────────────────────────────────────────────────────────────────────────
+
+def is_accepted(location_data, base_score: float) -> bool:
+    """
+    Katman kurallarına göre ilanın geçip geçmediğini döner.
+
+    Kurallar:
+        T1  Türkiye                → base_score > 5.0
+        T2  Avrupa / US / AU       → base_score > 7.0
+        T3  Diğer her yer          → puanlamaya bakılmaksızın False
+
+    `location_data`: konum string'i veya iş sözlüğü ({"location": ...,
+    "title": ..., "description": ..., "tags": [...]}). Sözlük verilirse
+    başlık/açıklama bağlam olarak kullanılır (T5 belirsizlik çürütmesi).
+
+    Eşik KESİN büyüktür: tam 5.0 veya tam 7.0 geçmez.
+    """
+    if isinstance(location_data, dict):
+        location = location_data.get("location", "")
+        tags = location_data.get("tags") or []
+        tags_s = " ".join(map(str, tags)) if isinstance(tags, (list, tuple)) else str(tags)
+        context = f"{location_data.get('title', '')} {tags_s} " \
+                  f"{str(location_data.get('description', ''))[:400]}"
+    else:
+        location, context = str(location_data or ""), ""
+
+    verdict = resolve(location, context=context)
+    if verdict.verdict == DROP:
+        return False
+    try:
+        return float(base_score) > verdict.gate
+    except (TypeError, ValueError):
+        return False
+
+
+def gate_details(location_data, base_score: float) -> dict:
+    """is_accepted ile aynı karar, ama loglanabilir gerekçeyle birlikte."""
+    loc = (location_data.get("location", "")
+           if isinstance(location_data, dict) else str(location_data or ""))
+    v = resolve(loc)
+    passed = is_accepted(location_data, base_score)
+    return {
+        "accepted": passed,
+        "cc": v.cc,
+        "market_tier": v.market_tier,
+        "gate": v.gate,
+        "score": base_score,
+        "weight": v.weight,
+        "reason": v.reason if passed else (
+            "tier-blocked" if v.market_tier == TIER_BLOCKED else "below-gate"),
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -496,11 +610,13 @@ def _resolve_deterministic(norm: str) -> GeoVerdict | None:
     if not norm:
         return None
 
-    # T3a — ABD eyalet / Kanada eyalet soneki: homonimlerden ÖNCE çalışır
+    # T3a — ABD eyalet / Kanada eyalet soneki: homonimlerden ÖNCE çalışır.
+    # Karar _verdict_for'a devredilir: ABD artık T2 (izinli, >7.0 kapısı),
+    # Kanada T3 (kara liste). Sabit DROP döndürmek ikisini de aynı sayardı.
     if _US_STATE_RE.search(norm):
-        return GeoVerdict(DROP, "US", 0.0, "T3", "us-state-suffix", norm)
+        return _verdict_for("US", "T3", "us-state-suffix", norm)
     if _CA_PROVINCES.search(norm):
-        return GeoVerdict(DROP, "CA", 0.0, "T3", "ca-province-suffix", norm)
+        return _verdict_for("CA", "T3", "ca-province-suffix", norm)
 
     # T2a — Kabul edilmeyen bloklar (APAC/LATAM/MENA...)
     for bloc in _NON_EU_BLOC:
@@ -561,9 +677,11 @@ def _apply_t5(norm: str, context: str) -> GeoVerdict:
         if cc not in ACCEPTED_CC and len(name) > 5 and name in ctx:
             return GeoVerdict(DROP, cc, 0.0, "T5", f"context-country:{name}", norm)
 
-    if not norm or _BARE_REMOTE.match(norm):
-        return GeoVerdict(REVIEW, "XX", W_REVIEW, "T5", "bare-remote", norm)
-    return GeoVerdict(REVIEW, "XX", W_REVIEW, "T5", "unresolved", norm)
+    # Belirsiz coğrafya T2 kapısına (>7.0) tabidir: kabul edilmeyen bir
+    # bölgeden gelme ihtimali olduğu için yurt içi eşiğiyle geçirilemez.
+    reason = "bare-remote" if (not norm or _BARE_REMOTE.match(norm)) else "unresolved"
+    return GeoVerdict(REVIEW, "XX", W_REVIEW, "T5", reason, norm,
+                      TIER_INTL, gate_for_tier(TIER_INTL))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
