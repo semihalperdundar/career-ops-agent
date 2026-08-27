@@ -69,6 +69,13 @@ except ImportError:
     GENAI_AVAILABLE = False
 
 try:
+    # Dinamik model çözümleyici — model adı sabitlenmez, katalogdan seçilir
+    import gemini_model
+    GEMINI_MODEL_AVAILABLE = gemini_model.SDK_AVAILABLE
+except ImportError:
+    GEMINI_MODEL_AVAILABLE = False
+
+try:
     from freshness import human_age, job_age_minutes, minutes_since, within_window
     FRESHNESS_AVAILABLE = True
 except ImportError:
@@ -139,7 +146,12 @@ USE_CF_FETCH = HAS_PREMIUM_PROXY or os.environ.get("USE_CF_FETCH", "").lower() i
 
 # LLM Enrichment — Gemini ile zenginleştirilmiş değerlendirme
 GEMINI_API_KEY        = os.environ.get("GEMINI_API_KEY", "")
-GEMINI_MODEL          = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+# Model adı artık SABİTLENMEZ — gemini_model.resolve_model() katalogdan
+# seçer. GEMINI_MODEL env değişkeni hâlâ override olarak çalışır ama
+# katalogda doğrulanır (yanlış yazım sessizce 404 olmasın).
+GEMINI_MODEL_PRIORITY = os.environ.get(
+    "GEMINI_MODEL_PRIORITY",
+    "gemini-3.6-flash,gemini-3.5-flash,gemini-2.5-flash,gemini-2.0-flash")
 ENABLE_LLM_ENRICHMENT = bool(GEMINI_API_KEY)  # env'de key varsa otomatik aktif
 USE_CAVEMAN_PROMPTS   = True   # caveman_compress → ~%40 token tasarrufu
 LLM_MAX_JOBS          = 10     # run başına LLM çağrı tavanı (free tier koruması)
@@ -752,49 +764,41 @@ def score_job(title: str, location: str, profile: str) -> float:
 
 # ─── LLM ENRICHMENT ──────────────────────────────────────────────────────────
 
-_genai_client = None
-
-
-def _get_genai_client():
-    """Tek client örneği — her çağrıda yeniden kurmak bağlantı israfı."""
-    global _genai_client
-    if _genai_client is None and GENAI_AVAILABLE and GEMINI_API_KEY:
-        _genai_client = genai.Client(api_key=GEMINI_API_KEY)
-    return _genai_client
-
-
 def evaluate_job_llm(job: dict) -> dict | None:
     """
     Qualifying bir ilan için Gemini ile zenginleştirilmiş değerlendirme yapar.
-    ENABLE_LLM_ENRICHMENT=True ve GEMINI_API_KEY gerektirir.
 
-    Token tasarrufu: JD payload text_clean ile arındırılıp LLM_MAX_DESC_CHARS'a
-    kırpılır, thinking kapatılır, yanıt doğrudan JSON mime olarak istenir
-    (markdown fence + açıklama metni üretilmez).
+    Model adı SABİT DEĞİL: gemini_model.resolve_model() çalışma anında
+    canlı katalogdan öncelik listesindeki ilk mevcut modeli seçer ve
+    önbelleğe alır. Sağlayıcı bir modeli kaldırdığında katman 404 ile
+    düşmez; önbellek geçersizleştirilip yeniden çözümlenir.
+
+    Tek atışlık yapılandırılmış puanlama — AFC (araç çağrısı) KULLANILMAZ.
+    Token tasarrufu: JD payload text_clean ile arındırılıp
+    LLM_MAX_DESC_CHARS'a kırpılır, thinking kapalı, yanıt doğrudan JSON
+    mime olarak istenir (markdown çiti + açıklama metni üretilmez).
     """
-    client = _get_genai_client()
-    if not ENABLE_LLM_ENRICHMENT or client is None:
+    if not ENABLE_LLM_ENRICHMENT or not GEMINI_MODEL_AVAILABLE:
         return None
     try:
         from evaluator import build_prompt, parse_score
+
         prompt = build_prompt(
             job,
             compress=USE_CAVEMAN_PROMPTS,
             max_desc_chars=LLM_MAX_DESC_CHARS,
         )
-        resp = client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=prompt,
-            config=genai_types.GenerateContentConfig(
-                temperature=0.2,
-                max_output_tokens=LLM_MAX_OUTPUT_TOKENS,
-                response_mime_type="application/json",
-                # Puanlama rubrik tabanlı — reasoning token'ı yakmaya gerek yok
-                thinking_config=genai_types.ThinkingConfig(thinking_budget=0),
-            ),
+        text, usage, model = gemini_model.generate_json(
+            prompt,
+            temperature=0.2,
+            max_output_tokens=LLM_MAX_OUTPUT_TOKENS,
+            thinking_budget=0,
         )
-        result = parse_score(resp.text or "")
-        usage = getattr(resp, "usage_metadata", None)
+        if not text:
+            return None
+
+        result = parse_score(text)
+        result["_model"] = model
         if usage:
             result["_tokens"] = {
                 "in":  getattr(usage, "prompt_token_count", 0),
@@ -802,7 +806,8 @@ def evaluate_job_llm(job: dict) -> dict | None:
             }
         return result
     except Exception as e:
-        print(f"⚠️  LLM zenginleştirme hatası ({job.get('title','?')}): {e}", flush=True)
+        print(f"⚠️  LLM zenginleştirme hatası ({job.get('title','?')}): {e}",
+              flush=True)
         return None
 
 
@@ -1415,13 +1420,17 @@ def main():
     if ENABLE_LLM_ENRICHMENT and GEMINI_API_KEY:
         # Yalnızca en yüksek skorlu ilk N ilan LLM'e gider (free tier koruması)
         batch = ready[:LLM_MAX_JOBS]
+        # Model adı çalışma anında katalogdan çözümlenir (sabit değil)
+        active_model = (gemini_model.resolve_model(verbose=True)
+                        if GEMINI_MODEL_AVAILABLE else "?")
         print(f"🤖 LLM zenginleştirme: {len(batch)}/{len(ready)} ilan "
-              f"({GEMINI_MODEL})...", flush=True)
+              f"({active_model})...", flush=True)
         tok_in = tok_out = 0
         for job in batch:
             llm_result = evaluate_job_llm(job)
             if llm_result:
                 usage = llm_result.pop("_tokens", None)
+                llm_result.pop("_model", None)
                 if usage:
                     tok_in  += usage["in"]
                     tok_out += usage["out"]
