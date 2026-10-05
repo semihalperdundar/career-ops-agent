@@ -53,6 +53,9 @@ jobs:
         SOURCE_BUDGET_SEC: "150"
         STRICT_HOURLY_FLUSH: "1"
         STRICT_FLUSH_MINUTES: "90"
+        BORDERLINE_LLM_MAX: "25"
+        BORDERLINE_MARGIN: "1.0"
+        BORDERLINE_FALLBACK: "reject"
       run: |
         python telegram-daily.py
 

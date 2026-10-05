@@ -160,6 +160,14 @@ LLM_MAX_OUTPUT_TOKENS = 900    # eski tam rubrik şeması için
 # Caveman şeması üç alan: ~40 token. 900 ayırmak gereksiz tavan; düşük tavan
 # aynı zamanda modelin uzun metin yazmasını yapısal olarak engelliyor.
 CAVEMAN_MAX_OUTPUT_TOKENS = int(os.environ.get("CAVEMAN_MAX_OUTPUT_TOKENS", "120"))
+# Sınır bandı LLM tavanı — gri bölge beklenmedik şekilde büyürse hem token
+# hem GÜNLÜK İSTEK limitini korur. Band dışına ZATEN token harcanmıyor.
+#
+# Hesap: 25 çağrı/run x 24 run/gün = 600 istek/gün. Buna 6b zenginleştirme
+# (kapıda LLM almamış kabul edilenler, <=10/run) eklenince ~840 istek/gün.
+# Gemini Flash ücretsiz katmanı ~1500 istek/gün olduğu için bu güvenli
+# aralıkta kalır. Tavanı yükseltmeden önce günlük bütçeyi kontrol et.
+BORDERLINE_LLM_MAX = int(os.environ.get("BORDERLINE_LLM_MAX", "25"))
 
 # Global çalışma süresi tavanı. Asılı bir tarama GitHub Actions'ın 360 dk'lık
 # varsayılan iş zaman aşımına kadar dakika yakıyordu; bu tavan taramayı erken
@@ -1535,6 +1543,10 @@ def main():
     tier_counts: Counter = Counter()   # T1_TR / T2_INTL dağılımı
     gate_rejects: Counter = Counter()  # skor kapısında düşenler
     below_gate: list = []              # (skor, kapı, katman, başlık, konum)
+    band_counts: Counter = Counter()   # accept / borderline / reject
+    gate_reasons: Counter = Counter()  # static-accept / llm-upgrade / llm-reject
+    borderline_seen = 0                # bandda kaç ilan vardı
+    borderline_used = 0                # kaçına LLM harcandı (tavan nedeniyle)
     for job in raw:
         url = job.get("url", "").strip()
         jid = job_id(job)
@@ -1566,18 +1578,46 @@ def main():
         job["score"]   = score_job(job["title"], job.get("location", ""), profile)
         job["age_min"] = job_age_minutes(job) if FRESHNESS_AVAILABLE else None
 
-        # ── Skor kapılı coğrafi katman ──────────────────────────────────────
-        # T1 TR > 5.0 | T2 AB/US/AU > 7.0 | T3 kara liste (market_gate'te düştü)
-        # Katman kapısı profil eşiğinin YERİNE geçer: ikisi de uygulanırsa
-        # daha katı olan zaten katman kapısı oluyor.
+        # ── Skor kapısı + sınır bandında koşullu LLM ─────────────────────────
+        # T1 TR >= 5.0 | T2 AB/US/AU >= 7.0 | T3 kara liste (market_gate'te düştü)
+        #
+        #   skor >= eşik            → otomatik kabul       (0 token)
+        #   [eşik-1.0, eşik)        → caveman LLM karar verir
+        #   skor < eşik-1.0         → otomatik red          (0 token)
+        #
+        # LLM yalnızca gri bölgeye harcanır ve sonucu job["llm"]'e yazılır;
+        # 6b zenginleştirme aşaması aynı ilanı İKİNCİ kez sormaz.
         if GEO_GATE_AVAILABLE:
-            detail = geo_gate.gate_details(job, job["score"])
-            job["market_tier"] = detail["market_tier"]
-            tier_counts[detail["market_tier"]] += 1
+            band = geo_gate.classify_score(job, job["score"])["band"]
+            use_llm = (
+                band == geo_gate.GATE_BORDERLINE
+                and ENABLE_LLM_ENRICHMENT
+                and borderline_used < BORDERLINE_LLM_MAX
+            )
+            if band == geo_gate.GATE_BORDERLINE:
+                borderline_seen += 1
+
+            detail = geo_gate.resolve_gate(
+                job, job["score"],
+                llm_fn=evaluate_job_llm if use_llm else None,
+            )
+            if use_llm:
+                borderline_used += 1
+
+            job["market_tier"] = detail["tier"]
+            tier_counts[detail["tier"]] += 1
+            band_counts[detail["band"]] += 1
+            gate_reasons[detail["reason"]] += 1
+
+            if detail.get("llm"):
+                # Kapıda alınan caveman sonucu saklanır — 6b tekrar sormaz
+                job["llm"] = detail["llm"]
+                job["llm_score"] = detail.get("llm_score")
+
             if not detail["accepted"]:
-                gate_rejects[detail["market_tier"]] += 1
+                gate_rejects[detail["tier"]] += 1
                 below_gate.append((job["score"], detail["gate"],
-                                   detail["market_tier"], job["title"][:44],
+                                   detail["tier"], job["title"][:44],
                                    str(job.get("location", ""))[:24]))
                 continue
             ready.append(job)
@@ -1592,6 +1632,14 @@ def main():
     if tier_counts:
         print(f"🌍 Katman: {dict(tier_counts)} | skor kapısında düşen: "
               f"{dict(gate_rejects)}", flush=True)
+        print(f"🚦 Band: {dict(band_counts)} | gerekçe: {dict(gate_reasons)}",
+              flush=True)
+        if borderline_seen:
+            skipped = borderline_seen - borderline_used
+            tail = (f", {skipped} tanesi BORDERLINE_LLM_MAX={BORDERLINE_LLM_MAX} "
+                    f"tavanı nedeniyle LLM'siz değerlendirildi" if skipped else "")
+            print(f"   sınır bandı: {borderline_seen} ilan, "
+                  f"{borderline_used} LLM çağrısı{tail}", flush=True)
         if below_gate:
             near = sorted(below_gate, reverse=True)[:5]
             print("   kapıya en yakın elenenler:", flush=True)
@@ -1621,6 +1669,10 @@ def main():
               f"({active_model})...", flush=True)
         tok_in = tok_out = 0
         for job in batch:
+            if job.get("llm"):
+                # Kapıda (sınır bandında) zaten değerlendirildi — ikinci
+                # çağrı aynı sonucu iki kez ödemek olurdu
+                continue
             llm_result = evaluate_job_llm(job)
             if llm_result:
                 usage = llm_result.pop("_tokens", None)

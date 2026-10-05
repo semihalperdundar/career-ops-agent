@@ -78,15 +78,34 @@ for loc, cc, tier in [
     v = g.resolve(loc)
     chk(v.cc == cc and v.market_tier == tier, f"{loc} → {cc}/{tier}")
 
-section("3 SKOR KAPISI (kesin >)")
+section("3 SKOR KAPISI (eşik dahil >=)")
+# Eşik DAHİL: ölçümde reddedilen en sık skor tam eşiğin kendisiydi.
+# is_accepted yalnızca STATİK karardır; sınır bandı resolve_gate'te LLM'e gider.
 for loc, score, exp in [
-    ("Istanbul", 5.1, True), ("Istanbul", 5.0, False), ("Istanbul", 4.9, False),
-    ("Amsterdam", 7.1, True), ("Amsterdam", 7.0, False), ("Amsterdam", 6.9, False),
+    ("Istanbul", 5.1, True), ("Istanbul", 5.0, True), ("Istanbul", 4.9, False),
+    ("Amsterdam", 7.1, True), ("Amsterdam", 7.0, True), ("Amsterdam", 6.9, False),
     ("New York, NY", 7.5, True), ("New York, NY", 6.9, False),
     ("Sydney", 7.2, True), ("Toronto", 9.9, False), ("Tokyo", 10.0, False),
 ]:
     chk(g.is_accepted(loc, score) == exp,
         f"{loc} skor={score} → {'geçer' if exp else 'geçmez'}")
+
+section("3b SINIR BANDI YÖNLENDİRME")
+chk(g.classify_score("Amsterdam", 6.5)["band"] == g.GATE_BORDERLINE,
+    "AB 6.5 → sınır bandı (LLM'e gider)")
+chk(g.classify_score("Amsterdam", 5.9)["band"] == g.GATE_REJECT,
+    "AB 5.9 → otomatik red (0 token)")
+chk(g.classify_score("Istanbul", 4.5)["band"] == g.GATE_BORDERLINE,
+    "TR 4.5 → sınır bandı")
+chk(g.resolve_gate("Amsterdam", 6.5,
+                   llm_fn=lambda j: {"score": 7.2})["accepted"] is True,
+    "LLM 7.2 → yükseltme (kabul)")
+chk(g.resolve_gate("Amsterdam", 6.5,
+                   llm_fn=lambda j: {"score": 6.8})["accepted"] is False,
+    "LLM 6.8 → red")
+chk(g.resolve_gate("Toronto", 9.9,
+                   llm_fn=lambda j: {"score": 10.0})["accepted"] is False,
+    "T3 kara liste LLM'e sorulmaz")
 
 section("4 PAZAR KAPISI (stajyer + kara liste)")
 for job, exp, lbl in [

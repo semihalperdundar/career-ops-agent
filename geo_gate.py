@@ -27,6 +27,7 @@ Kullanım:
 from __future__ import annotations
 
 import json
+import os
 import re
 import threading
 import unicodedata
@@ -58,8 +59,8 @@ EUROPE_GEO: frozenset[str] = frozenset({
 EXCLUDED_MARKETS: frozenset[str] = frozenset({"RU", "BY"})
 
 # ── Skor kapılı coğrafi katmanlar ────────────────────────────────────────────
-# T1 Yurt içi (TR)          : mutlak öncelik, eşik > 5.0
-# T2 Seçili uluslararası    : coğrafi Avrupa + US + AU, eşik > 7.0
+# T1 Yurt içi (TR)          : mutlak öncelik, eşik >= 5.0
+# T2 Seçili uluslararası    : coğrafi Avrupa + US + AU, eşik >= 7.0
 # T3 Kara liste             : geri kalan her yer → puanlanmadan düşürülür
 TIER_DOMESTIC = "T1_TR"
 TIER_INTL = "T2_INTL"
@@ -69,7 +70,9 @@ DOMESTIC_CC: frozenset[str] = frozenset({"TR"})
 INTL_CC: frozenset[str] = (EUROPE_GEO | {"US", "AU"}) - EXCLUDED_MARKETS
 ACCEPTED_CC: frozenset[str] = DOMESTIC_CC | INTL_CC
 
-# Katman başına skor kapısı — KESİN BÜYÜKTÜR (>), eşitlik geçmez
+# Katman başına skor kapısı — EŞİK DAHİL (>=). Ölçümle: reddedilen
+# skorlar arasında en sık değer tam eşiğin kendisiydi; sınıra oturan
+# ilanları kurtarmak sıfır token maliyetli en ucuz hacim kazancı.
 SCORE_GATE: dict[str, float] = {
     TIER_DOMESTIC: 5.0,
     TIER_INTL: 7.0,
@@ -103,6 +106,140 @@ def tier_for_cc(cc: str) -> str:
 def gate_for_tier(tier: str) -> float:
     """Katmanın geçme eşiği. Bilinmeyen katman → erişilemez eşik."""
     return SCORE_GATE.get(tier, float("inf"))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Sınır bandı (borderline) — koşullu LLM yönlendirme
+# ─────────────────────────────────────────────────────────────────────────────
+# Statik puanlama kaba bir ön filtre; eşiğin hemen altındaki ilanlar
+# ölçümle en kalabalık grup (son 1500 ilanda reddedilen en sık skor TAM
+# eşik değerinin kendisiydi). Bu bandı LLM'e sormak hacmi kurtarır,
+# bandın dışına token harcamaz.
+#
+#   skor >= eşik                 → ACCEPT     (0 token)
+#   eşik - margin <= skor < eşik → BORDERLINE (LLM'e sorulur)
+#   skor < eşik - margin         → REJECT     (0 token)
+
+GATE_ACCEPT = "accept"
+GATE_BORDERLINE = "borderline"
+GATE_REJECT = "reject"
+
+BORDERLINE_MARGIN = float(os.environ.get("BORDERLINE_MARGIN", "1.0"))
+
+# LLM yoksa/çağrı başarısızsa sınır bandı ne olacak?
+#   "reject" (varsayılan) → kesinlik korunur, hacim kaybedilir
+#   "accept"              → hacim korunur, kesinlik düşer
+BORDERLINE_FALLBACK = os.environ.get("BORDERLINE_FALLBACK", "reject").lower()
+
+
+def _location_and_context(location_data) -> tuple[str, str]:
+    """str ya da iş sözlüğünden (konum, bağlam) çıkarır."""
+    if not isinstance(location_data, dict):
+        return str(location_data or ""), ""
+    tags = location_data.get("tags") or []
+    tags_s = (" ".join(map(str, tags))
+              if isinstance(tags, (list, tuple)) else str(tags))
+    context = (f"{location_data.get('title', '')} {tags_s} "
+               f"{str(location_data.get('description', ''))[:400]}")
+    return str(location_data.get("location", "")), context
+
+
+def classify_score(location_data, base_score) -> dict:
+    """
+    LLM ÇAĞIRMADAN bandı belirler.
+
+    Dönüş: {"band", "tier", "gate", "score", "cc", "weight", "lower"}
+    band ∈ {accept, borderline, reject}
+    """
+    location, context = _location_and_context(location_data)
+    verdict = resolve(location, context=context)
+    gate = verdict.gate
+
+    try:
+        score = float(base_score)
+    except (TypeError, ValueError):
+        score = -1.0
+
+    if verdict.verdict == DROP:
+        band = GATE_REJECT
+        lower = float("inf")
+    else:
+        lower = gate - BORDERLINE_MARGIN
+        if score >= gate:
+            band = GATE_ACCEPT
+        elif score >= lower:
+            band = GATE_BORDERLINE
+        else:
+            band = GATE_REJECT
+
+    return {
+        "band": band,
+        "tier": verdict.market_tier,
+        "gate": gate,
+        "lower": lower,
+        "score": score,
+        "cc": verdict.cc,
+        "weight": verdict.weight,
+    }
+
+
+def resolve_gate(location_data, base_score, llm_fn=None, job=None) -> dict:
+    """
+    Nihai kapı kararı. Sınır bandında `llm_fn` çağrılır.
+
+    `llm_fn(job) -> dict | None` — caveman sonucu; "score" anahtarı beklenir.
+    Bağımlılık enjeksiyonu: geo_gate LLM katmanını import ETMEZ, böylece
+    modül ağ/SDK bağımsız kalır ve test edilebilir olur.
+
+    Dönüş: classify_score alanları + {"accepted", "reason", "llm"}
+    """
+    info = classify_score(location_data, base_score)
+    band = info["band"]
+    info["llm"] = None
+
+    if band == GATE_ACCEPT:
+        info["accepted"] = True
+        info["reason"] = "static-accept"
+        return info
+
+    if band == GATE_REJECT:
+        info["accepted"] = False
+        info["reason"] = ("tier-blocked" if info["tier"] == TIER_BLOCKED
+                          else "static-reject")
+        return info
+
+    # ── Sınır bandı: karar LLM'e devredilir ─────────────────────────────────
+    if llm_fn is None:
+        info["accepted"] = (BORDERLINE_FALLBACK == "accept")
+        info["reason"] = f"borderline-no-llm:{BORDERLINE_FALLBACK}"
+        return info
+
+    payload = job if job is not None else (
+        location_data if isinstance(location_data, dict) else {})
+    try:
+        result = llm_fn(payload)
+    except Exception as exc:
+        info["accepted"] = (BORDERLINE_FALLBACK == "accept")
+        info["reason"] = f"borderline-llm-error:{type(exc).__name__}"
+        return info
+
+    if not result or result.get("score") is None:
+        info["accepted"] = (BORDERLINE_FALLBACK == "accept")
+        info["reason"] = f"borderline-llm-empty:{BORDERLINE_FALLBACK}"
+        return info
+
+    try:
+        llm_score = float(result["score"])
+    except (TypeError, ValueError):
+        info["accepted"] = (BORDERLINE_FALLBACK == "accept")
+        info["reason"] = "borderline-llm-bad-score"
+        return info
+
+    info["llm"] = result
+    info["llm_score"] = llm_score
+    info["accepted"] = llm_score >= info["gate"]
+    info["reason"] = ("llm-upgrade" if info["accepted"] else "llm-reject")
+    return info
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -555,7 +692,9 @@ def is_accepted(location_data, base_score: float) -> bool:
     "title": ..., "description": ..., "tags": [...]}). Sözlük verilirse
     başlık/açıklama bağlam olarak kullanılır (T5 belirsizlik çürütmesi).
 
-    Eşik KESİN büyüktür: tam 5.0 veya tam 7.0 geçmez.
+    Eşik DAHİL (>=): tam 5.0 ve tam 7.0 GEÇER. Ölçümle: reddedilen
+    skorlar arasında en sık değer tam eşiğin kendisiydi; sınıra oturan
+    ilanları sıfır token'la kurtarmak hacim açısından en ucuz kazanç.
     """
     if isinstance(location_data, dict):
         location = location_data.get("location", "")
@@ -570,7 +709,7 @@ def is_accepted(location_data, base_score: float) -> bool:
     if verdict.verdict == DROP:
         return False
     try:
-        return float(base_score) > verdict.gate
+        return float(base_score) >= verdict.gate
     except (TypeError, ValueError):
         return False
 
