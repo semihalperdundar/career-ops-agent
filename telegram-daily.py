@@ -860,6 +860,56 @@ def detect_profile(title: str) -> str | None:
     return "P1"
 
 
+def route_borderline(queue: list, budget: int, llm_fn=None) -> dict:
+    """
+    Sınır bandı kuyruğunu önceliklendirip yönlendirir.
+
+    Kuyruk statik skora göre AZALAN sıralanır: eşiğe en yakın ilanlar
+    LLM bütçesini ilk alır. Tavan aşıldığında kesilenler eşikten en
+    uzaktakiler olur — tarama sırası keyfi olduğu için sıralama şart.
+
+    budget kadarı LLM'e gider; kalanı llm_fn=None ile çağrılır, yani
+    geo_gate.BORDERLINE_FALLBACK kararına düşer.
+
+    Dönüş:
+        {"accepted", "rejected", "used", "total", "truncated",
+         "cut_score", "reasons"}
+    """
+    total = len(queue)
+    result = {
+        "accepted": [], "rejected": [], "used": 0, "total": total,
+        "truncated": 0, "cut_score": None, "reasons": Counter(),
+    }
+    if not queue:
+        return result
+
+    ordered = sorted(queue, key=lambda j: j.get("score", 0.0), reverse=True)
+    budget = max(0, int(budget))
+    head, tail = ordered[:budget], ordered[budget:]
+
+    result["used"] = len(head)
+    result["truncated"] = len(tail)
+    if head:
+        result["cut_score"] = head[-1].get("score")
+
+    for job in head:
+        detail = geo_gate.resolve_gate(job, job["score"], llm_fn=llm_fn)
+        result["reasons"][detail["reason"]] += 1
+        if detail.get("llm"):
+            job["llm"] = detail["llm"]
+            job["llm_score"] = detail.get("llm_score")
+        (result["accepted"] if detail["accepted"] else
+         result["rejected"]).append(job)
+
+    for job in tail:
+        detail = geo_gate.resolve_gate(job, job["score"], llm_fn=None)
+        result["reasons"][f"truncated:{detail['reason']}"] += 1
+        (result["accepted"] if detail["accepted"] else
+         result["rejected"]).append(job)
+
+    return result
+
+
 def _apply_profile_quota(jobs: list, limit: int, p2_slots: int = P2_MIN_SLOTS) -> list:
     """
     Kontenjanı profiller arasında paylaştırır.
@@ -1545,8 +1595,7 @@ def main():
     below_gate: list = []              # (skor, kapı, katman, başlık, konum)
     band_counts: Counter = Counter()   # accept / borderline / reject
     gate_reasons: Counter = Counter()  # static-accept / llm-upgrade / llm-reject
-    borderline_seen = 0                # bandda kaç ilan vardı
-    borderline_used = 0                # kaçına LLM harcandı (tavan nedeniyle)
+    borderline_queue: list[dict] = []  # 2. geçişte önceliklendirilir
     for job in raw:
         url = job.get("url", "").strip()
         jid = job_id(job)
@@ -1578,51 +1627,51 @@ def main():
         job["score"]   = score_job(job["title"], job.get("location", ""), profile)
         job["age_min"] = job_age_minutes(job) if FRESHNESS_AVAILABLE else None
 
-        # ── Skor kapısı + sınır bandında koşullu LLM ─────────────────────────
+        # ── Skor bandı sınıflandırma (LLM YOK — 1. geçiş) ───────────────────
         # T1 TR >= 5.0 | T2 AB/US/AU >= 7.0 | T3 kara liste (market_gate'te düştü)
         #
-        #   skor >= eşik            → otomatik kabul       (0 token)
-        #   [eşik-1.0, eşik)        → caveman LLM karar verir
-        #   skor < eşik-1.0         → otomatik red          (0 token)
+        #   skor >= eşik            → otomatik kabul   (0 token)
+        #   [eşik-1.0, eşik)        → sınır bandı → 2. geçişte LLM
+        #   skor < eşik-1.0         → otomatik red     (0 token)
         #
-        # LLM yalnızca gri bölgeye harcanır ve sonucu job["llm"]'e yazılır;
-        # 6b zenginleştirme aşaması aynı ilanı İKİNCİ kez sormaz.
+        # Band kararı burada ALINMAZ: tavan aşılırsa hangi ilanların LLM'e
+        # gideceği tarama sırasına göre belirlenmemeli. Band kuyruğa alınır,
+        # 2. geçişte statik skora göre sıralanıp tavan kadarı LLM'e gider.
         if GEO_GATE_AVAILABLE:
-            band = geo_gate.classify_score(job, job["score"])["band"]
-            use_llm = (
-                band == geo_gate.GATE_BORDERLINE
-                and ENABLE_LLM_ENRICHMENT
-                and borderline_used < BORDERLINE_LLM_MAX
-            )
-            if band == geo_gate.GATE_BORDERLINE:
-                borderline_seen += 1
+            info = geo_gate.classify_score(job, job["score"])
+            job["market_tier"] = info["tier"]
+            job["_gate"] = info["gate"]
+            tier_counts[info["tier"]] += 1
+            band_counts[info["band"]] += 1
 
-            detail = geo_gate.resolve_gate(
-                job, job["score"],
-                llm_fn=evaluate_job_llm if use_llm else None,
-            )
-            if use_llm:
-                borderline_used += 1
-
-            job["market_tier"] = detail["tier"]
-            tier_counts[detail["tier"]] += 1
-            band_counts[detail["band"]] += 1
-            gate_reasons[detail["reason"]] += 1
-
-            if detail.get("llm"):
-                # Kapıda alınan caveman sonucu saklanır — 6b tekrar sormaz
-                job["llm"] = detail["llm"]
-                job["llm_score"] = detail.get("llm_score")
-
-            if not detail["accepted"]:
-                gate_rejects[detail["tier"]] += 1
-                below_gate.append((job["score"], detail["gate"],
-                                   detail["tier"], job["title"][:44],
+            if info["band"] == geo_gate.GATE_ACCEPT:
+                gate_reasons["static-accept"] += 1
+                ready.append(job)
+            elif info["band"] == geo_gate.GATE_BORDERLINE:
+                borderline_queue.append(job)
+            else:
+                gate_reasons["static-reject"] += 1
+                gate_rejects[info["tier"]] += 1
+                below_gate.append((job["score"], info["gate"], info["tier"],
+                                   job["title"][:44],
                                    str(job.get("location", ""))[:24]))
-                continue
-            ready.append(job)
         elif job["score"] >= MIN_SCORE_BY_PROFILE.get(profile, MIN_SCORE):
             ready.append(job)
+
+    # ── 6a. Sınır bandı: ÖNCELİKLENDİR, sonra LLM'e ver (2. geçiş) ───────────
+    routed = route_borderline(
+        borderline_queue,
+        budget=BORDERLINE_LLM_MAX if ENABLE_LLM_ENRICHMENT else 0,
+        llm_fn=evaluate_job_llm,
+    )
+    ready.extend(routed["accepted"])
+    gate_reasons.update(routed["reasons"])
+    for job in routed["rejected"]:
+        gate_rejects[job.get("market_tier", "?")] += 1
+        below_gate.append((job["score"], job.get("_gate"),
+                           job.get("market_tier", "?"), job["title"][:44],
+                           str(job.get("location", ""))[:24]))
+
     if blocked_count:
         print(f"🚨 Sentinel: {blocked_count} ilan altyapı bloğu nedeniyle atlandı", flush=True)
     if stale_count:
@@ -1634,19 +1683,17 @@ def main():
               f"{dict(gate_rejects)}", flush=True)
         print(f"🚦 Band: {dict(band_counts)} | gerekçe: {dict(gate_reasons)}",
               flush=True)
-        if borderline_seen:
-            skipped = borderline_seen - borderline_used
-            tail = (f", {skipped} tanesi BORDERLINE_LLM_MAX={BORDERLINE_LLM_MAX} "
-                    f"tavanı nedeniyle LLM'siz değerlendirildi" if skipped else "")
-            print(f"   sınır bandı: {borderline_seen} ilan, "
-                  f"{borderline_used} LLM çağrısı{tail}", flush=True)
-        if below_gate:
-            near = sorted(below_gate, reverse=True)[:5]
-            print("   kapıya en yakın elenenler:", flush=True)
-            for sc, gt, mt, ti, lo in near:
-                print(f"     {sc:4} / {gt}  {mt:9s} {ti:46s} {lo}", flush=True)
+        if routed["total"]:
+            note = (f" | {routed['truncated']} kesildi → BORDERLINE_FALLBACK="
+                    f"{geo_gate.BORDERLINE_FALLBACK}"
+                    if routed["truncated"] else "")
+            print(f"   sınır bandı: {routed['total']} ilan, "
+                  f"{routed['used']} LLM değerlendirmesi "
+                  f"(tavan {BORDERLINE_LLM_MAX}){note}", flush=True)
+            if routed["truncated"]:
+                print(f"   kesim skoru: {routed['cut_score']} — altındakiler "
+                      f"LLM'siz değerlendirildi", flush=True)
 
-    # Profil kotası: P2 ilanları P1 kalabalığına ezdirilmesin
     ready.sort(key=lambda x: x["score"], reverse=True)
     _qualified = len(ready)
     ready = _apply_profile_quota(ready, MAX_PER_RUN)
