@@ -156,7 +156,10 @@ ENABLE_LLM_ENRICHMENT = bool(GEMINI_API_KEY)  # env'de key varsa otomatik aktif
 USE_CAVEMAN_PROMPTS   = True   # caveman_compress → ~%40 token tasarrufu
 LLM_MAX_JOBS          = 10     # run başına LLM çağrı tavanı (free tier koruması)
 LLM_MAX_DESC_CHARS    = 2800   # JD payload bütçesi (~700 token, caveman sınırı)
-LLM_MAX_OUTPUT_TOKENS = 900    # yapılandırılmış JSON yanıt için yeterli
+LLM_MAX_OUTPUT_TOKENS = 900    # eski tam rubrik şeması için
+# Caveman şeması üç alan: ~40 token. 900 ayırmak gereksiz tavan; düşük tavan
+# aynı zamanda modelin uzun metin yazmasını yapısal olarak engelliyor.
+CAVEMAN_MAX_OUTPUT_TOKENS = int(os.environ.get("CAVEMAN_MAX_OUTPUT_TOKENS", "120"))
 
 # Global çalışma süresi tavanı. Asılı bir tarama GitHub Actions'ın 360 dk'lık
 # varsayılan iş zaman aşımına kadar dakika yakıyordu; bu tavan taramayı erken
@@ -226,8 +229,9 @@ GREENHOUSE_BOARDS = [
     # Önceki liste tamamen ürün/tech şirketlerinden oluşuyordu; anotasyon,
     # RLHF ve dil verisi işvereni hiç yoktu — P2 ilanı yapısal olarak
     # bulunamıyordu. Aşağıdakiler canlı API ile doğrulandı.
-    ("scaleai",           "Scale AI"),
-    ("turing",            "Turing"),
+    # ("scaleai", "Scale AI") — T0 kara listesinde
+    # ("turing", "Turing") — T0 kara listesinde (gig değirmeni); çekip
+    # sonra düşürmek saf bant genişliği israfı olurdu
     ("labelbox",          "Labelbox"),
     ("snorkelai",         "Snorkel AI"),
     ("toloka",            "Toloka"),
@@ -463,18 +467,160 @@ _US_AUTH_RE = _re.compile(
 # içinde geçer — sınırsız eşleşme meşru ilanları siler.
 _INTERN_RE = _re.compile(
     r"\b("
+    # EN
     r"intern|interns|internship|internships|"
     r"trainee|trainees|traineeship|"
-    r"student|students|studentship|working student|"
+    r"studentship|working student|student worker|student assistant|"
+    r"student job|student intern|student placement|student trainee|"
     r"apprentice|apprentices|apprenticeship|"
-    r"werkstudent|werkstudentin|praktikum|praktikant|praktikantin|"
-    r"stagiair|stagiaire|stage[ \-]?intern|"
-    r"alternance|alternant|apprenti|"
-    r"becario|becaria|prácticas|practicas|"
-    r"tirocinio|estágio|estagiário|"
-    r"öğrenci staj|stajyer|staj programı|"
-    r"co-?op student|summer analyst|campus hire|new grad program"
-    r")\b"
+    r"co-?op student|summer analyst|summer associate|campus hire|"
+    r"new grad program|graduate programme|graduate scheme|placement year|"
+    r"industrial placement|sandwich placement|"
+    # DE
+    r"werkstudent|werkstudentin|werkstudent:in|praktikum|praktikant|"
+    r"praktikantin|pflichtpraktikum|praxissemester|ausbildung|auszubildende|"
+    r"duales studium|dualer student|"
+    # NL
+    r"stagiair|stagiaire|stageplaats|stageopdracht|afstudeerstage|"
+    r"meeloopstage|werkstudent|bijbaan|"
+    # FR
+    r"alternance|alternant|alternante|apprenti|apprentie|"
+    r"stage conventionn|convention de stage|contrat d.apprentissage|"
+    # ES / PT / IT
+    r"becario|becaria|beca|prácticas|practicas|"
+    r"tirocinio|stagista|estágio|estagiário|estagiaria|aprendiz|"
+    # TR
+    r"öğrenci staj|stajyer|staj programı|staj imkanı|part[ -]?time öğrenci|"
+    # PL / CZ / SE / DK / NO / FI
+    r"praktykant|praktyki|stážista|praktikant|praktikplats|"
+    r"traineeprogram|praktikkplass|harjoittelija"
+    r")\b",
+    _re.IGNORECASE,
+)
+
+# "stage" tek başına ÇOK riskli: "Stage Manager", "Staging Engineer",
+# "Stage 2 Analyst" meşru ilanlardır. Yalnızca NL/FR staj kalıbında eşleşir:
+# başta/sonda tek kelime olarak ya da açık staj bağlamıyla.
+# Tiyatro/prodüksiyon rolleri "Stage <isim>" kalıbını meşru olarak kullanır;
+# bunlar hariç tutulur, kalan "Stage <disiplin>" NL/FR staj ilanıdır.
+_STAGE_EXCLUDE = (
+    r"manager|managers|director|technician|hand|hands|crew|designer|design|"
+    r"lighting|sound|supervisor|builder|carpenter|production|performer|"
+    r"actor|act|show|door|gate|gates|left|right|two|three|iii|ii"
+)
+# Çıplak "student" fazla geniş: "Student Success Platform Engineer" bir
+# ed-tech ÜRÜN rolü, staj değil. Alan isimleri hariç tutulur.
+_STUDENT_EXCLUDE = (
+    r"success|experience|information|lifecycle|records|portal|affairs|"
+    r"services|housing|loan|loans|engagement|retention|recruitment|"
+    r"admissions|enrolment|enrollment|wellbeing|union|data platform"
+)
+_STUDENT_RE = _re.compile(
+    rf"\bstudents?\b(?!\s*(?:{_STUDENT_EXCLUDE})\b)",
+    _re.IGNORECASE,
+)
+
+_STAGE_RE = _re.compile(
+    # Başta "Stage ..." — tiyatro isimleri hariç (NL/FR staj kalıbı)
+    rf"^stage\b(?!\s*(?:{_STAGE_EXCLUDE})\b)"
+    # Açık staj bağlamı, konumdan bağımsız
+    r"|\bstage[ \-]?(intern|opdracht|plaats|periode|conventionn)\b"
+    r"|\b(zoek|gezocht|vacature|offre|recherche)\s+stage\b"
+    r"|\bstage\s*[:\-–]\s*\w"
+    r"|\b(hbo|wo|mbo)[ \-]?stage\b",
+    _re.IGNORECASE,
+)
+
+# ── T0 KARA LİSTE: gig/anotasyon değirmenleri + hayalet ilanlar ──────────────
+# LLM'den ÖNCE çalışır; token harcamadan düşürür. config/matching.yml'den
+# genişletilebilir (kod listesi taban).
+_SCAM_COMPANIES_BASE = [
+    "alignerr", "outlier", "outlier ai", "crossover", "turing", "turing.com",
+    "braintrust", "mercor", "micro1", "remotasks", "scale ai", "appen",
+    "telus international", "lionbridge", "clickworker", "toloka", "oneforma",
+    "welocalize", "upwork", "fiverr", "freelancer.com", "toptal", "andela",
+    "deel", "revelo", "arc.dev",
+]
+_GHOST_TITLE_BASE = [
+    "multiple positions", "various roles", "talent pool", "talent community",
+    "general application", "spontaneous application", "open application",
+    "genel başvuru", "yetenek havuzu", "aday havuzu",
+]
+
+
+def _load_blacklist(path=None) -> tuple[list[str], list[str]]:
+    """config/matching.yml → blacklist bloğu; kod listeleriyle birleştirir."""
+    companies, titles = list(_SCAM_COMPANIES_BASE), list(_GHOST_TITLE_BASE)
+    try:
+        import yaml
+    except ImportError:
+        return companies, titles
+    for p in (path or MATCHING_CONFIG_PATHS):
+        try:
+            with open(p, encoding="utf-8") as fh:
+                data = yaml.safe_load(fh) or {}
+        except Exception:
+            continue
+        bl = data.get("blacklist") or {}
+        if isinstance(bl, dict):
+            companies += [str(x) for x in (bl.get("companies") or [])]
+            titles += [str(x) for x in (bl.get("title_signals") or [])]
+    return companies, titles
+
+
+def _compile_alt(items: list[str]) -> "_re.Pattern | None":
+    """Kelime sınırlı alternasyon deseni — tek geçişte O(n) tarama."""
+    uniq = sorted({i.strip().lower() for i in items if i and i.strip()},
+                  key=len, reverse=True)
+    if not uniq:
+        return None
+    return _re.compile(r"\b(" + "|".join(_re.escape(i) for i in uniq) + r")\b",
+                       _re.IGNORECASE)
+
+
+# Şirket adlarında yalnızca kurumsal ek sayılan kelimeler. Kara liste girdisi
+# şirket adının TAMAMINA (bu ekler çıkarıldıktan sonra) eşit olmalı.
+_CORP_SUFFIX = frozenset({
+    "ai", "inc", "inc.", "llc", "ltd", "ltd.", "limited", "corp", "corp.",
+    "co", "co.", "com", "bv", "b.v.", "nv", "n.v.", "gmbh", "ag", "sa", "sas",
+    "srl", "spa", "plc", "as", "a.s.", "a.ş.", "as.", "technologies", "tech",
+    "labs", "lab", "io", "group", "holding", "holdings", "global",
+    "international", "software", "solutions", "systems", "services",
+})
+_NON_WORD = _re.compile(r"[^\w\s]+", _re.UNICODE)
+
+
+def _norm_company(name: str) -> str:
+    """'Outlier AI, Inc.' → 'outlier' (kurumsal ekler atılır)."""
+    base = _NON_WORD.sub(" ", str(name or "").lower())
+    tokens = [t for t in base.split() if t]
+    while tokens and tokens[-1] in _CORP_SUFFIX:
+        tokens.pop()
+    return " ".join(tokens)
+
+
+def is_blacklisted_company(name: str) -> bool:
+    """
+    Şirket kara listede mi?
+
+    ALT-DİZE DEĞİL, AD eşleşmesi. Alt-dize taraması meşru kurumları
+    yanlışlıkla eliyordu: "Turing Institute" (Alan Turing Institute) ve
+    "Outliers Consulting" kara listedeki "turing"/"outlier" ile eşleşiyordu.
+    Kurumsal ekler atıldıktan sonra TAM eşitlik aranır.
+    """
+    norm = _norm_company(name)
+    if not norm:
+        return False
+    return norm in _SCAM_SET
+
+
+_SCAM_COMPANIES, _GHOST_TITLES = _load_blacklist()
+_SCAM_SET = {_norm_company(c) for c in _SCAM_COMPANIES}
+_SCAM_SET.discard("")
+_GHOST_RE = _compile_alt(_GHOST_TITLES)
+# Başlıkta geçen şirket adları için yine regex gerekir (başlık serbest metin)
+_SCAM_TITLE_RE = _compile_alt(
+    [c for c in _SCAM_COMPANIES if len(c) > 6 and " " not in c]
 )
 
 SENIOR_KW = ["senior","lead","staff","principal","head","director","expert","specialist"]
@@ -500,10 +646,29 @@ def market_gate(job: dict) -> str | None:
     tags_s = " ".join(map(str, tags)) if isinstance(tags, (list, tuple)) else str(tags)
     desc   = str(job.get("description", ""))
 
-    # 1. Stajyer/öğrenci: başlık + açıklama + etiket
+    company = str(job.get("company", ""))
+
+    # 0. T0 KARA LİSTE — en ucuz kontrol, en başta (LLM'den önce)
+    if is_blacklisted_company(company):
+        return "SCAM/company"
+    if _SCAM_TITLE_RE is not None and title and _SCAM_TITLE_RE.search(title):
+        return "SCAM/title"
+    if _GHOST_RE is not None and title and _GHOST_RE.search(title):
+        return "GHOST/title"
+
+    # 1. Stajyer/öğrenci: başlık + açıklama + etiket (çok dilli)
     for field, label in ((title, "title"), (tags_s, "tags"), (desc, "desc")):
-        if field and _INTERN_RE.search(field.lower()):
+        if not field:
+            continue
+        if _INTERN_RE.search(field):
             return f"INTERN/{label}"
+    # "stage" ve "student" yalnızca staj kalıbında — BAŞLIKTA ara, açıklamada
+    # değil (açıklamada "staging environment", "student users" gibi meşru
+    # kullanımlar var ve her ikisi de yanlış pozitif üretiyor)
+    if title and _STAGE_RE.search(title):
+        return "INTERN/stage"
+    if title and _STUDENT_RE.search(title):
+        return "INTERN/student"
 
     # 2. ABD çalışma izni — coğrafyadan bağımsız diskalifiye edici
     for field, label in ((desc, "desc"), (tags_s, "tags")):
@@ -781,23 +946,30 @@ def evaluate_job_llm(job: dict) -> dict | None:
     if not ENABLE_LLM_ENRICHMENT or not GEMINI_MODEL_AVAILABLE:
         return None
     try:
-        from evaluator import build_prompt, parse_score
+        from evaluator import build_caveman_prompt, parse_caveman
 
-        prompt = build_prompt(
-            job,
-            compress=USE_CAVEMAN_PROMPTS,
-            max_desc_chars=LLM_MAX_DESC_CHARS,
-        )
+        # CAVEMAN REASONING: şema anahtar sırası akıl yürütme sırasını zorlar
+        # (eksikler → eşleşme mantığı → skor). Model skoru yazdığı anda iki
+        # gerekçe alanı bağlamda mevcut olur; thinking token'ı harcanmaz.
+        prompt = build_caveman_prompt(job, max_desc_chars=LLM_MAX_DESC_CHARS)
         text, usage, model = gemini_model.generate_json(
             prompt,
-            temperature=0.2,
-            max_output_tokens=LLM_MAX_OUTPUT_TOKENS,
+            temperature=0.0,            # deterministik: aynı ilan aynı skor
+            max_output_tokens=CAVEMAN_MAX_OUTPUT_TOKENS,
             thinking_budget=0,
         )
         if not text:
             return None
 
-        result = parse_score(text)
+        result = parse_caveman(text)
+        if result.get("error"):
+            print(f"⚠️  caveman şema hatası ({job.get('title','?')[:32]}): "
+                  f"{result['error']}", flush=True)
+            return None
+        if not result.get("key_order_ok"):
+            # Sözleşme ihlali sessiz geçmesin: skor gerekçeden ÖNCE yazılmış
+            print(f"⚠️  anahtar sırası bozuk ({job.get('title','?')[:32]}) — "
+                  f"skor gerekçeden önce üretilmiş", flush=True)
         result["_model"] = model
         if usage:
             result["_tokens"] = {
@@ -1143,6 +1315,20 @@ def format_job(job: dict, idx: int) -> str:
 
     llm = job.get("llm") or {}
 
+    # Caveman şeması: iki gerekçe satırı + LLM skoru. Kural tabanlı skorla
+    # yan yana gösterilir; ikisi ayrışıyorsa gözle görülür.
+    if llm.get("core_match_logic"):
+        lines.append(f"🧠 <b>{html_escape(str(llm['core_match_logic']))}</b>")
+    if llm.get("missing_critical_skills"):
+        gaps = str(llm["missing_critical_skills"])
+        if gaps and gaps != "none":
+            lines.append(f"⛔ Eksik: <code>{html_escape(gaps)}</code>")
+        else:
+            lines.append("✅ Kritik eksik yok")
+    if isinstance(llm.get("score"), (int, float)):
+        lines.append(f"🤖 LLM skoru: <b>{llm['score']}</b>/10 "
+                     f"(kural: {job.get('score','?')})")
+
     if llm.get("company_insight"):
         lines.append(f"🏢 <i>{html_escape(str(llm['company_insight']))}</i>")
 
@@ -1414,7 +1600,15 @@ def main():
 
     # Profil kotası: P2 ilanları P1 kalabalığına ezdirilmesin
     ready.sort(key=lambda x: x["score"], reverse=True)
+    _qualified = len(ready)
     ready = _apply_profile_quota(ready, MAX_PER_RUN)
+    if _qualified > len(ready):
+        # Saatlik flush sözleşmesi: taşma SESSİZ olmamalı. Bu satır
+        # MAX_PER_RUN'ın mı yoksa gerçek hacmin mi sınırladığını gösterir.
+        print(f"⚠️  {_qualified} ilan niteliklendi, MAX_PER_RUN={MAX_PER_RUN} "
+              f"nedeniyle {_qualified - len(ready)} tanesi bu turda "
+              f"gönderilmiyor (arşive de yazılmaz, sonraki turda yeniden "
+              f"değerlendirilir)", flush=True)
 
     # ── 6b. LLM zenginleştirme (opsiyonel) ───────────────────────────────────
     if ENABLE_LLM_ENRICHMENT and GEMINI_API_KEY:

@@ -27,8 +27,22 @@ STATE_PATH = Path(__file__).parent / "data" / "scraper-state.json"
 
 # Pencere sınırları (dakika)
 MIN_WINDOW     = 60      # saatlik cron'un nominal aralığı
-MAX_WINDOW     = 2880    # 48 saat — uzun kesintiden sonra arşivi boşaltmamak için
 WINDOW_BUFFER  = 15      # cron gecikmesi + kaynak indeksleme payı
+
+# KATI SAATLİK FLUSH. GitHub'ın zamanlanmış cron'u güvenilir değil: ölçülen
+# 60 run'da medyan ara 1.0s ama aralıkların %24'ü 1.5 saati, üçü 4 saati,
+# en kötüsü 10.9 saati aştı. Pencere bu gecikmeyi sınırsız telafi ederse
+# geciken run 11 saatlik yığını tek seferde Telegram'a boşaltıyor —
+# kullanıcı tarafında "saatlerce batch'leme" tam olarak bu.
+#
+# MAX_WINDOW artık saatlik akışa yakın tutulur: geciken run yalnızca
+# STRICT_FLUSH_MINUTES kadar geriye bakar. Uzun kesintide aradaki ilanlar
+# kaybedilir — bu bilinçli bir takas: tazelik > kapsam.
+# Eski davranışı isteyen: STRICT_HOURLY_FLUSH=0
+STRICT_HOURLY_FLUSH = os.environ.get("STRICT_HOURLY_FLUSH", "1") not in ("0", "false")
+STRICT_FLUSH_MINUTES = int(os.environ.get("STRICT_FLUSH_MINUTES", "90"))
+BACKFILL_WINDOW = int(os.environ.get("BACKFILL_WINDOW", "2880"))   # 48 saat
+MAX_WINDOW = STRICT_FLUSH_MINUTES if STRICT_HOURLY_FLUSH else BACKFILL_WINDOW
 
 _DEFAULT: dict = {
     "last_run_at":     None,

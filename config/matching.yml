@@ -19,6 +19,54 @@
 #   Kelimeler küçük harf; ünvan içinde alt-dize olarak aranır.
 # ============================================================
 
+# ============================================================
+# T0 KARA LİSTE — LLM'den ÖNCE, regex tabanlı, ucuz
+# ------------------------------------------------------------
+# Bu şirketler ilan hacmini şişiren gig/anotasyon değirmenleri veya
+# hayalet ilan verenlerdir. Token harcamadan düşürülürler.
+# Eşleşme: şirket adında VE başlıkta, kelime sınırıyla.
+# ============================================================
+blacklist:
+  companies:
+    - "alignerr"
+    - "outlier"
+    - "outlier ai"
+    - "crossover"
+    - "turing"
+    - "turing.com"
+    - "braintrust"
+    - "mercor"
+    - "micro1"
+    - "remotasks"
+    - "scale ai"       # anotasyon gig havuzu — P2 board listesinden de çıkarıldı
+    - "appen"
+    - "telus international"
+    - "lionbridge"
+    - "clickworker"
+    - "toloka"
+    - "oneforma"
+    - "welocalize"
+    - "upwork"
+    - "fiverr"
+    - "freelancer.com"
+    - "toptal"
+    - "andela"
+    - "deel"
+    - "revelo"
+    - "arc.dev"
+  # Hayalet/toplayıcı ilan sinyalleri (şirket adı yerine başlıkta geçer)
+  title_signals:
+    - "multiple positions"
+    - "various roles"
+    - "talent pool"
+    - "talent community"
+    - "general application"
+    - "spontaneous application"
+    - "open application"
+    - "genel başvuru"
+    - "yetenek havuzu"
+    - "aday havuzu"
+
 profile_rnd:
   matching:
     tier1:

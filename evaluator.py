@@ -77,6 +77,62 @@ _TECH_MATRIX = """\
 | Veritabanı | PostgreSQL, SQLite | MySQL | MongoDB, Redis | SQL → herhangi bir SQL diyalekti |
 """
 
+# ─────────────────────────────────────────────────────────────────────────────
+# CAVEMAN REASONING — zorunlu mikro-akıl yürütme, sıfır gevezelik
+# ─────────────────────────────────────────────────────────────────────────────
+# GEPA mantığı: thinking_budget=0 ile reasoning token'ı harcamıyoruz, ama
+# modelin skoru GEREKÇEDEN SONRA üretmesini şema sırasıyla zorluyoruz.
+# JSON anahtarları kronolojik: eksikler → eşleşme mantığı → skor.
+# Model skoru yazdığı anda iki gerekçe alanı bağlamında ZATEN mevcut olur.
+
+CAVEMAN_SYSTEM_PROMPT = """\
+ROLE: CV-to-JD matcher. Output machine-parsed JSON only.
+
+TASK: Compare CANDIDATE against JOB. Decide fit. Output ONE minified JSON.
+
+OUTPUT SCHEMA — EXACT key order, no extra keys, no markdown, no prose:
+{"missing_critical_skills":"<str>","core_match_logic":"<str>","score":<float>}
+
+KEY ORDER IS THE REASONING ORDER. You MUST write the two string keys FIRST
+and derive `score` from what you just wrote. Never write score first.
+
+FIELD RULES
+missing_critical_skills
+  Caveman style. MAX 3 words. Comma-separated. Only JD must-haves the CV
+  lacks. Format: "no kubernetes, no scala". If nothing critical missing:
+  "none".
+  Do NOT list nice-to-haves. Do NOT list things the CV covers via the
+  TRANSFER RULES below.
+
+core_match_logic
+  Caveman style. MAX 5 words. The single decisive fit statement.
+  Good: "nlp heavy, cv matches" | "backend role, cv is analytics"
+  Good: "senior ask, cv junior" | "turkish llm, exact fit"
+  Bad (too vague): "partial match" | "could be ok"
+  Bad (prose): "the candidate has relevant experience but lacks..."
+
+score
+  Float 0.0-10.0, one decimal. STRICTLY derived from the two fields above.
+  Anchors:
+    9.0-10.0  no critical gaps + core logic says exact domain fit
+    7.0-8.9   no critical gaps + adjacent domain, transfer is obvious
+    5.0-6.9   one critical gap OR seniority mismatch, rest fits
+    3.0-4.9   two critical gaps OR wrong domain
+    0.0-2.9   wrong field entirely
+  If missing_critical_skills == "none", score MUST be >= 7.0.
+  If core_match_logic names a domain mismatch, score MUST be <= 6.0.
+
+HARD CONSTRAINTS
+- Output length target: under 160 characters total. Longer = wrong.
+- No explanation outside the JSON. No code fences. No trailing text.
+- Both string fields in lowercase english, even if the JD is not english.
+- Deterministic: same input must yield same output.
+
+EXAMPLE
+{"missing_critical_skills":"none","core_match_logic":"turkish nlp, exact fit","score":9.2}
+{"missing_critical_skills":"no kubernetes","core_match_logic":"mlops role, cv research","score":5.4}
+"""
+
 _ACADEMIC_TO_INDUSTRY = """\
 ## AKADEMİK → ENDÜSTRİ ÇEVİRİ TABLOSU
 <!-- LLM: Akademik deneyimi değerlendirirken bu KPI çerçeveli versiyonları kullan -->
@@ -541,3 +597,112 @@ if __name__ == "__main__":
             print("  result = parse_score(response)")
             print()
             print("Prompt'u görmek için --print-prompt ekle.")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Caveman akışı — kurucu + ayrıştırıcı
+# ─────────────────────────────────────────────────────────────────────────────
+
+def build_caveman_prompt(
+    job: dict,
+    max_desc_chars: int = DEFAULT_MAX_CHARS,
+    include_transfer_rules: bool = True,
+) -> str:
+    """
+    CV-JD eşleştirmesi için minimal prompt.
+
+    Tam rubrik prompt'u (~2800 token) yerine yalnızca karar için GEREKEN
+    bağlamı taşır: teknik matris (transfer kuralları dahil) + temizlenmiş JD.
+    Çıktı şeması üç alanla sınırlı olduğu için output token'ı ~40'a düşer.
+    """
+    title = job.get("title", "")
+    company = job.get("company", "")
+    location = job.get("location", "")
+    description = (job.get("description") or "").strip()
+
+    if description:
+        jd = (clean_jd(description, max_chars=max_desc_chars)
+              if _CLEAN_AVAILABLE else description[:max_desc_chars])
+    else:
+        jd = "(açıklama yok — başlık, şirket ve konuma göre değerlendir)"
+
+    parts = [CAVEMAN_SYSTEM_PROMPT]
+    if include_transfer_rules:
+        parts.append("─" * 50)
+        parts.append("CANDIDATE (tek doğruluk kaynağı)")
+        parts.append(_TECH_MATRIX)
+        parts.append(
+            "TRANSFER RULES: matristeki 'Transfer Kuralı' sütunu bağlayıcıdır. "
+            "Orada eşdeğer sayılan bir teknoloji missing_critical_skills'e "
+            "YAZILMAZ."
+        )
+    parts.append("─" * 50)
+    parts.append("JOB")
+    parts.append(f"title: {title}\ncompany: {company}\nlocation: {location}")
+    parts.append(f"jd:\n```\n{jd}\n```")
+    parts.append("─" * 50)
+    parts.append("Şimdi ŞEMAYA uygun tek satır minified JSON üret. "
+                 "Anahtar sırası: missing_critical_skills, core_match_logic, score.")
+    return "\n\n".join(parts)
+
+
+_CAVEMAN_KEYS = ("missing_critical_skills", "core_match_logic", "score")
+
+
+def parse_caveman(response: str) -> dict:
+    """
+    Caveman yanıtını ayrıştırır ve doğrular.
+
+    Dönüş: {"missing_critical_skills", "core_match_logic", "score",
+            "key_order_ok"} veya {"error", "raw"}.
+
+    `key_order_ok`: modelin skoru gerekçelerden SONRA yazıp yazmadığı.
+    Şema ihlali sessizce geçmesin diye ölçülür — caveman mantığının tüm
+    değeri bu sıralamada.
+    """
+    if not response:
+        return {"error": "boş yanıt", "raw": ""}
+
+    block = re.search(r"\{[\s\S]*\}", response)
+    if not block:
+        return {"error": "JSON bulunamadı", "raw": response[:300]}
+    raw_json = block.group(0)
+
+    try:
+        data = json.loads(raw_json)
+    except json.JSONDecodeError as exc:
+        return {"error": str(exc), "raw": raw_json[:300]}
+    if not isinstance(data, dict):
+        return {"error": "JSON nesnesi değil", "raw": raw_json[:300]}
+
+    # Anahtar sırası: skor son olmalı
+    present = [k for k in data if k in _CAVEMAN_KEYS]
+    key_order_ok = (present[-1] == "score") if present else False
+
+    try:
+        score = float(data.get("score"))
+    except (TypeError, ValueError):
+        return {"error": "skor sayı değil", "raw": raw_json[:300]}
+    score = max(0.0, min(10.0, round(score, 1)))
+
+    def _short(value, max_words: int) -> str:
+        text = str(value or "").strip().lower()
+        words = text.replace(",", " , ").split()
+        if len([w for w in words if w != ","]) > max_words:
+            # Sözleşme ihlali: kırp, sessizce kabul etme
+            kept, count = [], 0
+            for w in words:
+                if w != ",":
+                    if count >= max_words:
+                        break
+                    count += 1
+                kept.append(w)
+            text = " ".join(kept).replace(" , ", ", ").strip(" ,")
+        return text
+
+    return {
+        "missing_critical_skills": _short(data.get("missing_critical_skills"), 3),
+        "core_match_logic": _short(data.get("core_match_logic"), 5),
+        "score": score,
+        "key_order_ok": key_order_ok,
+    }

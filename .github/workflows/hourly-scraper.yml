@@ -2,7 +2,12 @@ name: Hourly Job Scraper
 
 on:
   schedule:
-    - cron: '0 * * * *' # Her saat başı tam saatte çalışır
+    # İKİ tetikleyici: GitHub'ın zamanlanmış cron'u güvenilir değil —
+    # ölçülen 60 run'da aralıkların %24'ü 1.5 saati, en kötüsü 10.9 saati
+    # aştı. :00 ve :30 ile kaçırılan bir slot yarım saatte telafi edilir.
+    # concurrency grubu üst üste binmeyi zaten engelliyor.
+    - cron: '0 * * * *'
+    - cron: '30 * * * *'
   workflow_dispatch: # GitHub arayüzünden manuel tetiklemene olanak tanır
 
 jobs:
@@ -46,6 +51,8 @@ jobs:
         GEMINI_MODEL_PRIORITY: "gemini-3.6-flash,gemini-3.5-flash,gemini-2.5-flash,gemini-2.0-flash"
         RUN_BUDGET_SEC: "600"
         SOURCE_BUDGET_SEC: "150"
+        STRICT_HOURLY_FLUSH: "1"
+        STRICT_FLUSH_MINUTES: "90"
       run: |
         python telegram-daily.py
 
