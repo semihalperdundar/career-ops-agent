@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.8.0](https://github.com/semihalperdundar/career-ops-agent/compare/career-ops-v1.7.1...career-ops-v1.8.0) (2026-10-05)
+
+
+### Features
+
+* **gate:** sinir bandi kuyrugunu onceliklendir (iki gecisli yonlendirme) ([ff42e60](https://github.com/semihalperdundar/career-ops-agent/commit/ff42e60fff4f0390a7cf20bf12654791d53dc83a))
+* **gate:** sinir bandinda kosullu LLM yonlendirme (borderline gating) ([e3292cd](https://github.com/semihalperdundar/career-ops-agent/commit/e3292cdfe56cf9709261a58cc570c904a0b64e30))
+* **geo:** skor kapili katmanli pazar modeli (T1 TR &gt; 5.0 / T2 AB-US-AU &gt; 7.0) ([3cee9ea](https://github.com/semihalperdundar/career-ops-agent/commit/3cee9ea7fc9d52aba6ce624f07d1374c02988c63))
+* **gepa:** T0 kara liste + kati saatlik flush + caveman reasoning ([4b64359](https://github.com/semihalperdundar/career-ops-agent/commit/4b64359f768582b28693a121b2282f2c4380e359))
+* **ingest:** kesin oncelikli toplama orkestratoru + pytest paketi ([355a574](https://github.com/semihalperdundar/career-ops-agent/commit/355a5741123cd66230014b56ac17146e447c21cf))
+* **llm:** dinamik model cozumleyici — sabit model adi kaldirildi ([ce63234](https://github.com/semihalperdundar/career-ops-agent/commit/ce6323496361940cb7292affd875de1a084fc863))
+
+
+### Bug Fixes
+
+* **kariyer:** 0 ilan sorunu ayristiricidaydi, anti-bot degil ([0a4a087](https://github.com/semihalperdundar/career-ops-agent/commit/0a4a087d4ceb3e289cfa1d16264b381224f5b938))
+
 ## [1.7.1](https://github.com/santifer/career-ops/compare/career-ops-v1.7.0...career-ops-v1.7.1) (2026-05-12)
 
 
